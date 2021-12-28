@@ -29,4 +29,6 @@ dependencies {
 
     implementation 'org.projectlombok:lombok:1.18.22'
     annotationProcessor 'org.projectlombok:lombok:1.18.22'
+
+//    implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.0.0'
 }

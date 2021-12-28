@@ -1,0 +1,289 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common :: header"></head>
+<body class="app sidebar-mini" id="index1">
+
+<div class="page">
+    <div class="page-main">
+        <aside th:replace="common :: sidebar"></aside>
+
+        <div class="app-content main-content">
+            <div class="side-app">
+                <div th:replace="common :: app-header"></div>
+
+                <section id="current-page-content">
+                    <div class="alert alert-success" role="alert" style="margin-top: 15px" th:if="${message!=null}"
+                         th:text="${message}">
+                        <button aria-hidden="true" class="close" data-dismiss="alert">×</button>
+                    </div>
+
+                    <div class="page-header d-xl-flex d-block">
+                        <div class="page-leftheader">
+                            <h4 class="page-title">Academics</h4>
+                        </div>
+                        <div class="page-rightheader ml-md-auto">
+                            <div class="align-items-end flex-wrap my-auto right-content breadcrumb-right">
+                                <div class="btn-list">
+                                    <a class="btn btn-primary" data-target="#addclientmodal" data-toggle="modal"
+                                       href="#">
+                                        <i class="feather feather-plus fs-15 my-auto mr-2"></i>Add New Academics</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-3 col-lg-6 col-md-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-7">
+                                            <div class="mt-0 text-left"><span
+                                                    class="font-weight-semibold">Total Academic</span>
+                                                <h3 class="mb-0 mt-1 text-success"
+                                                    th:text="${totalAcademicsCount}"></h3>
+                                            </div>
+                                        </div>
+                                        <div class="col-5">
+                                            <div class="icon1 bg-success-transparent my-auto  float-right"><i
+                                                    class="las la-users"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-6 col-md-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-7">
+                                            <div class="mt-0 text-left"><span
+                                                    class="font-weight-semibold">Total Full-Time Academics</span>
+                                                <h3 class="mb-0 mt-1 text-primary"
+                                                    th:text="${fullTimeAcademicsCount}">
+                                                </h3>
+                                            </div>
+                                        </div>
+                                        <div class="col-5">
+                                            <div class="icon1 bg-primary-transparent my-auto  float-right"><i
+                                                    class="las la-male"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-6 col-md-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-7">
+                                            <div class="mt-0 text-left"><span class="font-weight-semibold">Total Casual Academics</span>
+                                                <h3 class="mb-0 mt-1 text-secondary"
+                                                    th:text="${partTimeAcademicsCount}"></h3>
+                                            </div>
+                                        </div>
+                                        <div class="col-5">
+                                            <div class="icon1 bg-secondary-transparent my-auto  float-right"><i
+                                                    class="las la-female"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-12 col-md-12 col-lg-12">
+                            <div class="card">
+                                <div class="card-header  border-0">
+                                    <h4 class="card-title">Academics List</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table  table-vcenter text-nowrap table-bordered border-bottom"
+                                               id="hr-table">
+                                            <thead>
+                                            <tr>
+                                                <th class="border-bottom-0 w-5">No</th>
+                                                <th class="border-bottom-0">Emp Name</th>
+                                                <th class="border-bottom-0">Department</th>
+                                                <th class="border-bottom-0">Type</th>
+                                                <th class="border-bottom-0">Phone Number</th>
+                                                <th class="border-bottom-0">Flat Salary</th>
+                                                <th class="border-bottom-0">Leave Balance</th>
+                                                <th class="border-bottom-0">Join Date</th>
+                                                <th class="border-bottom-0">Status</th>
+                                                <th class="border-bottom-0">Actions</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr th:each="academic : ${academicsList}">
+                                                <td th:text="${academic.id}"></td>
+                                                <td>
+                                                    <div class="d-flex">
+                                                        <img alt="user-img" class="avatar avatar-md brround mr-3"
+                                                             th:src="@{/assets/images/users/1.jpg}">
+                                                        <div class="mr-3 mt-0 mt-sm-1 d-block">
+                                                            <h6 class="mb-1 fs-14"
+                                                                th:text="${academic.getFullName()}"></h6>
+                                                            <p class="text-muted mb-0 fs-12"
+                                                               th:text="${academic.email}"></p>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td th:text="${academic.department}+' Department'"></td>
+                                                <td th:text="${academic.type.toString()}"></td>
+                                                <td th:text="${academic.phoneNumber}"></td>
+                                                <td th:text="${academic.flatSalary}+'$'"></td>
+                                                <td th:text="${academic.leaveBalance}+' Days'"></td>
+                                                <!--                                            <td>12-28-2021</td>-->
+                                                <td th:text="${academic.joinDate}"></td>
+                                                <td><span class="badge badge-success">Active</span></td>
+                                                <td>
+                                                    <a class="btn btn-primary btn-icon btn-sm" href="hr-empview.html">
+                                                        <i class="feather feather-edit" data-original-title="View/Edit"
+                                                           data-toggle="tooltip"></i>
+                                                    </a>
+                                                    <a class="btn btn-danger btn-icon btn-sm"
+                                                       data-original-title="Delete"
+                                                       data-toggle="tooltip"><i class="feather feather-trash-2"></i></a>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Add New Client Modal -->
+                <div class="modal fade" id="addclientmodal">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Add New Full-Time Academic</h5>
+                                <button aria-label="Close" class="close" data-dismiss="modal">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <form id="login" method="post"
+                                  name="add_academic" th:action="@{/university-payroll/dashboard/add-employee}">
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Academic First Name</label>
+                                                <input class="form-control" id="firstName" name="firstName"
+                                                       placeholder="Enter First Name" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Academic Last Name</label>
+                                                <input class="form-control" id="lastName" name="lastName"
+                                                       placeholder="Enter Last Name"
+                                                       type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Email Address</label>
+                                                <input class="form-control" id="email" name="email"
+                                                       placeholder="Enter Email Address" type="email">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Password</label>
+                                                <input class="form-control" id="password" name="password"
+                                                       placeholder="Enter Password" type="password">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Phone Number</label>
+                                                <input class="form-control" id="phoneNumber" name="phoneNumber"
+                                                       placeholder="Enter Phone Number" type="number">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Leave Balance</label>
+                                                <input class="form-control" id="leaveBalance" name="leaveBalance"
+                                                       placeholder="Enter Leave Balance" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Flat Salary</label>
+                                                <input class="form-control" id="flatSalary" name="flatSalary"
+                                                       placeholder="Enter Flat Salary" type="number">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Department</label>
+                                                <input class="form-control" id="department" name="department"
+                                                       placeholder="Enter Department" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Full Address</label>
+                                        <textarea class="form-control" id="address" name="address"
+                                                  placeholder="Academic Full Address" rows="3"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Upload Image:</label>
+                                        <div class="input-group file-browser">
+                                            <input class="form-control border-right-0 browse-file" placeholder="choose"
+                                                   readonly type="text">
+                                            <label class="input-group-append mb-0">
+										<span class="btn ripple btn-primary">
+											Browse <input class="file-browserinput" multiple style="display: none;"
+                                                          type="file">
+										</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="custom-controls-stacked d-md-flex">
+                                        <label class="form-label mt-1 mr-5">Status :</label>
+                                        <label class="custom-control custom-radio success mr-4">
+                                            <input class="custom-control-input" name="example-radios1" type="radio"
+                                                   value="option1">
+                                            <span class="custom-control-label">Active</span>
+                                        </label>
+                                        <label class="custom-control custom-radio success mr-4">
+                                            <input class="custom-control-input" name="example-radios1" type="radio"
+                                                   value="option2">
+                                            <span class="custom-control-label">Inactive</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+                                    <button class="btn btn-success" type="submit">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- Add New Client Modal -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div th:replace="common :: notifications"></div>
+<footer th:replace="common :: footer"></footer>
+</body>
+</html>

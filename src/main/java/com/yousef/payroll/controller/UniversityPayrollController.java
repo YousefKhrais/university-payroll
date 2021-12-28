@@ -1,6 +1,10 @@
 package com.yousef.payroll.controller;
 
+import com.yousef.payroll.model.Academic;
 import com.yousef.payroll.model.PersonnelEmployee;
+import com.yousef.payroll.model.UserType;
+import com.yousef.payroll.model.types.PaymentMethodType;
+import com.yousef.payroll.repositories.AcademicRepository;
 import com.yousef.payroll.repositories.PersonnelEmployeeRepository;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -11,15 +15,22 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.HashMap;
+import java.util.List;
 
 @Controller
 @RequestMapping("/university-payroll")
 public class UniversityPayrollController {
 
     private final PersonnelEmployeeRepository personnelEmployeeRepository;
+    private final AcademicRepository academicRepository;
 
-    public UniversityPayrollController(PersonnelEmployeeRepository personnelEmployeeRepository) {
+    public UniversityPayrollController(PersonnelEmployeeRepository personnelEmployeeRepository, AcademicRepository academicRepository) {
         this.personnelEmployeeRepository = personnelEmployeeRepository;
+        this.academicRepository = academicRepository;
     }
 
     @GetMapping("/login")
@@ -78,6 +89,52 @@ public class UniversityPayrollController {
     @GetMapping("/dashboard")
     public String adminGeneral() {
         return "universityPayrollSystem/admin/admin-general";
+    }
+
+    @GetMapping("/dashboard/employees-list")
+    public String listEmployees(Model model) {
+        List<Academic> academicsList = academicRepository.findAll();
+
+        long fullTimeAcademicsCount = academicsList.stream().filter(academic -> academic.getType().equals(UserType.FullTimeAcademics)).count();
+        long partTimeAcademicsCount = academicsList.size() - fullTimeAcademicsCount;
+
+        HashMap<String, Object> attributes = new HashMap<>();
+        attributes.put("academicsList", academicsList);
+        attributes.put("totalAcademicsCount", academicsList.size());
+        attributes.put("fullTimeAcademicsCount", fullTimeAcademicsCount);
+        attributes.put("partTimeAcademicsCount", partTimeAcademicsCount);
+
+        model.addAllAttributes(attributes);
+
+        return "universityPayrollSystem/admin/employees/hr-emplist";
+    }
+
+    @PostMapping("/dashboard/add-employee")
+    public String addEmployee(RedirectAttributes redirectAttributes, @RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName, @RequestParam("email") String email,
+                              @RequestParam("password") String password, @RequestParam("phoneNumber") String phoneNumber, @RequestParam("leaveBalance") int leaveBalance,
+                              @RequestParam("flatSalary") double flatSalary, @RequestParam("address") String address, @RequestParam("department") String department) {
+
+        Academic academic = new Academic();
+
+        academic.setFirstName(firstName);
+        academic.setLastName(lastName);
+        academic.setEmail(email);
+        academic.setPhoneNumber(phoneNumber);
+        academic.setLeaveBalance(leaveBalance);
+        academic.setFlatSalary(flatSalary);
+        academic.setAddress(address);
+        academic.setDepartment(department);
+        academic.setType(UserType.FullTimeAcademics);
+        academic.setPaymentDetails(PaymentMethodType.BANK_DEPOSIT.toString());
+        academic.setPassword(new BCryptPasswordEncoder().encode(password));
+
+        System.out.println(academic);
+
+        academicRepository.save(academic);
+
+        redirectAttributes.addFlashAttribute("message", "Successfully added a new academic");
+
+        return "redirect:/university-payroll/dashboard/employees-list";
     }
 }
 
