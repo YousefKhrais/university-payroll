@@ -12,10 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.HashMap;
@@ -109,30 +106,45 @@ public class UniversityPayrollController {
         return "universityPayrollSystem/admin/employees/hr-emplist";
     }
 
+    @GetMapping("/dashboard/employees/edit/{id}")
+    public String editEmployeeView(RedirectAttributes redirectAttributes, Model model, @PathVariable long id) {
+        Academic academic = academicRepository.findById(id).orElse(null);
+
+        if (academic == null) {
+            redirectAttributes.addFlashAttribute("error", "Academic doesn't exist");
+            return "redirect:/university-payroll/dashboard/employees-list";
+        }
+
+        model.addAttribute(academic);
+
+        return "universityPayrollSystem/admin/employees/hr-empview";
+    }
+
     @PostMapping("/dashboard/add-employee")
     public String addEmployee(RedirectAttributes redirectAttributes, @RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName, @RequestParam("email") String email,
                               @RequestParam("password") String password, @RequestParam("phoneNumber") String phoneNumber, @RequestParam("leaveBalance") int leaveBalance,
                               @RequestParam("flatSalary") double flatSalary, @RequestParam("address") String address, @RequestParam("department") String department) {
+        try {
+            Academic academic = new Academic();
 
-        Academic academic = new Academic();
+            academic.setFirstName(firstName);
+            academic.setLastName(lastName);
+            academic.setEmail(email);
+            academic.setPhoneNumber(phoneNumber);
+            academic.setLeaveBalance(leaveBalance);
+            academic.setFlatSalary(flatSalary);
+            academic.setAddress(address);
+            academic.setDepartment(department);
+            academic.setType(UserType.FullTimeAcademics);
+            academic.setPaymentDetails(PaymentMethodType.BANK_DEPOSIT.toString());
+            academic.setPassword(new BCryptPasswordEncoder().encode(password));
 
-        academic.setFirstName(firstName);
-        academic.setLastName(lastName);
-        academic.setEmail(email);
-        academic.setPhoneNumber(phoneNumber);
-        academic.setLeaveBalance(leaveBalance);
-        academic.setFlatSalary(flatSalary);
-        academic.setAddress(address);
-        academic.setDepartment(department);
-        academic.setType(UserType.FullTimeAcademics);
-        academic.setPaymentDetails(PaymentMethodType.BANK_DEPOSIT.toString());
-        academic.setPassword(new BCryptPasswordEncoder().encode(password));
-
-        System.out.println(academic);
-
-        academicRepository.save(academic);
-
-        redirectAttributes.addFlashAttribute("message", "Successfully added a new academic");
+            System.out.println(academic);
+            academicRepository.save(academic);
+            redirectAttributes.addFlashAttribute("message", "Successfully added a new academic");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "ERROR: " + e.getMessage());
+        }
 
         return "redirect:/university-payroll/dashboard/employees-list";
     }

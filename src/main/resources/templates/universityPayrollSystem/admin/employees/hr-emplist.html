@@ -18,6 +18,11 @@
                         <button aria-hidden="true" class="close" data-dismiss="alert">×</button>
                     </div>
 
+                    <div class="alert alert-danger" role="alert" style="margin-top: 15px" th:if="${error!=null}"
+                         th:text="${error}">
+                        <button aria-hidden="true" class="close" data-dismiss="alert">×</button>
+                    </div>
+
                     <div class="page-header d-xl-flex d-block">
                         <div class="page-leftheader">
                             <h4 class="page-title">Academics</h4>
@@ -135,11 +140,11 @@
                                                 <td th:text="${academic.phoneNumber}"></td>
                                                 <td th:text="${academic.flatSalary}+'$'"></td>
                                                 <td th:text="${academic.leaveBalance}+' Days'"></td>
-                                                <!--                                            <td>12-28-2021</td>-->
                                                 <td th:text="${academic.joinDate}"></td>
                                                 <td><span class="badge badge-success">Active</span></td>
                                                 <td>
-                                                    <a class="btn btn-primary btn-icon btn-sm" href="hr-empview.html">
+                                                    <a class="btn btn-primary btn-icon btn-sm"
+                                                       th:href="@{/university-payroll/dashboard/employees/edit/{id}(id=${academic.id})}">
                                                         <i class="feather feather-edit" data-original-title="View/Edit"
                                                            data-toggle="tooltip"></i>
                                                     </a>
@@ -182,8 +187,7 @@
                                             <div class="form-group">
                                                 <label class="form-label">Academic Last Name</label>
                                                 <input class="form-control" id="lastName" name="lastName"
-                                                       placeholder="Enter Last Name"
-                                                       type="text">
+                                                       placeholder="Enter Last Name" type="text">
                                             </div>
                                         </div>
                                     </div>

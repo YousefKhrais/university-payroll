@@ -1,5 +1,6 @@
 package com.yousef.payroll.model;
 
+import com.yousef.payroll.model.types.Gender;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -31,6 +32,13 @@ public class Academic implements UserDetails {
     private double flatSalary;
     private int leaveBalance;
     private Date joinDate = new Date();
+
+    private Gender gender;
+    private String profilePicLink;
+    private boolean sendEmailNotification;
+    private String jobTitle;
+    private Date birthDate;
+    private boolean isActive;
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "academic_id")
@@ -186,6 +194,54 @@ public class Academic implements UserDetails {
         this.joinDate = joinDate;
     }
 
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
+    public String getProfilePicLink() {
+        return profilePicLink;
+    }
+
+    public void setProfilePicLink(String profilePicLink) {
+        this.profilePicLink = profilePicLink;
+    }
+
+    public boolean isSendEmailNotification() {
+        return sendEmailNotification;
+    }
+
+    public void setSendEmailNotification(boolean sendEmailNotification) {
+        this.sendEmailNotification = sendEmailNotification;
+    }
+
+    public String getJobTitle() {
+        return jobTitle;
+    }
+
+    public void setJobTitle(String jobTitle) {
+        this.jobTitle = jobTitle;
+    }
+
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
     @Override
     public String toString() {
         return "Academic{" +
@@ -202,6 +258,12 @@ public class Academic implements UserDetails {
                 ", flatSalary=" + flatSalary +
                 ", leaveBalance=" + leaveBalance +
                 ", joinDate=" + joinDate +
+                ", gender=" + gender +
+                ", profilePicLink='" + profilePicLink + '\'' +
+                ", sendEmailNotification=" + sendEmailNotification +
+                ", jobTitle='" + jobTitle + '\'' +
+                ", birthDate=" + birthDate +
+                ", isActive=" + isActive +
                 '}';
     }
 
