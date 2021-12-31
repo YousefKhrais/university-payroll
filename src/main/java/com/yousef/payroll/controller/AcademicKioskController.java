@@ -23,60 +23,6 @@ public class AcademicKioskController {
         this.academicRepository = academicRepository;
     }
 
-    @GetMapping("/login")
-    public String login() {
-        if (isAuthenticated()) {
-            return "redirect:AcademicKiosk/dashboard";
-        }
-        return "AcademicKiosk/auth/login";
-    }
-    //*********************************************************************************
-
-    @GetMapping("/register")
-    public String register(Model model) {
-        model.addAttribute("user", new Academic());
-        return "AcademicKiosk/auth/register";
-    }
-    //*********************************************************************************
-
-    @GetMapping("/forgot-password")
-    public String forgotPassword(Model model) {
-        return "AcademicKiosk/auth/forgot-password";
-    }
-    //*********************************************************************************
-
-    @GetMapping("/reset-password")
-    public String resetPassword(Model model) {
-        return "AcademicKiosk/auth/reset-password";
-    }
-
-    //*********************************************************************************
-
-    @PostMapping("/process_register")
-    public String processRegister(Academic user) {
-        System.out.println(user.toString());
-
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String encodedPassword = passwordEncoder.encode(user.getPassword());
-        user.setPassword(encodedPassword);
-
-        user.setType(UserType.CasualAcademics);
-        academicRepository.save(user);
-
-        return "AcademicKiosk/auth/register-success";
-    }
-
-    //*********************************************************************************
-
-    private boolean isAuthenticated() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || AnonymousAuthenticationToken.class.
-                isAssignableFrom(authentication.getClass())) {
-            return false;
-        }
-        return authentication.isAuthenticated();
-    }
-
     @GetMapping("/dashboard")
     public String adminGeneral() {
         return "AcademicKiosk/employees/employee-leaves";

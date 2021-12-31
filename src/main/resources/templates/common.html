@@ -1,4 +1,6 @@
-<html>
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html lang="en" xmlns:sec="http://www.thymeleaf.org" xmlns:th="http://www.thymeleaf.org">
+<head>
 <body>
 
 <head th:fragment="header">
@@ -414,14 +416,16 @@
                 </div>
                 <div class="dropdown profile-dropdown">
                     <a class="nav-link pr-1 pl-0 leading-none" data-toggle="dropdown" href="#">
-                                        <span><img alt="img" class="avatar avatar-md bradius"
-                                                   th:src="@{/assets/images/users/16.jpg}"></span>
+                        <span>
+                            <img alt="img" class="avatar avatar-md bradius" th:src="@{/assets/images/users/16.jpg}">
+                        </span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow animated">
                         <div class="p-3 text-center border-bottom">
-                            <a class="text-center user pb-0 font-weight-bold" href="#">John
-                                Thomson</a>
-                            <p class="text-center user-semi-title">App Developer</p>
+                            <a class="text-center user pb-0 font-weight-bold" href="#"
+                               sec:authentication="principal.fullName"></a>
+                            <p class="text-center user-semi-title"
+                               sec:authentication="principal.jobTitle"></p>
                         </div>
                         <a class="dropdown-item d-flex" href="#">
                             <i class="feather feather-user mr-3 fs-16 my-auto"></i>
@@ -431,17 +435,13 @@
                             <i class="feather feather-settings mr-3 fs-16 my-auto"></i>
                             <div class="mt-1">Settings</div>
                         </a>
-                        <a class="dropdown-item d-flex" href="#">
-                            <i class="feather feather-mail mr-3 fs-16 my-auto"></i>
-                            <div class="mt-1">Messages</div>
-                        </a>
                         <a class="dropdown-item d-flex" data-target="#changepasswordnmodal"
                            data-toggle="modal"
                            href="#">
                             <i class="feather feather-edit-2 mr-3 fs-16 my-auto"></i>
                             <div class="mt-1">Change Password</div>
                         </a>
-                        <a class="dropdown-item d-flex" href="#">
+                        <a class="dropdown-item d-flex" th:href="@{/university-payroll/logout}">
                             <i class="feather feather-power mr-3 fs-16 my-auto"></i>
                             <div class="mt-1">Sign Out</div>
                         </a>
@@ -531,6 +531,12 @@
     <script th:src="@{/assets/plugins/summernote/summernote-bs4.js}"></script>
     <script th:src="@{/assets/js/client/client-list.js}"></script>
     <script th:src="@{/assets/js/client/client-sidemenuchart.js}"></script>
+    <!--    -->
+    <script th:src="@{/assets/js/employee/emp-myleaves.js}"></script>
+    <script th:src="@{/assets/js/employee/emp-sidemenuchart.js}"></script>
+    <script th:src="@{/assets/plugins/apexchart/apexcharts.js}"></script>
+    <script th:src="@{/assets/js/employee/emp-payslips.js}"></script>
+    <!--    -->
 </footer>
 </body>
 </html>

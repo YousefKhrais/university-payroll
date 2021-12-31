@@ -24,7 +24,7 @@
 
                     <div class="page-header d-xl-flex d-block">
                         <div class="page-leftheader">
-                            <h4 class="page-title">Employee Profile</h4>
+                            <h4 class="page-title">Academic Profile</h4>
                         </div>
                     </div>
 
@@ -81,6 +81,8 @@
                                             Personal Details</a></li>
                                         <li><a data-toggle="tab" href="#tab6">Company Details</a></li>
                                         <li><a data-toggle="tab" href="#tab7">Bank Details</a></li>
+                                        <li><a data-toggle="tab" href="#tab8">leaves</a></li>
+                                        <li><a data-toggle="tab" href="#tab9">Payments</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -209,10 +211,10 @@
                                             <div class="form-group">
                                                 <div class="row">
                                                     <div class="col-md-3">
-                                                        <label class="form-label mb-0 mt-2">Employee Email</label>
+                                                        <label class="form-label mb-0 mt-2">Academic Email</label>
                                                     </div>
                                                     <div class="col-md-9">
-                                                        <input class="form-control" placeholder="employee email"
+                                                        <input class="form-control" placeholder="Academic email"
                                                                th:value="${academic.email}"
                                                                type="text">
                                                     </div>
@@ -256,8 +258,9 @@
                                                         <label class="form-label mb-0 mt-2">Department</label>
                                                     </div>
                                                     <div class="col-md-9">
-                                                        <input class="form-control" placeholder="Department" type="text"
-                                                               th:value="${academic.department}">
+                                                        <input class="form-control" placeholder="Department"
+                                                               th:value="${academic.department}"
+                                                               type="text">
                                                     </div>
                                                 </div>
                                             </div>
@@ -269,7 +272,7 @@
                                                     <div class="col-md-9">
                                                         <input class="form-control fc-datepicker"
                                                                placeholder="DD-MM-YYYY"
-                                                               type="text" th:value="${academic.joinDate}">
+                                                               th:value="${academic.joinDate}" type="text">
                                                     </div>
                                                 </div>
                                             </div>
@@ -279,11 +282,13 @@
                                                         <label class="form-label mb-0 mt-2">Leaves Balance
                                                             <span class="form-help" data-placement="top"
                                                                   data-toggle="tooltip"
-                                                                  title="Unused leaves for the Employee">?</span>
+                                                                  title="Unused leaves for the Academic">?</span>
                                                         </label>
                                                     </div>
                                                     <div class="col-md-9">
-                                                        <input class="form-control" placeholder="0" type="text" th:value="${academic.leaveBalance+' Days'}">
+                                                        <input class="form-control" placeholder="0"
+                                                               th:value="${academic.leaveBalance+' Days'}"
+                                                               type="text">
                                                     </div>
                                                 </div>
                                             </div>
@@ -307,8 +312,9 @@
                                                         <label class="form-label mb-0 mt-2">Salary</label>
                                                     </div>
                                                     <div class="col-md-9">
-                                                        <input class="form-control" placeholder="$Salary" type="text"
-                                                               th:value="${'$'+academic.flatSalary}">
+                                                        <input class="form-control" placeholder="$Salary"
+                                                               th:value="${'$'+academic.flatSalary}"
+                                                               type="text">
                                                     </div>
                                                 </div>
                                             </div>
@@ -406,6 +412,100 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="tab-pane" id="tab8">
+                                        <div class="row">
+                                            <div class="col-xl-12 col-md-12 col-lg-12">
+                                                <div class="card">
+                                                    <div class="card-header  border-0">
+                                                        <h4 class="card-title">Leaves Summary</h4>
+                                                        <div class="btn-list">
+                                                            <a class="btn btn-primary mr-3" data-target="#applyleaves"
+                                                               data-toggle="modal"
+                                                               href="#">Apply Leaves</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="table-responsive">
+                                                            <table class="table  table-vcenter text-nowrap table-bordered border-bottom"
+                                                                   id="emp-attendance">
+                                                                <thead>
+                                                                <tr>
+                                                                    <th class="border-bottom-0 text-center">#ID</th>
+                                                                    <th class="border-bottom-0">From</th>
+                                                                    <th class="border-bottom-0">TO</th>
+                                                                    <th class="border-bottom-0">Days</th>
+                                                                    <th class="border-bottom-0">Reason</th>
+                                                                    <th class="border-bottom-0">Type</th>
+                                                                    <th class="border-bottom-0">Applied On</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                <tr th:each=" leave : ${academic.getAcademicLeaves()}">
+                                                                    <td class="text-center" th:text="${leave.id}"></td>
+                                                                    <td th:text="${leave.fromDate}"></td>
+                                                                    <td th:text="${leave.toDate}"></td>
+                                                                    <td class="font-weight-semibold">1 Day</td>
+                                                                    <td th:text="${leave.reason}"></td>
+                                                                    <td th:text="${leave.type}"></td>
+                                                                    <td th:text="${leave.createdDate}"></td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="tab9">
+                                        <div class="card-header  border-0">
+                                            <h4 class="card-title">My Payslips Summary</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <table class="table  table-vcenter text-nowrap table-bordered border-bottom"
+                                                       id="emp-pay">
+                                                    <thead>
+                                                    <tr>
+                                                        <th class="border-bottom-0 text-center">#ID</th>
+                                                        <th class="border-bottom-0">Month</th>
+                                                        <th class="border-bottom-0">Year</th>
+                                                        <th class="border-bottom-0">$ Net Salary</th>
+                                                        <th class="border-bottom-0">Tax</th>
+                                                        <th class="border-bottom-0">Generated Date</th>
+                                                        <th class="border-bottom-0">Action</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr th:each=" payment : ${academic.getPayments()}">
+                                                        <td class="text-center" th:text="${payment.id}"></td>
+                                                        <td th:text="${payment.date.month}"></td>
+                                                        <td th:text="${payment.date.year}"></td>
+                                                        <td class="font-weight-semibold"
+                                                            th:text="${payment.salary - payment.tax}"></td>
+                                                        <td th:text="${payment.tax}"></td>
+                                                        <td th:text="${payment.createDate}"></td>
+                                                        <td>
+                                                            <a class="btn btn-primary btn-icon btn-sm"
+                                                               data-original-title="View" data-toggle="tooltip"><i
+                                                                    class="feather feather-eye"></i></a>
+                                                            <a class="btn btn-success btn-icon btn-sm"
+                                                               data-original-title="Download" data-toggle="tooltip"><i
+                                                                    class="feather feather-download"></i></a>
+                                                            <a class="btn btn-info btn-icon btn-sm"
+                                                               data-original-title="Print" data-toggle="tooltip"
+                                                               onclick="javascript:window.print();"><i
+                                                                    class="feather feather-printer"></i></a>
+                                                            <a class="btn btn-warning btn-icon btn-sm"
+                                                               data-original-title="Share" data-toggle="tooltip"><i
+                                                                    class="feather feather-share-2"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="card-footer text-right">
                                         <a class="btn btn-primary" href="#">Updated</a>
                                         <a class="btn btn-danger" href="#">Cancle</a>
@@ -420,6 +520,60 @@
     </div>
 </div>
 
+<!--Apply Leaves Modal -->
+<div class="modal fade" id="applyleaves">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add A New Leave</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form id="addPartTimeAcademic" method="post"
+                  name="add_full_time_academic"
+                  th:action="@{/university-payroll/dashboard/Academic/{id}/addAcademicLeave(id=${academic.id})}">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-label">From Date:</label>
+                        <div class="input-group">
+                            <input class="form-control" id="fromDate" name="fromDate" placeholder="select dates"
+                                   type="date"/>
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <i class="bx bx-calendar"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">To Date:</label>
+                        <div class="input-group">
+                            <input class="form-control" id="toDate" name="toDate" placeholder="select dates"
+                                   type="date"/>
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <i class="bx bx-calendar"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Reason:</label>
+                        <textarea class="form-control" id="reason" name="reason" rows="5"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="ml-auto">
+                        <button class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+                        <button class="btn btn-success" type="submit">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- End Apply Leaves Modal  -->
 
 <div th:replace="common :: notifications"></div>
 <footer th:replace="common :: footer"></footer>

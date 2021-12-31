@@ -2,6 +2,7 @@ package com.yousef.payroll.config;
 
 import com.yousef.payroll.service.PersonnelEmployeeDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -45,20 +46,13 @@ public class UniversityPayrollSecurityConfig extends WebSecurityConfigurerAdapte
                 .sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
 
         http.authorizeRequests()
-//                .antMatchers("/", "/public/**", "/resources/**", "/resources/public/**", "/errors/**", "/register", "/forgot-password", "/register-success", "/reset-password").permitAll()
-//                .antMatchers("/universityPayrollSystem/admin/**").authenticated()
-                .anyRequest().permitAll()
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+                .requestMatchers().permitAll()
+                .antMatchers("/university-payroll/register","/university-payroll/process_register","/assets/**","/images/**").permitAll()
+                .anyRequest().authenticated()
                 .and()
-                .formLogin()
-                .defaultSuccessUrl("/university-payroll/dashboard")
-                .loginPage("/university-payroll/login")
-                .permitAll()
+                .formLogin().loginPage("/university-payroll/login").defaultSuccessUrl("/university-payroll/dashboard/employees-list").failureUrl("/login?error").permitAll()
                 .and()
-                .logout()
-                .invalidateHttpSession(true)
-                .clearAuthentication(true)
-                .logoutRequestMatcher(new AntPathRequestMatcher("/university-payroll/logout"))
-                .logoutSuccessUrl("/university-payroll/login")
-                .permitAll();
+                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/university-payroll/logout")).logoutSuccessUrl("/university-payroll/login");
     }
 }

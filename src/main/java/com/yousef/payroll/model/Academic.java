@@ -24,25 +24,32 @@ public class Academic implements UserDetails {
     private String password;
     private String firstName;
     private String lastName;
-    private UserType type;
+    private String profilePicLink;
     private String department;
+    private String jobTitle;
     private String phoneNumber;
     private String address;
     private String paymentDetails;
     private double flatSalary;
     private int leaveBalance;
-    private Date joinDate = new Date();
-
-    private Gender gender;
-    private String profilePicLink;
     private boolean sendEmailNotification;
-    private String jobTitle;
-    private Date birthDate;
     private boolean isActive;
+    private UserType type;
+    private Gender gender;
+    private Date birthDate;
+    private Date joinDate = new Date();
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "academic_id")
     private List<Payment> payments = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "academic_id")
+    private List<AcademicLeave> academicLeaves = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "academic_id")
+    private List<Notification> notifications = new ArrayList<>();
 
     public Academic() {
     }
@@ -136,6 +143,14 @@ public class Academic implements UserDetails {
 
     public void setPayments(ArrayList<Payment> payments) {
         this.payments = payments;
+    }
+
+    public List<AcademicLeave> getAcademicLeaves() {
+        return academicLeaves;
+    }
+
+    public void setAcademicLeaves(ArrayList<AcademicLeave> academicLeaves) {
+        this.academicLeaves = academicLeaves;
     }
 
     public String getDepartment() {
@@ -240,6 +255,14 @@ public class Academic implements UserDetails {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public List<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(List<Notification> notifications) {
+        this.notifications = notifications;
     }
 
     @Override

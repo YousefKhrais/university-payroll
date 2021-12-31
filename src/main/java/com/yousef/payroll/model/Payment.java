@@ -1,7 +1,7 @@
 package com.yousef.payroll.model;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 
 @Entity
 public class Payment {
@@ -10,8 +10,10 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private double amount;
+    private double salary;
+    private double tax;
     private Date date;
+    private Date createDate = new Date();
 
     @ManyToOne
     private Academic academic;
@@ -19,8 +21,9 @@ public class Payment {
     public Payment() {
     }
 
-    public Payment(double amount, Date date) {
-        this.amount = amount;
+    public Payment(double salary,double tax, Date date) {
+        this.salary = salary;
+        this.tax = tax;
         this.date = date;
     }
 
@@ -32,12 +35,12 @@ public class Payment {
         this.id = id;
     }
 
-    public double getAmount() {
-        return amount;
+    public double getSalary() {
+        return salary;
     }
 
-    public void setAmount(double amount) {
-        this.amount = amount;
+    public void setSalary(double salary) {
+        this.salary = salary;
     }
 
     public Date getDate() {
@@ -56,11 +59,28 @@ public class Payment {
         this.academic = academic;
     }
 
+    public double getTax() {
+        return tax;
+    }
+
+    public void setTax(double tax) {
+        this.tax = tax;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
     @Override
     public String toString() {
         return "Payment{" +
                 "id=" + id +
-                ", amount=" + amount +
+                ", salary=" + salary +
+                ", tax=" + tax +
                 ", date=" + date +
                 '}';
     }

@@ -1,19 +1,26 @@
 package com.yousef.payroll.bootstrap;
 
+import com.yousef.payroll.model.Academic;
+import com.yousef.payroll.model.Payment;
 import com.yousef.payroll.repositories.AcademicRepository;
+import com.yousef.payroll.repositories.LeavesRepository;
 import com.yousef.payroll.repositories.PaymentRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+
+import java.util.Date;
 
 @Component
 public class BootStrapData implements CommandLineRunner {
 
     private final AcademicRepository academicRepository;
     private final PaymentRepository paymentRepository;
+    private final LeavesRepository leavesRepository;
 
-    public BootStrapData(AcademicRepository academicRepository, PaymentRepository paymentRepository) {
+    public BootStrapData(AcademicRepository academicRepository, PaymentRepository paymentRepository,LeavesRepository leavesRepository) {
         this.academicRepository = academicRepository;
         this.paymentRepository = paymentRepository;
+        this.leavesRepository = leavesRepository;
     }
 
     @Override
@@ -33,17 +40,15 @@ public class BootStrapData implements CommandLineRunner {
 //        academic.setFlatSalary(1000);
 //        academic.setLeaveBalance(10);
 
-//        academicRepository.save(academic);
+//        Academic academic  = academicRepository.findById(1L).get();
 
-        System.out.println("Academic Count: " + academicRepository.count());
+//        Payment payment = new Payment();
+//        payment.setSalary(200);
+//        payment.setTax(10);
+//        payment.setDate(new Date());
+//        payment.setAcademic(academic);
 
-//        Payment ddd = new Payment(5000, new Date(new java.util.Date().getTime()));
-//
-//        ddd.setAcademic(academic);
-//        academic.getPayments().add(ddd);
-//
-//        paymentRepository.save(ddd);
-//        academicRepository.save(academic);
+//        paymentRepository.save(payment);
 //
 //        Payment dddd = new Payment(3400, new Date(new java.util.Date().getTime()));
 //

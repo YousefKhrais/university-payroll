@@ -26,8 +26,9 @@ public class PersonnelEmployee implements UserDetails {
     @Column(name = "last_name", nullable = false, length = 20)
     private String lastName;
 
-    public PersonnelEmployee() {
+    private String jobTitle;
 
+    public PersonnelEmployee() {
     }
 
     public Long getId() {
@@ -54,12 +55,24 @@ public class PersonnelEmployee implements UserDetails {
         this.lastName = lastName;
     }
 
+    public String getFullName() {
+        return firstName + " " + lastName;
+    }
+
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getJobTitle() {
+        return jobTitle;
+    }
+
+    public void setJobTitle(String jobTitle) {
+        this.jobTitle = jobTitle;
     }
 
     @Override
