@@ -158,8 +158,8 @@
                                                     </a>
                                                     <a class="btn btn-danger btn-icon btn-sm"
                                                        data-original-title="Delete"
-                                                       th:href="@{/university-payroll/dashboard/employees/delete/{id}(id=${academic.id})}"
-                                                       data-toggle="tooltip"><i class="feather feather-trash-2"></i></a>
+                                                       data-toggle="tooltip"
+                                                       th:href="@{/university-payroll/dashboard/employees/delete/{id}(id=${academic.id})}"><i class="feather feather-trash-2"></i></a>
                                                 </td>
                                             </tr>
                                             </tbody>
@@ -181,22 +181,22 @@
                                 </button>
                             </div>
                             <form id="addFullTimeEmployee" method="post"
-                                  name="add_full_time_academic"
+                                  name="add_full_time_academic" th:object="${fullTimeAcademic}"
                                   th:action="@{/university-payroll/dashboard/add-employee}">
                                 <div class="modal-body">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="form-label">Academic First Name</label>
-                                                <input class="form-control" id="firstName" name="firstName"
-                                                       placeholder="Enter First Name" type="text">
+                                                <input class="form-control" placeholder="Enter First Name"
+                                                       th:field="*{firstName}" type="text">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="form-label">Academic Last Name</label>
-                                                <input class="form-control" id="lastName" name="lastName"
-                                                       placeholder="Enter Last Name" type="text">
+                                                <input class="form-control" placeholder="Enter Last Name"
+                                                       th:field="*{lastName}" type="text">
                                             </div>
                                         </div>
                                     </div>
@@ -204,15 +204,15 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="form-label">Email Address</label>
-                                                <input class="form-control" id="email" name="email"
-                                                       placeholder="Enter Email Address" type="email">
+                                                <input class="form-control" placeholder="Enter Email Address"
+                                                       th:field="*{email}" type="email">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="form-label">Password</label>
-                                                <input class="form-control" id="password" name="password"
-                                                       placeholder="Enter Password" type="password">
+                                                <input class="form-control" placeholder="Enter Password"
+                                                       th:field="*{password}" type="password">
                                             </div>
                                         </div>
                                     </div>
@@ -220,15 +220,15 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="form-label">Phone Number</label>
-                                                <input class="form-control" id="phoneNumber" name="phoneNumber"
-                                                       placeholder="Enter Phone Number" type="number">
+                                                <input class="form-control" placeholder="Enter Phone Number"
+                                                       th:field="*{phoneNumber}" type="number">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="form-label">Leave Balance</label>
-                                                <input class="form-control" id="leaveBalance" name="leaveBalance"
-                                                       placeholder="Enter Leave Balance" type="number">
+                                                <input class="form-control" placeholder="Enter Leave Balance"
+                                                       th:field="*{leaveBalance}" type="number">
                                             </div>
                                         </div>
                                     </div>
@@ -236,22 +236,22 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="form-label">Flat Salary</label>
-                                                <input class="form-control" id="flatSalary" name="flatSalary"
-                                                       placeholder="Enter Flat Salary" type="number">
+                                                <input class="form-control" placeholder="Enter Flat Salary"
+                                                       th:field="*{flatSalary}" type="number">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="form-label">Department</label>
-                                                <input class="form-control" id="department" name="department"
-                                                       placeholder="Enter Department" type="text">
+                                                <input class="form-control" placeholder="Enter Department"
+                                                       th:field="*{department}" type="text">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">Full Address</label>
-                                        <textarea class="form-control" id="address" name="address"
-                                                  placeholder="Academic Full Address" rows="3"></textarea>
+                                        <textarea class="form-control" name="address" placeholder="Academic Full Address"
+                                                  rows="3" th:field="*{address}"></textarea>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">Upload Image:</label>

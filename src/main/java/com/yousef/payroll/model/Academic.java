@@ -6,6 +6,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -19,20 +23,40 @@ public class Academic implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Email(message = "Email is not valid")
+    @NotEmpty(message = "Email can not be empty")
     @Column(unique = true)
     private String email;
 
+    @NotEmpty(message = "Password can not be empty")
     private String password;
+
+    @NotEmpty(message = "First Name can not be empty")
     private String firstName;
+
+    @NotEmpty(message = "Last Name can not be empty")
     private String lastName;
-    private String profilePicLink;
+
+    @NotEmpty(message = "Department can not be empty")
     private String department;
-    private String jobTitle;
+
+    @NotEmpty(message = "Phone Number can not be empty")
     private String phoneNumber;
+
+    @NotEmpty(message = "Address can not be empty")
     private String address;
-    private String paymentDetails;
+
+    @NotNull(message = "Flat Salary can not be empty")
+    @Min(value = 0, message = "Flat Salary can not be less than 0")
     private double flatSalary;
+
+    @NotNull(message = "Leave Balance can not be empty")
+    @Min(value = 0, message = "Leave Balance can not be less than 0")
     private int leaveBalance;
+
+    private String profilePicLink;
+    private String jobTitle;
+    private String paymentDetails;
     private boolean sendEmailNotification;
     private boolean isActive;
     private AcademicType type;

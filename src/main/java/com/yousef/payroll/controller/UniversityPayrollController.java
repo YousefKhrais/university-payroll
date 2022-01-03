@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
@@ -53,7 +54,7 @@ public class UniversityPayrollController {
     }
 
     @GetMapping("/dashboard/employees-list")
-    public String listAcademicsView(Model model) {
+    public String listAcademicsView(Model model, Academic fullTimeAcademic) {
         List<Academic> academicsList = academicRepository.findAll();
 
         long fullTimeAcademicsCount = academicsList.stream().filter(academic -> academic.getType().equals(AcademicType.FULL_TIME_ACADEMIC)).count();
@@ -65,66 +66,34 @@ public class UniversityPayrollController {
         attributes.put("fullTimeAcademicsCount", fullTimeAcademicsCount);
         attributes.put("partTimeAcademicsCount", partTimeAcademicsCount);
 
+        //temp
+        attributes.put("fullTimeAcademic", fullTimeAcademic);
+
         model.addAllAttributes(attributes);
 
         return "universityPayrollSystem/admin/employees/hr-emplist";
     }
 
-    @GetMapping("/dashboard/employees/edit/{id}")
-    public String editAcademicView(RedirectAttributes redirectAttributes, Model model, @PathVariable long id) {
-        Academic academic = academicRepository.findById(id).orElse(null);
-
-        if (academic == null) {
-            redirectAttributes.addFlashAttribute("error", "Academic doesn't exist");
-            return "redirect:/university-payroll/dashboard/employees-list";
-        }
-
-        model.addAttribute(academic);
-
-        return "universityPayrollSystem/admin/employees/hr-empview";
-    }
-
-    @GetMapping("/dashboard/employees/delete/{id}")
-    public String deleteAcademic(RedirectAttributes redirectAttributes, @PathVariable long id) {
-        Academic academic = academicRepository.findById(id).orElse(null);
-
-        if (academic == null) {
-            redirectAttributes.addFlashAttribute("error", "Academic doesn't exist");
-            return "redirect:/university-payroll/dashboard/employees-list";
-        }
-
-        try {
-            academicRepository.delete(academic);
-            redirectAttributes.addFlashAttribute("message", "Academic has been deleted.");
-
-            return "redirect:/university-payroll/dashboard/employees-list";
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "Error: " + e.getMessage());
-            return "redirect:/university-payroll/dashboard/employees-list";
-        }
-    }
-
     @PostMapping("/dashboard/add-employee")
-    public String addFullTimeAcademic(RedirectAttributes redirectAttributes, @RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName, @RequestParam("email") String email,
-                                      @RequestParam("password") String password, @RequestParam("phoneNumber") String phoneNumber, @RequestParam("leaveBalance") int leaveBalance,
-                                      @RequestParam("flatSalary") double flatSalary, @RequestParam("address") String address, @RequestParam("department") String department) {
+    public String addFullTimeAcademic(@Valid Academic fullTimeAcademic, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            StringBuilder errorMessage = new StringBuilder();
+
+            for (int i = 0; i < bindingResult.getFieldErrors().size(); i++) {
+                errorMessage.append("[").append(i).append("] ").append(bindingResult.getFieldErrors().get(i).getDefaultMessage()).append(" | ");
+            }
+
+            redirectAttributes.addFlashAttribute("error", "ERROR: " + errorMessage);
+            return "redirect:/university-payroll/dashboard/employees-list";
+        }
+
         try {
-            Academic academic = new Academic();
+            fullTimeAcademic.setType(AcademicType.FULL_TIME_ACADEMIC);
+            fullTimeAcademic.setPaymentDetails(PaymentMethodType.BANK_DEPOSIT.toString());
+            fullTimeAcademic.setPassword(new BCryptPasswordEncoder().encode(fullTimeAcademic.getPassword()));
 
-            academic.setFirstName(firstName);
-            academic.setLastName(lastName);
-            academic.setEmail(email);
-            academic.setPhoneNumber(phoneNumber);
-            academic.setLeaveBalance(leaveBalance);
-            academic.setFlatSalary(flatSalary);
-            academic.setAddress(address);
-            academic.setDepartment(department);
-            academic.setType(AcademicType.FULL_TIME_ACADEMIC);
-            academic.setPaymentDetails(PaymentMethodType.BANK_DEPOSIT.toString());
-            academic.setPassword(new BCryptPasswordEncoder().encode(password));
-
-            System.out.println(academic);
-            academicRepository.save(academic);
+            System.out.println(fullTimeAcademic);
+            academicRepository.save(fullTimeAcademic);
             redirectAttributes.addFlashAttribute("message", "Successfully added a new academic");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "ERROR: " + e.getMessage());
@@ -167,6 +136,40 @@ public class UniversityPayrollController {
         }
 
         return "redirect:/university-payroll/dashboard/employees-list";
+    }
+
+    @GetMapping("/dashboard/employees/edit/{id}")
+    public String editAcademicView(RedirectAttributes redirectAttributes, Model model, @PathVariable long id) {
+        Academic academic = academicRepository.findById(id).orElse(null);
+
+        if (academic == null) {
+            redirectAttributes.addFlashAttribute("error", "Academic doesn't exist");
+            return "redirect:/university-payroll/dashboard/employees-list";
+        }
+
+        model.addAttribute(academic);
+
+        return "universityPayrollSystem/admin/employees/hr-empview";
+    }
+
+    @GetMapping("/dashboard/employees/delete/{id}")
+    public String deleteAcademic(RedirectAttributes redirectAttributes, @PathVariable long id) {
+        Academic academic = academicRepository.findById(id).orElse(null);
+
+        if (academic == null) {
+            redirectAttributes.addFlashAttribute("error", "Academic doesn't exist");
+            return "redirect:/university-payroll/dashboard/employees-list";
+        }
+
+        try {
+            academicRepository.delete(academic);
+            redirectAttributes.addFlashAttribute("message", "Academic has been deleted.");
+
+            return "redirect:/university-payroll/dashboard/employees-list";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Error: " + e.getMessage());
+            return "redirect:/university-payroll/dashboard/employees-list";
+        }
     }
 
     @PostMapping("/dashboard/Academic/{id}/addAcademicLeave")
