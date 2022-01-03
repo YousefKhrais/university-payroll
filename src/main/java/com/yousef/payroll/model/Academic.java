@@ -1,5 +1,6 @@
 package com.yousef.payroll.model;
 
+import com.yousef.payroll.model.types.AcademicType;
 import com.yousef.payroll.model.types.Gender;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -34,7 +35,7 @@ public class Academic implements UserDetails {
     private int leaveBalance;
     private boolean sendEmailNotification;
     private boolean isActive;
-    private UserType type;
+    private AcademicType type;
     private Gender gender;
     private Date birthDate;
     private Date joinDate = new Date();
@@ -50,6 +51,10 @@ public class Academic implements UserDetails {
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "academic_id")
     private List<Notification> notifications = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "academic_id")
+    private List<TimeCard> timeCards = new ArrayList<>();
 
     public Academic() {
     }
@@ -129,11 +134,11 @@ public class Academic implements UserDetails {
         return firstName + " " + lastName;
     }
 
-    public UserType getType() {
+    public AcademicType getType() {
         return type;
     }
 
-    public void setType(UserType type) {
+    public void setType(AcademicType type) {
         this.type = type;
     }
 
@@ -263,6 +268,14 @@ public class Academic implements UserDetails {
 
     public void setNotifications(List<Notification> notifications) {
         this.notifications = notifications;
+    }
+
+    public List<TimeCard> getTimeCards() {
+        return timeCards;
+    }
+
+    public void setTimeCards(List<TimeCard> timeCards) {
+        this.timeCards = timeCards;
     }
 
     @Override

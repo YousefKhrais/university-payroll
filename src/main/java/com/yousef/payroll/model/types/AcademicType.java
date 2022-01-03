@@ -1,6 +1,6 @@
 package com.yousef.payroll.model.types;
 
-public enum UserType {
+public enum AcademicType {
 
     FULL_TIME_ACADEMIC,
 

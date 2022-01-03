@@ -30,12 +30,19 @@ public class PaymentsService {
         this.leavesRepository = leavesRepository;
     }
 
-    //@Async
-    //@Scheduled(fixedDelay = 5000)
-    //@Scheduled(cron = "@monthly")
+//    @Async
+//    @Scheduled(fixedDelay = 5000)
+//    @Scheduled(cron = "@monthly")
     public void payAcademicsSalaries() throws InterruptedException {
         List<Academic> academics = academicRepository.findAll();
         for (Academic currentAcademic : academics) {
+
+
+
+
+
+
+
             Payment payment = new Payment();
             payment.setAcademic(currentAcademic);
             payment.setSalary(currentAcademic.getFlatSalary());
