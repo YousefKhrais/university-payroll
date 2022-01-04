@@ -25,6 +25,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -77,13 +78,7 @@ public class UniversityPayrollController {
     @PostMapping("/dashboard/add-employee")
     public String addFullTimeAcademic(@Valid Academic fullTimeAcademic, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
-            StringBuilder errorMessage = new StringBuilder();
-
-            for (int i = 0; i < bindingResult.getFieldErrors().size(); i++) {
-                errorMessage.append("[").append(i).append("] ").append(bindingResult.getFieldErrors().get(i).getDefaultMessage()).append(" | ");
-            }
-
-            redirectAttributes.addFlashAttribute("error", "ERROR: " + errorMessage);
+            redirectAttributes.addFlashAttribute("errors", bindingResult.getFieldErrors());
             return "redirect:/university-payroll/dashboard/employees-list";
         }
 

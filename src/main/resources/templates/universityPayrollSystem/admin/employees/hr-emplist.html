@@ -13,14 +13,16 @@
                 <div th:replace="common :: app-header"></div>
 
                 <section id="current-page-content">
-                    <div class="alert alert-success" role="alert" style="margin-top: 15px" th:if="${message!=null}"
-                         th:text="${message}">
+                    <div class="alert alert-success" role="alert" style="margin-top: 24px" th:if="${message!=null}">
                         <button aria-hidden="true" class="close" data-dismiss="alert">×</button>
+                        <span th:remove="tag" th:text="${message}"></span>
                     </div>
 
-                    <div class="alert alert-danger" role="alert" style="margin-top: 15px" th:if="${error!=null}"
-                         th:text="${error}">
-                        <button aria-hidden="true" class="close" data-dismiss="alert">×</button>
+                    <div class="alert alert-danger" role="alert" style="margin-top: 24px" th:if="${errors!=null}">
+                        <button aria-hidden="true" class="close" data-dismiss="alert" style="color: #FFFFFF">×</button>
+                        <h3>Errors:</h3>
+                        <p th:each="error,iter: ${errors}"
+                           th:text="'['+${iter.index}+'] '+${error.getDefaultMessage()}"></p>
                     </div>
 
                     <div class="page-header d-xl-flex d-block">
@@ -159,7 +161,8 @@
                                                     <a class="btn btn-danger btn-icon btn-sm"
                                                        data-original-title="Delete"
                                                        data-toggle="tooltip"
-                                                       th:href="@{/university-payroll/dashboard/employees/delete/{id}(id=${academic.id})}"><i class="feather feather-trash-2"></i></a>
+                                                       th:href="@{/university-payroll/dashboard/employees/delete/{id}(id=${academic.id})}"><i
+                                                            class="feather feather-trash-2"></i></a>
                                                 </td>
                                             </tr>
                                             </tbody>
@@ -181,8 +184,9 @@
                                 </button>
                             </div>
                             <form id="addFullTimeEmployee" method="post"
-                                  name="add_full_time_academic" th:object="${fullTimeAcademic}"
-                                  th:action="@{/university-payroll/dashboard/add-employee}">
+                                  name="add_full_time_academic"
+                                  th:action="@{/university-payroll/dashboard/add-employee}"
+                                  th:object="${fullTimeAcademic}">
                                 <div class="modal-body">
                                     <div class="row">
                                         <div class="col-md-6">
@@ -250,7 +254,8 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">Full Address</label>
-                                        <textarea class="form-control" name="address" placeholder="Academic Full Address"
+                                        <textarea class="form-control" name="address"
+                                                  placeholder="Academic Full Address"
                                                   rows="3" th:field="*{address}"></textarea>
                                     </div>
                                     <div class="form-group">
