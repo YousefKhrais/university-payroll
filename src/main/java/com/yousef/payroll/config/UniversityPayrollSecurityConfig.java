@@ -1,27 +1,26 @@
 package com.yousef.payroll.config;
 
 import com.yousef.payroll.service.PersonnelEmployeeDetailsService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
-@EnableWebSecurity
-@Order(Ordered.HIGHEST_PRECEDENCE)
+@Order(1)
 public class UniversityPayrollSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private PersonnelEmployeeDetailsService personnelEmployeeDetailsService;
+    private final PersonnelEmployeeDetailsService personnelEmployeeDetailsService;
+
+    public UniversityPayrollSecurityConfig(PersonnelEmployeeDetailsService personnelEmployeeDetailsService) {
+        super();
+        this.personnelEmployeeDetailsService = personnelEmployeeDetailsService;
+    }
 
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -45,14 +44,26 @@ public class UniversityPayrollSecurityConfig extends WebSecurityConfigurerAdapte
         http.sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
 
-        http.authorizeRequests()
-                .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                .requestMatchers().permitAll()
-                .antMatchers("/university-payroll/register","/university-payroll/process_register","/assets/**","/images/**").permitAll()
-                .anyRequest().authenticated()
+        http
+                .antMatcher("/university-payroll/**")
+                .authorizeRequests()
+                .anyRequest()
+                .hasAuthority("ADMIN")
+
                 .and()
-                .formLogin().loginPage("/university-payroll/login").defaultSuccessUrl("/university-payroll/dashboard/employees-list").failureUrl("/login?error").permitAll()
+                .formLogin()
+                .loginPage("/university-payroll/login")
+                .defaultSuccessUrl("/university-payroll/dashboard/employees-list")
+                .failureUrl("/university-payroll/login?error")
+                .permitAll()
+
                 .and()
-                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/university-payroll/logout")).logoutSuccessUrl("/university-payroll/login");
+                .exceptionHandling()
+                .accessDeniedPage("/error/error403")
+
+                .and()
+                .logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/university-payroll/logout"))
+                .logoutSuccessUrl("/university-payroll/login");
     }
 }

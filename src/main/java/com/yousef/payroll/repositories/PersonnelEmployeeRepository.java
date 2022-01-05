@@ -1,6 +1,6 @@
 package com.yousef.payroll.repositories;
 
-import com.yousef.payroll.model.PersonnelEmployee;
+import com.yousef.payroll.model.users.PersonnelEmployee;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

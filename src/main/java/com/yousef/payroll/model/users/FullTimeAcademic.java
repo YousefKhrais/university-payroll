@@ -1,12 +1,19 @@
-package com.yousef.payroll.model;
+package com.yousef.payroll.model.users;
 
+import com.yousef.payroll.model.AcademicLeave;
+import com.yousef.payroll.model.Notification;
+import com.yousef.payroll.model.Payment;
+import com.yousef.payroll.model.TimeCard;
 import com.yousef.payroll.model.types.AcademicType;
 import com.yousef.payroll.model.types.Gender;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -14,7 +21,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "academic")
-public class Academic implements UserDetails {
+public class FullTimeAcademic implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -77,7 +84,7 @@ public class Academic implements UserDetails {
     @JoinColumn(name = "academic_id")
     private List<TimeCard> timeCards = new ArrayList<>();
 
-    public Academic() {
+    public FullTimeAcademic() {
     }
 
     public Long getId() {
@@ -329,7 +336,7 @@ public class Academic implements UserDetails {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Academic academic = (Academic) o;
+        FullTimeAcademic academic = (FullTimeAcademic) o;
 
         return id != null ? id.equals(academic.id) : academic.id == null;
     }

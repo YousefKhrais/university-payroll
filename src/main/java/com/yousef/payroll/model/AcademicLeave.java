@@ -1,6 +1,7 @@
 package com.yousef.payroll.model;
 
 import com.yousef.payroll.model.types.LeaveType;
+import com.yousef.payroll.model.users.Academic;
 
 import javax.persistence.*;
 import java.util.Date;

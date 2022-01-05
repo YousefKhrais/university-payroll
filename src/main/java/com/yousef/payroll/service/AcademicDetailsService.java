@@ -1,6 +1,6 @@
 package com.yousef.payroll.service;
 
-import com.yousef.payroll.model.Academic;
+import com.yousef.payroll.model.users.Academic;
 import com.yousef.payroll.repositories.AcademicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

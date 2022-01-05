@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/academic-kiosk")
 public class AcademicKioskController {
 
     private final AcademicRepository academicRepository;
@@ -15,8 +14,8 @@ public class AcademicKioskController {
         this.academicRepository = academicRepository;
     }
 
-    @GetMapping("/dashboard")
+    @GetMapping("/academic-kiosk/dashboard")
     public String adminGeneral() {
-        return "AcademicKiosk/employees/employee-leaves";
+        return "academic-kiosk/employee-leaves";
     }
 }

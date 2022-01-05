@@ -1,14 +1,10 @@
 package com.yousef.payroll.bootstrap;
 
-import com.yousef.payroll.model.Academic;
-import com.yousef.payroll.model.Payment;
 import com.yousef.payroll.repositories.AcademicRepository;
 import com.yousef.payroll.repositories.LeavesRepository;
 import com.yousef.payroll.repositories.PaymentRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
-import java.util.Date;
 
 @Component
 public class BootStrapData implements CommandLineRunner {

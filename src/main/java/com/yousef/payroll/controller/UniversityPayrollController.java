@@ -1,6 +1,6 @@
 package com.yousef.payroll.controller;
 
-import com.yousef.payroll.model.Academic;
+import com.yousef.payroll.model.users.Academic;
 import com.yousef.payroll.model.AcademicLeave;
 import com.yousef.payroll.model.Payment;
 import com.yousef.payroll.model.TimeCard;

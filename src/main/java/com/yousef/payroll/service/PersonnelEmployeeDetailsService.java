@@ -1,6 +1,6 @@
 package com.yousef.payroll.service;
 
-import com.yousef.payroll.model.PersonnelEmployee;
+import com.yousef.payroll.model.users.PersonnelEmployee;
 import com.yousef.payroll.repositories.PersonnelEmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,6 +25,7 @@ public class PersonnelEmployeeDetailsService implements UserDetailsService {
 
         System.out.println("Personnel Employee: " + personnelEmployee);
 
+        System.out.println("Auth: " + personnelEmployee.getAuthorities().toString());
         return personnelEmployee;
     }
 }

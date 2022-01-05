@@ -1,10 +1,12 @@
-package com.yousef.payroll.model;
+package com.yousef.payroll.model.users;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.HashSet;
 
 @Entity
 @Table(name = "personnel_employee")
@@ -77,7 +79,9 @@ public class PersonnelEmployee implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        HashSet<GrantedAuthority> authorities = new HashSet<>();
+        authorities.add(new SimpleGrantedAuthority("ADMIN"));
+        return authorities;
     }
 
     public String getPassword() {

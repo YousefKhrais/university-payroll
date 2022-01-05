@@ -1,16 +1,12 @@
 package com.yousef.payroll.service;
 
-import com.yousef.payroll.model.Academic;
+import com.yousef.payroll.model.users.Academic;
 import com.yousef.payroll.model.Payment;
 import com.yousef.payroll.repositories.AcademicRepository;
 import com.yousef.payroll.repositories.LeavesRepository;
 import com.yousef.payroll.repositories.PaymentRepository;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;

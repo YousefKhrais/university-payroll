@@ -1,7 +1,6 @@
 package com.yousef.payroll.repositories;
 
-import com.yousef.payroll.model.Academic;
-import org.springframework.data.jpa.domain.Specification;
+import com.yousef.payroll.model.users.Academic;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
