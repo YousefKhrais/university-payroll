@@ -18,11 +18,17 @@
                         <span th:remove="tag" th:text="${message}"></span>
                     </div>
 
-                    <div class="alert alert-danger" role="alert" style="margin-top: 24px" th:if="${errors!=null}">
+                    <div class="alert alert-danger" role="alert" style="margin-top: 24px"
+                         th:if="${bindingResultErrors!=null}">
                         <button aria-hidden="true" class="close" data-dismiss="alert" style="color: #FFFFFF">×</button>
-                        <h3>Errors:</h3>
-                        <p th:each="error,iter: ${errors}"
-                           th:text="'['+${iter.index}+'] '+${error.getDefaultMessage()}"></p>
+                        <h3>Input Validation Errors:</h3>
+                        <p th:each="bindingResultError,iter: ${bindingResultErrors}"
+                           th:text="'['+${iter.index}+'] '+${bindingResultError.getDefaultMessage()}"></p>
+                    </div>
+
+                    <div class="alert alert-danger" role="alert" style="margin-top: 24px" th:if="${error!=null}">
+                        <button aria-hidden="true" class="close" data-dismiss="alert" style="color: #FFFFFF">×</button>
+                        <p th:text="${error}"></p>
                     </div>
 
                     <div class="page-header d-xl-flex d-block">
@@ -148,7 +154,7 @@
                                                 <td th:text="${academic.department}+' Department'"></td>
                                                 <td th:text="${academic.type.toString()}"></td>
                                                 <td th:text="${academic.phoneNumber}"></td>
-                                                <td th:text="${academic.flatSalary}+'$'"></td>
+                                                <td th:text="${academic.flatSalary}+' $'"></td>
                                                 <td th:text="${academic.leaveBalance}+' Days'"></td>
                                                 <td th:text="${academic.joinDate}"></td>
                                                 <td><span class="badge badge-success">Active</span></td>
@@ -305,21 +311,22 @@
                             </div>
                             <form id="addPartTimeAcademic" method="post"
                                   name="add_full_time_academic"
-                                  th:action="@{/university-payroll/dashboard/addPartTimeAcademic}">
+                                  th:action="@{/university-payroll/dashboard/addPartTimeAcademic}"
+                                  th:object="${partTimeAcademic}">
                                 <div class="modal-body">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="form-label">Academic First Name</label>
-                                                <input class="form-control" id="pt_firstName" name="firstName"
-                                                       placeholder="Enter First Name" type="text">
+                                                <input class="form-control" placeholder="Enter First Name"
+                                                       th:field="*{firstName}" type="text">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="form-label">Academic Last Name</label>
-                                                <input class="form-control" id="pt_lastName" name="lastName"
-                                                       placeholder="Enter Last Name" type="text">
+                                                <input class="form-control" placeholder="Enter Last Name"
+                                                       th:field="*{lastName}" type="text">
                                             </div>
                                         </div>
                                     </div>
@@ -327,15 +334,15 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="form-label">Email Address</label>
-                                                <input class="form-control" id="pt_email" name="email"
-                                                       placeholder="Enter Email Address" type="email">
+                                                <input class="form-control" placeholder="Enter Email Address"
+                                                       th:field="*{email}" type="email">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="form-label">Password</label>
-                                                <input class="form-control" id="pt_password" name="password"
-                                                       placeholder="Enter Password" type="password">
+                                                <input class="form-control" placeholder="Enter Password"
+                                                       th:field="*{password}" type="password">
                                             </div>
                                         </div>
                                     </div>
@@ -343,15 +350,15 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="form-label">Phone Number</label>
-                                                <input class="form-control" id="pt_phoneNumber" name="phoneNumber"
-                                                       placeholder="Enter Phone Number" type="text">
+                                                <input class="form-control" placeholder="Enter Phone Number"
+                                                       th:field="*{phoneNumber}" type="text">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="form-label">Department</label>
-                                                <input class="form-control" id="pt_department" name="department"
-                                                       placeholder="Enter Department" type="text">
+                                                <input class="form-control" placeholder="Enter Department"
+                                                       th:field="*{department}" type="text">
                                             </div>
                                         </div>
                                     </div>
@@ -359,22 +366,24 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="form-label">Salary</label>
-                                                <input class="form-control" id="pt_salary" name="salary"
-                                                       placeholder="Enter Contract Salary" type="number">
+                                                <input class="form-control" placeholder="Enter Contract Salary"
+                                                       th:field="*{flatSalary}" type="number">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="form-label">Contract Hours</label>
-                                                <input class="form-control" id="pt_contractHours" name="contractHours"
-                                                       placeholder="Enter Contract Hours" type="number">
+                                                <input class="form-control" name="contractHours"
+                                                       placeholder="Enter Contract Hours"
+                                                       type="number">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">Full Address</label>
-                                        <textarea class="form-control" id="pt_address" name="address"
-                                                  placeholder="Academic Full Address" rows="3"></textarea>
+                                        <textarea class="form-control" name="address"
+                                                  placeholder="Academic Full Address"
+                                                  rows="3" th:field="*{email}"></textarea>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">Upload Image:</label>

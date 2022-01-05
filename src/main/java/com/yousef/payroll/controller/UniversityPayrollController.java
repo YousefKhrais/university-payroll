@@ -25,7 +25,6 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -55,7 +54,7 @@ public class UniversityPayrollController {
     }
 
     @GetMapping("/dashboard/employees-list")
-    public String listAcademicsView(Model model, Academic fullTimeAcademic) {
+    public String listAcademicsView(Model model) {
         List<Academic> academicsList = academicRepository.findAll();
 
         long fullTimeAcademicsCount = academicsList.stream().filter(academic -> academic.getType().equals(AcademicType.FULL_TIME_ACADEMIC)).count();
@@ -68,7 +67,8 @@ public class UniversityPayrollController {
         attributes.put("partTimeAcademicsCount", partTimeAcademicsCount);
 
         //temp
-        attributes.put("fullTimeAcademic", fullTimeAcademic);
+        attributes.put("fullTimeAcademic", new Academic());
+        attributes.put("partTimeAcademic", new Academic());
 
         model.addAllAttributes(attributes);
 
@@ -78,7 +78,7 @@ public class UniversityPayrollController {
     @PostMapping("/dashboard/add-employee")
     public String addFullTimeAcademic(@Valid Academic fullTimeAcademic, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("errors", bindingResult.getFieldErrors());
+            redirectAttributes.addFlashAttribute("bindingResultErrors", bindingResult.getFieldErrors());
             return "redirect:/university-payroll/dashboard/employees-list";
         }
 
@@ -98,33 +98,28 @@ public class UniversityPayrollController {
     }
 
     @PostMapping("/dashboard/addPartTimeAcademic")
-    public String addPartTimeAcademic(RedirectAttributes redirectAttributes, @RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName,
-                                      @RequestParam("email") String email, @RequestParam("password") String password, @RequestParam("phoneNumber") String phoneNumber,
-                                      @RequestParam("salary") double flatSalary, @RequestParam("address") String address,
-                                      @RequestParam("department") String department) {
+    public String addPartTimeAcademic(@Valid Academic partTimeAcademic, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("bindingResultErrors", bindingResult.getFieldErrors());
+            return "redirect:/university-payroll/dashboard/employees-list";
+        }
+
         try {
-            Academic academic = new Academic();
+            partTimeAcademic.setType(AcademicType.PART_TIME_ACADEMIC);
+            partTimeAcademic.setPaymentDetails(PaymentMethodType.BANK_DEPOSIT.toString());
+            partTimeAcademic.setPassword(new BCryptPasswordEncoder().encode(partTimeAcademic.getPassword()));
 
-            academic.setFirstName(firstName);
-            academic.setLastName(lastName);
-            academic.setEmail(email);
-            academic.setPassword(new BCryptPasswordEncoder().encode(password));
-            academic.setProfilePicLink("big no no yes");//todo:edit
-            academic.setDepartment(department);
-            academic.setJobTitle("yoooooooo");//todo:edit
-            academic.setPhoneNumber(phoneNumber);
-            academic.setAddress(address);
-            academic.setPaymentDetails(PaymentMethodType.BANK_DEPOSIT.toString());
-            academic.setFlatSalary(flatSalary);            //TODO: Change it to an hourly salary...++++++++++++++
-            academic.setLeaveBalance(0);
-            academic.setSendEmailNotification(true);
-            academic.setActive(true);
-            academic.setGender(Gender.FEMALE);//todo:edit
-            academic.setBirthDate(new Date());//todo:edit
-            academic.setType(AcademicType.PART_TIME_ACADEMIC);
+            partTimeAcademic.setLeaveBalance(0);
+            partTimeAcademic.setProfilePicLink("big no no yes");//todo:edit
+            partTimeAcademic.setJobTitle("yoooooooo");//todo:edit
+//            partTimeAcademic.setFlatSalary(flatSalary);//TODO: Change it to an hourly salary
+            partTimeAcademic.setSendEmailNotification(true);
+            partTimeAcademic.setActive(true);
+            partTimeAcademic.setGender(Gender.FEMALE);//todo:edit
+            partTimeAcademic.setBirthDate(new Date());//todo:edit
 
-            System.out.println(academic);
-            academicRepository.save(academic);
+            System.out.println(partTimeAcademic);
+            academicRepository.save(partTimeAcademic);
             redirectAttributes.addFlashAttribute("message", "Successfully added a new academic");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "ERROR: " + e.getMessage());

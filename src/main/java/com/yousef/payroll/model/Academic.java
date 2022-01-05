@@ -6,10 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -24,26 +21,26 @@ public class Academic implements UserDetails {
     private Long id;
 
     @Email(message = "Email is not valid")
-    @NotEmpty(message = "Email can not be empty")
+    @NotBlank(message = "Email can not be empty")
     @Column(unique = true)
     private String email;
 
-    @NotEmpty(message = "Password can not be empty")
+    @NotBlank(message = "Password can not be empty")
     private String password;
 
-    @NotEmpty(message = "First Name can not be empty")
+    @NotBlank(message = "First Name can not be empty")
     private String firstName;
 
-    @NotEmpty(message = "Last Name can not be empty")
+    @NotBlank(message = "Last Name can not be empty")
     private String lastName;
 
-    @NotEmpty(message = "Department can not be empty")
+    @NotBlank(message = "Department can not be empty")
     private String department;
 
-    @NotEmpty(message = "Phone Number can not be empty")
+    @NotBlank(message = "Phone Number can not be empty")
     private String phoneNumber;
 
-    @NotEmpty(message = "Address can not be empty")
+    @NotBlank(message = "Address can not be empty")
     private String address;
 
     @NotNull(message = "Flat Salary can not be empty")
