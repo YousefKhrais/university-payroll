@@ -1,14 +1,10 @@
 package com.yousef.payroll.service;
 
-import com.yousef.payroll.model.users.Academic;
-import com.yousef.payroll.model.Payment;
 import com.yousef.payroll.repositories.AcademicRepository;
 import com.yousef.payroll.repositories.LeavesRepository;
 import com.yousef.payroll.repositories.PaymentRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
 import java.util.logging.Logger;
 
 @Service
@@ -26,27 +22,21 @@ public class PaymentsService {
         this.leavesRepository = leavesRepository;
     }
 
-//    @Async
+    //    @Async
 //    @Scheduled(fixedDelay = 5000)
 //    @Scheduled(cron = "@monthly")
     public void payAcademicsSalaries() throws InterruptedException {
-        List<Academic> academics = academicRepository.findAll();
-        for (Academic currentAcademic : academics) {
-
-
-
-
-
-
-
-            Payment payment = new Payment();
-            payment.setAcademic(currentAcademic);
-            payment.setSalary(currentAcademic.getFlatSalary());
-            payment.setTax(currentAcademic.getFlatSalary() * 0.15);
-            payment.setDate(new Date());
-
-            paymentRepository.save(payment);
-            LOGGER.info("Added a new payment for: " + currentAcademic.getEmail());
-        }
+//        List<Academic> academics = academicRepository.findAll();
+//        for (Academic currentAcademic : academics) {
+//
+//            Payment payment = new Payment();
+//            payment.setAcademic(currentAcademic);
+//            payment.setSalary(currentAcademic.getFlatSalary());
+//            payment.setTax(currentAcademic.getFlatSalary() * 0.15);
+//            payment.setDate(new Date());
+//
+//            paymentRepository.save(payment);
+//            LOGGER.info("Added a new payment for: " + currentAcademic.getEmail());
+//        }
     }
 }

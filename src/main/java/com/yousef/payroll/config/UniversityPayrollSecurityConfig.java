@@ -47,6 +47,8 @@ public class UniversityPayrollSecurityConfig extends WebSecurityConfigurerAdapte
         http
                 .antMatcher("/university-payroll/**")
                 .authorizeRequests()
+                .antMatchers("/university-payroll/register", "/university-payroll/process_register")
+                .permitAll()
                 .anyRequest()
                 .hasAuthority("ADMIN")
 

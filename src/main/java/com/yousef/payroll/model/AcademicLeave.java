@@ -1,7 +1,7 @@
 package com.yousef.payroll.model;
 
 import com.yousef.payroll.model.types.LeaveType;
-import com.yousef.payroll.model.users.Academic;
+import com.yousef.payroll.model.users.FullTimeAcademic;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -23,7 +23,7 @@ public class AcademicLeave {
     private LeaveType type;
 
     @ManyToOne
-    private Academic academic;
+    private FullTimeAcademic academic;
 
     public AcademicLeave() {
     }
@@ -58,11 +58,11 @@ public class AcademicLeave {
         this.reason = reason;
     }
 
-    public Academic getAcademic() {
+    public FullTimeAcademic getAcademic() {
         return academic;
     }
 
-    public void setAcademic(Academic academic) {
+    public void setAcademic(FullTimeAcademic academic) {
         this.academic = academic;
     }
 

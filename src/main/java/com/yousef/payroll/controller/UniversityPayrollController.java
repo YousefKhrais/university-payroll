@@ -1,6 +1,5 @@
 package com.yousef.payroll.controller;
 
-import com.yousef.payroll.model.users.Academic;
 import com.yousef.payroll.model.AcademicLeave;
 import com.yousef.payroll.model.Payment;
 import com.yousef.payroll.model.TimeCard;
@@ -8,6 +7,9 @@ import com.yousef.payroll.model.types.AcademicType;
 import com.yousef.payroll.model.types.Gender;
 import com.yousef.payroll.model.types.LeaveType;
 import com.yousef.payroll.model.types.PaymentMethodType;
+import com.yousef.payroll.model.users.Academic;
+import com.yousef.payroll.model.users.FullTimeAcademic;
+import com.yousef.payroll.model.users.PartTimeAcademic;
 import com.yousef.payroll.repositories.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -37,140 +39,189 @@ public class UniversityPayrollController {
     private final PersonnelEmployeeRepository personnelEmployeeRepository;
     private final PaymentRepository paymentRepository;
     private final AcademicRepository academicRepository;
+    private final FullTimeAcademicRepository fullTimeAcademicRepository;
+    private final PartTimeAcademicRepository partTimeAcademicRepository;
     private final LeavesRepository leavesRepository;
     private final TimeCardRepository timeCardRepository;
 
-    public UniversityPayrollController(PersonnelEmployeeRepository personnelEmployeeRepository, PaymentRepository paymentRepository, AcademicRepository academicRepository, LeavesRepository leavesRepository, TimeCardRepository timeCardRepository) {
+    public UniversityPayrollController(PersonnelEmployeeRepository personnelEmployeeRepository, PaymentRepository paymentRepository, AcademicRepository academicRepository, FullTimeAcademicRepository fullTimeAcademicRepository, PartTimeAcademicRepository partTimeAcademicRepository, LeavesRepository leavesRepository, TimeCardRepository timeCardRepository) {
         this.personnelEmployeeRepository = personnelEmployeeRepository;
         this.paymentRepository = paymentRepository;
         this.academicRepository = academicRepository;
+        this.fullTimeAcademicRepository = fullTimeAcademicRepository;
+        this.partTimeAcademicRepository = partTimeAcademicRepository;
         this.leavesRepository = leavesRepository;
         this.timeCardRepository = timeCardRepository;
     }
 
+    /////////////
     @GetMapping("/dashboard")
-    public String adminGeneralView() {
-        return "redirect:/university-payroll/dashboard/employees-list";
-    }
-
-    @GetMapping("/dashboard/employees-list")
     public String listAcademicsView(Model model) {
-        List<Academic> academicsList = academicRepository.findAll();
-
-        long fullTimeAcademicsCount = academicsList.stream().filter(academic -> academic.getType().equals(AcademicType.FULL_TIME_ACADEMIC)).count();
-        long partTimeAcademicsCount = academicsList.size() - fullTimeAcademicsCount;
+        List<FullTimeAcademic> fullTimeAcademicsList = fullTimeAcademicRepository.findAll();
+        List<PartTimeAcademic> partTimeAcademicsList = partTimeAcademicRepository.findAll();
 
         HashMap<String, Object> attributes = new HashMap<>();
-        attributes.put("academicsList", academicsList);
-        attributes.put("totalAcademicsCount", academicsList.size());
-        attributes.put("fullTimeAcademicsCount", fullTimeAcademicsCount);
-        attributes.put("partTimeAcademicsCount", partTimeAcademicsCount);
+        attributes.put("fullTimeAcademicsList", fullTimeAcademicsList);
+        attributes.put("partTimeAcademicsList", partTimeAcademicsList);
+        attributes.put("totalAcademicsCount", fullTimeAcademicsList.size() + partTimeAcademicsList.size());
+        attributes.put("fullTimeAcademicsCount", fullTimeAcademicsList.size());
+        attributes.put("partTimeAcademicsCount", partTimeAcademicsList.size());
 
         //temp
-        attributes.put("fullTimeAcademic", new Academic());
+        Academic tempAcademic = new Academic();
+        FullTimeAcademic tempFullTimeAcademic = new FullTimeAcademic();
+        tempFullTimeAcademic.setAcademic(tempAcademic);
+
+        attributes.put("academic", tempAcademic);
+        attributes.put("fullTimeAcademic", tempFullTimeAcademic);
         attributes.put("partTimeAcademic", new Academic());
 
         model.addAllAttributes(attributes);
-
-        return "universityPayrollSystem/admin/employees/hr-emplist";
+        return "universityPayrollSystem/admin/employees/hr-academic-list";
     }
 
-    @PostMapping("/dashboard/add-employee")
-    public String addFullTimeAcademic(@Valid Academic fullTimeAcademic, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    @GetMapping("/dashboard/academics")
+    public String adminGeneralView() {
+        return "redirect:/university-payroll/dashboard";
+    }
+
+    /////////////
+    @PostMapping("/dashboard/academic/fullTime")
+    public String addFullTimeAcademic(@Valid FullTimeAcademic fullTimeAcademic, Academic academic, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
+            bindingResult.getAllErrors().forEach(objectError -> {
+                System.out.println(objectError.toString());
+            });
             redirectAttributes.addFlashAttribute("bindingResultErrors", bindingResult.getFieldErrors());
-            return "redirect:/university-payroll/dashboard/employees-list";
+            return "redirect:/university-payroll/dashboard";
         }
 
         try {
-            fullTimeAcademic.setType(AcademicType.FULL_TIME_ACADEMIC);
-            fullTimeAcademic.setPaymentDetails(PaymentMethodType.BANK_DEPOSIT.toString());
-            fullTimeAcademic.setPassword(new BCryptPasswordEncoder().encode(fullTimeAcademic.getPassword()));
+            academic.setType(AcademicType.FULL_TIME_ACADEMIC);
+            academic.setPaymentDetails(PaymentMethodType.BANK_DEPOSIT.toString());
+            academic.setPassword(new BCryptPasswordEncoder().encode(academic.getPassword()));
 
+            System.out.println(academic);
             System.out.println(fullTimeAcademic);
-            academicRepository.save(fullTimeAcademic);
+
+            academicRepository.save(academic);
+
+            fullTimeAcademic.setAcademic(academic);
+            fullTimeAcademicRepository.save(fullTimeAcademic);
+
             redirectAttributes.addFlashAttribute("message", "Successfully added a new academic");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "ERROR: " + e.getMessage());
+            e.printStackTrace();
         }
 
-        return "redirect:/university-payroll/dashboard/employees-list";
+        return "redirect:/university-payroll/dashboard";
     }
 
-    @PostMapping("/dashboard/addPartTimeAcademic")
-    public String addPartTimeAcademic(@Valid Academic partTimeAcademic, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    @PostMapping("/dashboard/academic/partTime")
+    public String addPartTimeAcademic(@Valid PartTimeAcademic partTimeAcademic, Academic academic, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
+            bindingResult.getAllErrors().forEach(objectError -> {
+                System.out.println(objectError.toString());
+            });
+
             redirectAttributes.addFlashAttribute("bindingResultErrors", bindingResult.getFieldErrors());
-            return "redirect:/university-payroll/dashboard/employees-list";
+            return "redirect:/university-payroll/dashboard";
         }
 
         try {
-            partTimeAcademic.setType(AcademicType.PART_TIME_ACADEMIC);
-            partTimeAcademic.setPaymentDetails(PaymentMethodType.BANK_DEPOSIT.toString());
-            partTimeAcademic.setPassword(new BCryptPasswordEncoder().encode(partTimeAcademic.getPassword()));
+            academic.setType(AcademicType.PART_TIME_ACADEMIC);
+            academic.setPaymentDetails(PaymentMethodType.BANK_DEPOSIT.toString());
+            academic.setPassword(new BCryptPasswordEncoder().encode(academic.getPassword()));
 
-            partTimeAcademic.setLeaveBalance(0);
-            partTimeAcademic.setProfilePicLink("big no no yes");//todo:edit
-            partTimeAcademic.setJobTitle("yoooooooo");//todo:edit
-//            partTimeAcademic.setFlatSalary(flatSalary);//TODO: Change it to an hourly salary
-            partTimeAcademic.setSendEmailNotification(true);
-            partTimeAcademic.setActive(true);
-            partTimeAcademic.setGender(Gender.FEMALE);//todo:edit
-            partTimeAcademic.setBirthDate(new Date());//todo:edit
+            academic.setProfilePicLink("big no no yes");//todo:edit
+            academic.setJobTitle("yoooooooo");//todo:edit
+            academic.setSendEmailNotification(true);
+            academic.setActive(true);
+            academic.setGender(Gender.FEMALE);//todo:edit
+            academic.setBirthDate(new Date());//todo:edit
 
+            partTimeAcademic.setAcademic(academic);
+
+            System.out.println(academic);
             System.out.println(partTimeAcademic);
-            academicRepository.save(partTimeAcademic);
+
+            academicRepository.save(academic);
+            partTimeAcademicRepository.save(partTimeAcademic);
+
             redirectAttributes.addFlashAttribute("message", "Successfully added a new academic");
         } catch (Exception e) {
+            e.printStackTrace();
             redirectAttributes.addFlashAttribute("error", "ERROR: " + e.getMessage());
         }
 
-        return "redirect:/university-payroll/dashboard/employees-list";
+        return "redirect:/university-payroll/dashboard";
     }
 
-    @GetMapping("/dashboard/employees/edit/{id}")
-    public String editAcademicView(RedirectAttributes redirectAttributes, Model model, @PathVariable long id) {
-        Academic academic = academicRepository.findById(id).orElse(null);
-
-        if (academic == null) {
-            redirectAttributes.addFlashAttribute("error", "Academic doesn't exist");
-            return "redirect:/university-payroll/dashboard/employees-list";
-        }
-
-        model.addAttribute(academic);
-
-        return "universityPayrollSystem/admin/employees/hr-empview";
-    }
-
-    @GetMapping("/dashboard/employees/delete/{id}")
+    /////////////
+    @GetMapping("/dashboard/academic/delete/{id}")
     public String deleteAcademic(RedirectAttributes redirectAttributes, @PathVariable long id) {
         Academic academic = academicRepository.findById(id).orElse(null);
 
         if (academic == null) {
             redirectAttributes.addFlashAttribute("error", "Academic doesn't exist");
-            return "redirect:/university-payroll/dashboard/employees-list";
+            return "redirect:/university-payroll/dashboard";
         }
 
         try {
+            if (academic.getType().equals(AcademicType.FULL_TIME_ACADEMIC)) {
+                FullTimeAcademic fullTimeAcademic = fullTimeAcademicRepository.findByAcademicId(id);
+                fullTimeAcademicRepository.delete(fullTimeAcademic);
+            } else if (academic.getType().equals(AcademicType.PART_TIME_ACADEMIC)) {
+                PartTimeAcademic partTimeAcademic = partTimeAcademicRepository.findByAcademicId(id);
+                partTimeAcademicRepository.delete(partTimeAcademic);
+            }
+
             academicRepository.delete(academic);
             redirectAttributes.addFlashAttribute("message", "Academic has been deleted.");
 
-            return "redirect:/university-payroll/dashboard/employees-list";
+            return "redirect:/university-payroll/dashboard";
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Error: " + e.getMessage());
-            return "redirect:/university-payroll/dashboard/employees-list";
+            return "redirect:/university-payroll/dashboard";
         }
     }
+    /////////////
+
+    @GetMapping("/dashboard/academic/edit/{id}")
+    public String editAcademicView(RedirectAttributes redirectAttributes, Model model, @PathVariable long id) {
+        Academic academic = academicRepository.findById(id).orElse(null);
+
+        if (academic == null) {
+            redirectAttributes.addFlashAttribute("error", "Academic doesn't exist");
+            return "redirect:/university-payroll/dashboard";
+        }
+
+        if (academic.getType().equals(AcademicType.FULL_TIME_ACADEMIC)) {
+            FullTimeAcademic fullTimeAcademic = fullTimeAcademicRepository.findByAcademicId(id);
+
+            model.addAttribute(fullTimeAcademic);
+            return "universityPayrollSystem/admin/employees/hr-fulltime-academic-edit";
+        } else if (academic.getType().equals(AcademicType.PART_TIME_ACADEMIC)) {
+            PartTimeAcademic partTimeAcademic = partTimeAcademicRepository.findByAcademicId(id);
+
+            model.addAttribute(partTimeAcademic);
+            return "universityPayrollSystem/admin/employees/hr-parttime-academic-edit";
+        } else {
+            return "error/error500";
+        }
+    }
+
 
     @PostMapping("/dashboard/Academic/{id}/addAcademicLeave")
     public String addAcademicLeave(RedirectAttributes redirectAttributes, @PathVariable long id, @RequestParam("reason") String reason,
                                    @RequestParam("fromDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fromDate,
                                    @RequestParam("toDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date toDate) {
-        Academic academic = academicRepository.findById(id).orElse(null);
+        FullTimeAcademic academic = fullTimeAcademicRepository.findById(id).orElse(null);
 
         if (academic == null) {
             redirectAttributes.addFlashAttribute("error", "Academic doesn't exist");
-            return "redirect:/university-payroll/dashboard/employees-list";
+            return "redirect:/university-payroll/dashboard";
         }
 
         int totalDays = (int) TimeUnit.MILLISECONDS.toDays(toDate.getTime() - fromDate.getTime()) + 1;
@@ -198,7 +249,7 @@ public class UniversityPayrollController {
             leavesRepository.save(academicLeave);
 
             academic.setLeaveBalance(academic.getLeaveBalance() - totalDays);
-            academicRepository.save(academic);
+            fullTimeAcademicRepository.save(academic);
 
             redirectAttributes.addFlashAttribute("message", "Successfully added a new academic leave");
         } catch (Exception e) {
@@ -215,7 +266,7 @@ public class UniversityPayrollController {
 
         if (academic == null) {
             redirectAttributes.addFlashAttribute("error", "Academic doesn't exist");
-            return "redirect:/university-payroll/dashboard/employees-list";
+            return "redirect:/university-payroll/dashboard";
         }
 
         try {
@@ -243,7 +294,7 @@ public class UniversityPayrollController {
 
         if (academic == null) {
             redirectAttributes.addFlashAttribute("error", "Academic doesn't exist");
-            return "redirect:/university-payroll/dashboard/employees-list";
+            return "redirect:/university-payroll/dashboard";
         }
 
         try {
@@ -265,7 +316,7 @@ public class UniversityPayrollController {
 
     @ExceptionHandler(Exception.class)
     private RedirectView handleMyException(Exception ex, HttpServletRequest request) {
-        RedirectView redirectView = new RedirectView("/university-payroll/dashboard/employees-list");
+        RedirectView redirectView = new RedirectView("/university-payroll/dashboard");
         redirectView.setStatusCode(HttpStatus.MOVED_PERMANENTLY);
 
         FlashMap outputFlashMap = RequestContextUtils.getOutputFlashMap(request);

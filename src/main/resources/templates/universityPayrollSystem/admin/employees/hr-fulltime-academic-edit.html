@@ -4,10 +4,6 @@
 <head th:replace="common :: header"></head>
 <body class="app sidebar-mini" id="index1">
 
-<div id="global-loader">
-    <img alt="loader" th:src="@{/assets/images/svgs/loader.svg}">
-</div>
-
 <div class="page">
     <div class="page-main">
         <aside th:replace="common :: sidebar"></aside>
@@ -17,45 +13,34 @@
                 <div th:replace="common :: app-header"></div>
 
                 <section id="current-page-content">
+                    <div class="alert alert-success" role="alert" style="margin-top: 15px" th:if="${message!=null}"
+                         th:text="${message}">
+                        <button aria-hidden="true" class="close" data-dismiss="alert">×</button>
+                    </div>
+                    <div class="alert alert-danger" role="alert" style="margin-top: 15px" th:if="${error!=null}"
+                         th:text="${error}">
+                        <button aria-hidden="true" class="close" data-dismiss="alert">×</button>
+                    </div>
+
                     <div class="page-header d-xl-flex d-block">
                         <div class="page-leftheader">
-                            <h4 class="page-title">Add Employee</h4>
-                        </div>
-                        <div class="page-rightheader ml-md-auto">
-                            <div class="align-items-end flex-wrap my-auto right-content breadcrumb-right">
-                                <div class="btn-list">
-                                    <button class="btn btn-light" data-placement="top" data-toggle="tooltip" title="E-mail">
-                                        <i class="feather feather-mail"></i></button>
-                                    <button class="btn btn-light" data-placement="top" data-toggle="tooltip"
-                                            title="Contact"><i class="feather feather-phone-call"></i></button>
-                                    <button class="btn btn-primary" data-placement="top" data-toggle="tooltip" title="Info">
-                                        <i class="feather feather-info"></i></button>
-                                </div>
-                            </div>
+                            <h4 class="page-title">Academic Profile</h4>
                         </div>
                     </div>
+
                     <div class="row">
                         <div class="col-xl-3 col-md-12 col-lg-12">
                             <div class="card box-widget widget-user">
                                 <div class="card-body text-center">
                                     <div class="widget-user-image mx-auto text-center">
                                         <img alt="img" class="avatar avatar-xxl brround rounded-circle"
-                                             src="assets/images/users/1.jpg">
+                                             th:src="@{/assets/images/users/1.jpg}">
                                     </div>
                                     <div class="pro-user mt-3">
-                                        <h5 class="pro-user-username text-dark mb-1 fs-16">Faith Harris</h5>
-                                        <h6 class="pro-user-desc text-muted fs-12">Web Designer</h6>
-                                    </div>
-                                    <div class="star-ratings start-ratings-main mb-0 clearfix">
-                                        <div class="stars stars-example-fontawesome star-sm">
-                                            <select id="example-fontawesome" name="rating">
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option selected value="4">4</option>
-                                                <option value="5">5</option>
-                                            </select>
-                                        </div>
+                                        <h5 class="pro-user-username text-dark mb-1 fs-16"
+                                            th:text="${fullTimeAcademic.getAcademic().getFullName()}"></h5>
+                                        <h6 class="pro-user-desc text-muted fs-12"
+                                            th:text="${fullTimeAcademic.getAcademic().getJobTitle()}"></h6>
                                     </div>
                                 </div>
                                 <div class="card-footer p-0">
@@ -63,7 +48,7 @@
                                         <div class="col-4 text-center py-5 border-right">
                                             <h5 class="fs-12 font-weight-semibold mb-3">January</h5>
                                             <h5 class="mb-2">
-                                                <span class="fs-18 text-success">0</span>
+                                                <span class="fs-18 text-success">22</span>
                                                 <span class="my-auto fs-9 font-weight-normal  ml-1 mr-1">/</span>
                                                 <span class="fs-18 font-weight-semibold text-dark">31</span>
                                             </h5>
@@ -92,13 +77,13 @@
                         <div class="col-xl-9 col-md-12 col-lg-12">
                             <div class="tab-menu-heading hremp-tabs p-0 ">
                                 <div class="tabs-menu1">
-                                    <!-- Tabs -->
                                     <ul class="nav panel-tabs">
-                                        <li class="ml-4"><a class="active" data-toggle="tab" href="#tab5">Personal
-                                            Details</a></li>
+                                        <li class="ml-4"><a class="active" data-toggle="tab" href="#tab5">
+                                            Personal Details</a></li>
                                         <li><a data-toggle="tab" href="#tab6">Company Details</a></li>
                                         <li><a data-toggle="tab" href="#tab7">Bank Details</a></li>
-                                        <li><a data-toggle="tab" href="#tab8">Upload Documents</a></li>
+                                        <li><a data-toggle="tab" href="#tab8">leaves</a></li>
+                                        <li><a data-toggle="tab" href="#tab9">Payments</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -115,12 +100,15 @@
                                                     <div class="col-md-9">
                                                         <div class="row">
                                                             <div class="col-md-6">
-                                                                <input class="form-control mb-md-0 mb-5" placeholder="First Name"
+                                                                <input class="form-control mb-md-0 mb-5"
+                                                                       placeholder="First Name"
+                                                                       th:value="${fullTimeAcademic.getAcademic().getFirstName()}"
                                                                        type="text">
                                                                 <span class="text-muted"></span>
                                                             </div>
                                                             <div class="col-md-6">
                                                                 <input class="form-control" placeholder="Last Name"
+                                                                       th:value="${fullTimeAcademic.getAcademic().getLastName()}"
                                                                        type="text">
                                                             </div>
                                                         </div>
@@ -128,14 +116,6 @@
                                                 </div>
                                             </div>
                                             <div class="form-group ">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <label class="form-label mb-0 mt-2">Father Name</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <input class="form-control" placeholder="Name" type="text">
-                                                    </div>
-                                                </div>
                                             </div>
                                             <div class="form-group">
                                                 <div class="row">
@@ -143,30 +123,8 @@
                                                         <label class="form-label mb-0 mt-2">Contact Number</label>
                                                     </div>
                                                     <div class="col-md-9">
-                                                        <input class="form-control" placeholder="Phone Number" type="text">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <label class="form-label mb-0 mt-2">Emergency Contact Number
-                                                            01</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <input class="form-control" placeholder="Contact Number01"
-                                                               type="text">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <label class="form-label mb-0 mt-2">Emergency Contact Number
-                                                            02</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <input class="form-control" placeholder="Contact Number02"
+                                                        <input class="form-control" placeholder="Phone Number"
+                                                               th:value="${fullTimeAcademic.getAcademic().getPhoneNumber()}"
                                                                type="text">
                                                     </div>
                                                 </div>
@@ -177,7 +135,9 @@
                                                         <label class="form-label mb-0 mt-2">Date Of Birth</label>
                                                     </div>
                                                     <div class="col-md-9">
-                                                        <input class="form-control fc-datepicker" placeholder="DD-MM-YYY"
+                                                        <input class="form-control fc-datepicker"
+                                                               placeholder="DD-MM-YYY"
+                                                               th:value="${fullTimeAcademic.getAcademic().getBirthDate()}"
                                                                type="text">
                                                     </div>
                                                 </div>
@@ -190,52 +150,18 @@
                                                     <div class="col-md-9">
                                                         <div class="custom-controls-stacked d-md-flex">
                                                             <label class="custom-control custom-radio mr-4">
-                                                                <input class="custom-control-input" name="example-radios4"
+                                                                <input class="custom-control-input"
+                                                                       name="example-radios4"
                                                                        type="radio" value="option1">
                                                                 <span class="custom-control-label">Male</span>
                                                             </label>
                                                             <label class="custom-control custom-radio">
-                                                                <input class="custom-control-input" name="example-radios4"
+                                                                <input checked class="custom-control-input"
+                                                                       name="example-radios4"
                                                                        type="radio" value="option2">
                                                                 <span class="custom-control-label">Female</span>
                                                             </label>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <label class="form-label mb-0 mt-2">Marital Status</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <select class="form-control custom-select select2" data-placeholder="Select"
-                                                                name="projects">
-                                                            <option label="Select"></option>
-                                                            <option value="1">Single</option>
-                                                            <option value="2">Married</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <label class="form-label mb-0 mt-2">Blood Group</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <select class="form-control custom-select select2" data-placeholder="Select Group"
-                                                                name="projects">
-                                                            <option label="Select Group"></option>
-                                                            <option value="1">A+</option>
-                                                            <option value="2">B+</option>
-                                                            <option value="3">O+</option>
-                                                            <option value="4">AB+</option>
-                                                            <option value="5">A-</option>
-                                                            <option value="6">B-</option>
-                                                            <option value="7">O-</option>
-                                                            <option value="8">AB-</option>
-                                                        </select>
                                                     </div>
                                                 </div>
                                             </div>
@@ -245,18 +171,9 @@
                                                         <label class="form-label mb-0 mt-2">Email</label>
                                                     </div>
                                                     <div class="col-md-9">
-                                                        <input class="form-control" placeholder="email" type="text">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <label class="form-label mb-0 mt-2">Present Address</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                    <textarea class="form-control" placeholder="Address1"
-                                                              rows="3"></textarea>
+                                                        <input class="form-control" placeholder="email"
+                                                               th:value="${fullTimeAcademic.getAcademic().getEmail()}"
+                                                               type="text">
                                                     </div>
                                                 </div>
                                             </div>
@@ -266,8 +183,8 @@
                                                         <label class="form-label mb-0 mt-2">Permanent Address</label>
                                                     </div>
                                                     <div class="col-md-9">
-                                                    <textarea class="form-control" placeholder="Address2"
-                                                              rows="3"></textarea>
+                                                        <textarea class="form-control" placeholder="Address2" rows="3"
+                                                                  th:value="${fullTimeAcademic.getAcademic().getAddress()}"></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -285,7 +202,9 @@
 																	<span class="btn ripple btn-primary">
 																		Browse <input class="file-browserinput"
                                                                                       multiple
-                                                                                      style="display: none;" type="file">
+                                                                                      style="display: none;"
+                                                                                      th:value="${fullTimeAcademic.getAcademic().getProfilePicLink()}"
+                                                                                      type="file">
 																	</span>
                                                             </label>
                                                         </div>
@@ -296,10 +215,11 @@
                                             <div class="form-group">
                                                 <div class="row">
                                                     <div class="col-md-3">
-                                                        <label class="form-label mb-0 mt-2">Employee Email</label>
+                                                        <label class="form-label mb-0 mt-2">Academic Email</label>
                                                     </div>
                                                     <div class="col-md-9">
-                                                        <input class="form-control" placeholder="employee email"
+                                                        <input class="form-control" placeholder="Academic email"
+                                                               th:value="${fullTimeAcademic.getAcademic().getEmail()}"
                                                                type="text">
                                                     </div>
                                                 </div>
@@ -310,7 +230,9 @@
                                                         <label class="form-label mb-0 mt-2">Password</label>
                                                     </div>
                                                     <div class="col-md-9">
-                                                        <input class="form-control" placeholder="password" type="password">
+                                                        <input class="form-control" placeholder="password"
+                                                               th:value="${fullTimeAcademic.getAcademic().getPassword()}"
+                                                               type="password">
                                                     </div>
                                                 </div>
                                             </div>
@@ -321,7 +243,8 @@
                                                     </div>
                                                     <div class="col-md-9">
                                                         <label class="custom-switch">
-                                                            <input class="custom-switch-input" name="custom-switch-checkbox"
+                                                            <input class="custom-switch-input"
+                                                                   name="custom-switch-checkbox"
                                                                    type="checkbox">
                                                             <span class="custom-switch-indicator"></span>
                                                             <span class="custom-switch-description">On/Off</span>
@@ -336,30 +259,12 @@
                                             <div class="form-group">
                                                 <div class="row">
                                                     <div class="col-md-3">
-                                                        <label class="form-label mb-0 mt-2">Employee ID</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <input class="form-control" placeholder="#ID" type="text">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-md-3">
                                                         <label class="form-label mb-0 mt-2">Department</label>
                                                     </div>
                                                     <div class="col-md-9">
-                                                        <input class="form-control" placeholder="Department" type="text">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <label class="form-label mb-0 mt-2">Designation</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <input class="form-control" placeholder="Designation" type="text">
+                                                        <input class="form-control" placeholder="Department"
+                                                               th:value="${fullTimeAcademic.getAcademic().getDepartment()}"
+                                                               type="text">
                                                     </div>
                                                 </div>
                                             </div>
@@ -369,7 +274,9 @@
                                                         <label class="form-label mb-0 mt-2">Date Of Joining</label>
                                                     </div>
                                                     <div class="col-md-9">
-                                                        <input class="form-control fc-datepicker" placeholder="DD-MM-YYYY"
+                                                        <input class="form-control fc-datepicker"
+                                                               placeholder="DD-MM-YYYY"
+                                                               th:value="${fullTimeAcademic.getAcademic().getJoinDate()}"
                                                                type="text">
                                                     </div>
                                                 </div>
@@ -377,36 +284,16 @@
                                             <div class="form-group">
                                                 <div class="row">
                                                     <div class="col-md-3">
-                                                        <label class="form-label mb-0 mt-2">Resignation Date</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <input class="form-control fc-datepicker" placeholder="DD-MM-YYYY"
-                                                               type="text">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <label class="form-label mb-0 mt-2">Termination Date</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <input class="form-control fc-datepicker" placeholder="DD-MM-YYYY"
-                                                               type="text">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <label class="form-label mb-0 mt-2">Credit Leaves
+                                                        <label class="form-label mb-0 mt-2">Leaves Balance
                                                             <span class="form-help" data-placement="top"
                                                                   data-toggle="tooltip"
-                                                                  title="Unused leaves for the Employee">?</span>
+                                                                  title="Unused leaves for the Academic">?</span>
                                                         </label>
                                                     </div>
                                                     <div class="col-md-9">
-                                                        <input class="form-control" placeholder="0" type="text">
+                                                        <input class="form-control" placeholder="0"
+                                                               th:value="${fullTimeAcademic.getLeaveBalance()+' Days'}"
+                                                               type="text">
                                                     </div>
                                                 </div>
                                             </div>
@@ -417,10 +304,8 @@
                                                         <label class="form-label mb-0 mt-2">Type</label>
                                                     </div>
                                                     <div class="col-md-9">
-                                                        <select class="form-control custom-select select2" data-placeholder="Select Type"
-                                                                name="projects">
-                                                            <option label="Select Type"></option>
-                                                            <option value="0">Full-Time</option>
+                                                        <select class="form-control custom-select select2">
+                                                            <option selected value="0">Full-Time</option>
                                                             <option value="1">Part-Time</option>
                                                         </select>
                                                     </div>
@@ -432,7 +317,9 @@
                                                         <label class="form-label mb-0 mt-2">Salary</label>
                                                     </div>
                                                     <div class="col-md-9">
-                                                        <input class="form-control" placeholder="$Salary" type="text">
+                                                        <input class="form-control" placeholder="$Salary"
+                                                               th:value="${'$'+fullTimeAcademic.getAcademic().getFlatSalary()}"
+                                                               type="text">
                                                     </div>
                                                 </div>
                                             </div>
@@ -443,8 +330,8 @@
                                                     </div>
                                                     <div class="col-md-9">
                                                         <label class="custom-switch">
-                                                            <input class="custom-switch-input" name="custom-switch-checkbox"
-                                                                   type="checkbox">
+                                                            <input checked class="custom-switch-input"
+                                                                   name="custom-switch-checkbox" type="checkbox">
                                                             <span class="custom-switch-indicator"></span>
                                                             <span class="custom-switch-description">Active/Inactive</span>
                                                         </label>
@@ -461,7 +348,8 @@
                                                         <label class="form-label mb-0 mt-2">Account Holder</label>
                                                     </div>
                                                     <div class="col-md-9">
-                                                        <input class="form-control" placeholder="Naame" type="text">
+                                                        <input class="form-control" placeholder="Name" type="text"
+                                                               value="Faith Harris">
                                                     </div>
                                                 </div>
                                             </div>
@@ -471,7 +359,8 @@
                                                         <label class="form-label mb-0 mt-2">Account Number</label>
                                                     </div>
                                                     <div class="col-md-9">
-                                                        <input class="form-control" placeholder="Number" type="text">
+                                                        <input class="form-control" placeholder="Number" type="text"
+                                                               value="36985214704">
                                                     </div>
                                                 </div>
                                             </div>
@@ -481,7 +370,8 @@
                                                         <label class="form-label mb-0 mt-2">Bank Name</label>
                                                     </div>
                                                     <div class="col-md-9">
-                                                        <input class="form-control" placeholder="Name" type="text">
+                                                        <input class="form-control" placeholder="Name" type="text"
+                                                               value="ABCD Bank">
                                                     </div>
                                                 </div>
                                             </div>
@@ -491,7 +381,8 @@
                                                         <label class="form-label mb-0 mt-2">Branch Location</label>
                                                     </div>
                                                     <div class="col-md-9">
-                                                        <input class="form-control" placeholder="Location" type="text">
+                                                        <input class="form-control" placeholder="Location" type="text"
+                                                               value="Little Rock Arkansas">
                                                     </div>
                                                 </div>
                                             </div>
@@ -505,7 +396,8 @@
                                                         </label>
                                                     </div>
                                                     <div class="col-md-9">
-                                                        <input class="form-control" placeholder="Code" type="text">
+                                                        <input class="form-control" placeholder="Code" type="text"
+                                                               value="ABC0002189">
                                                     </div>
                                                 </div>
                                             </div>
@@ -526,137 +418,102 @@
                                         </div>
                                     </div>
                                     <div class="tab-pane" id="tab8">
-                                        <div class="card-body">
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <div class="form-label mb-0 mt-2">Resume</div>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <div class="input-group file-browser">
-                                                            <input class="form-control border-right-0 browse-file"
-                                                                   placeholder="choose"
-                                                                   readonly type="text">
-                                                            <label class="input-group-append mb-0">
-																	<span class="btn ripple btn-light">
-																		Browse <input class="file-browserinput"
-                                                                                      multiple
-                                                                                      style="display: none;" type="file">
-																	</span>
-                                                            </label>
+                                        <div class="row">
+                                            <div class="col-xl-12 col-md-12 col-lg-12">
+                                                <div class="card">
+                                                    <div class="card-header  border-0">
+                                                        <h4 class="card-title">Leaves Summary</h4>
+                                                        <div class="btn-list" style="margin-left: 24px">
+                                                            <a class="btn btn-primary mr-3" data-target="#applyleaves"
+                                                               data-toggle="modal"
+                                                               href="#">Add Leaves</a>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <div class="form-label mb-0 mt-2">ID Proof</div>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <div class="input-group file-browser">
-                                                            <input class="form-control border-right-0 browse-file"
-                                                                   placeholder="choose"
-                                                                   readonly type="text">
-                                                            <label class="input-group-append mb-0">
-																	<span class="btn ripple btn-light">
-																		Browse <input class="file-browserinput"
-                                                                                      multiple
-                                                                                      style="display: none;" type="file">
-																	</span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <div class="form-label mb-0 mt-2">Offer Letter</div>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <div class="input-group file-browser">
-                                                            <input class="form-control border-right-0 browse-file"
-                                                                   placeholder="choose"
-                                                                   readonly type="text">
-                                                            <label class="input-group-append mb-0">
-																	<span class="btn ripple btn-light">
-																		Browse <input class="file-browserinput"
-                                                                                      multiple
-                                                                                      style="display: none;" type="file">
-																	</span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <div class="form-label mb-0 mt-2">Joining Letter</div>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <div class="input-group file-browser">
-                                                            <input class="form-control border-right-0 browse-file"
-                                                                   placeholder="choose"
-                                                                   readonly type="text">
-                                                            <label class="input-group-append mb-0">
-																	<span class="btn ripple btn-light">
-																		Browse <input class="file-browserinput"
-                                                                                      multiple
-                                                                                      style="display: none;" type="file">
-																	</span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <div class="form-label mb-0 mt-2">Agreement Letter</div>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <div class="input-group file-browser">
-                                                            <input class="form-control border-right-0 browse-file"
-                                                                   placeholder="choose"
-                                                                   readonly type="text">
-                                                            <label class="input-group-append mb-0">
-																	<span class="btn ripple btn-light">
-																		Browse <input class="file-browserinput"
-                                                                                      multiple
-                                                                                      style="display: none;" type="file">
-																	</span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <div class="form-label mb-0 mt-2">Experience Letter</div>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <div class="input-group file-browser">
-                                                            <input class="form-control border-right-0 browse-file"
-                                                                   placeholder="choose"
-                                                                   readonly type="text">
-                                                            <label class="input-group-append mb-0">
-																	<span class="btn ripple btn-light">
-																		Browse <input class="file-browserinput"
-                                                                                      multiple
-                                                                                      style="display: none;" type="file">
-																	</span>
-                                                            </label>
+                                                    <div class="card-body">
+                                                        <div class="table-responsive">
+                                                            <table class="table  table-vcenter text-nowrap table-bordered border-bottom"
+                                                                   id="emp-attendance">
+                                                                <thead>
+                                                                <tr>
+                                                                    <th class="border-bottom-0 text-center">#ID</th>
+                                                                    <th class="border-bottom-0">From</th>
+                                                                    <th class="border-bottom-0">TO</th>
+                                                                    <th class="border-bottom-0">Days</th>
+                                                                    <th class="border-bottom-0">Reason</th>
+                                                                    <th class="border-bottom-0">Type</th>
+                                                                    <th class="border-bottom-0">Applied On</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                <tr th:each=" leave : ${fullTimeAcademic.getAcademicLeaves()}">
+                                                                    <td class="text-center" th:text="${leave.id}"></td>
+                                                                    <td th:text="${leave.fromDate}"></td>
+                                                                    <td th:text="${leave.toDate}"></td>
+                                                                    <td class="font-weight-semibold"
+                                                                        th:text="${leave.days+' Days'}"></td>
+                                                                    <td th:text="${leave.reason}"></td>
+                                                                    <td th:text="${leave.type}"></td>
+                                                                    <td th:text="${leave.createdDate}"></td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="tab-pane" id="tab9">
+                                        <div class="card-header  border-0">
+                                            <h4 class="card-title">My Payslips Summary</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <table class="table  table-vcenter text-nowrap table-bordered border-bottom"
+                                                       id="emp-pay">
+                                                    <thead>
+                                                    <tr>
+                                                        <th class="border-bottom-0 text-center">#ID</th>
+                                                        <th class="border-bottom-0">Month</th>
+                                                        <th class="border-bottom-0">Year</th>
+                                                        <th class="border-bottom-0">$ Net Salary</th>
+                                                        <th class="border-bottom-0">Tax</th>
+                                                        <th class="border-bottom-0">Generated Date</th>
+                                                        <th class="border-bottom-0">Action</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr th:each=" payment : ${fullTimeAcademic.getAcademic().getPayments()}">
+                                                        <td class="text-center" th:text="${payment.id}"></td>
+                                                        <td th:text="${payment.date.month}"></td>
+                                                        <td th:text="${payment.date.year}"></td>
+                                                        <td class="font-weight-semibold"
+                                                            th:text="${payment.salary - payment.tax}"></td>
+                                                        <td th:text="${payment.tax}"></td>
+                                                        <td th:text="${payment.createDate}"></td>
+                                                        <td>
+                                                            <a class="btn btn-primary btn-icon btn-sm"
+                                                               data-original-title="View" data-toggle="tooltip"><i
+                                                                    class="feather feather-eye"></i></a>
+                                                            <a class="btn btn-success btn-icon btn-sm"
+                                                               data-original-title="Download" data-toggle="tooltip"><i
+                                                                    class="feather feather-download"></i></a>
+                                                            <a class="btn btn-info btn-icon btn-sm"
+                                                               data-original-title="Print" data-toggle="tooltip"
+                                                               onclick="javascript:window.print();"><i
+                                                                    class="feather feather-printer"></i></a>
+                                                            <a class="btn btn-warning btn-icon btn-sm"
+                                                               data-original-title="Share" data-toggle="tooltip"><i
+                                                                    class="feather feather-share-2"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="card-footer text-right">
-                                        <a class="btn btn-primary" href="#">Save</a>
+                                        <a class="btn btn-primary" href="#">Updated</a>
                                         <a class="btn btn-danger" href="#">Cancle</a>
                                     </div>
                                 </div>
@@ -664,12 +521,114 @@
                         </div>
                     </div>
                 </section>
-
             </div>
         </div>
     </div>
 </div>
 
+<!--Apply Leaves Modal -->
+<div class="modal fade" id="applyleaves">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add A New Leave</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form id="addPartTimeAcademic" method="post"
+                  name="add_full_time_academic"
+                  th:action="@{/university-payroll/dashboard/Academic/{id}/addAcademicLeave(id=${fullTimeAcademic.getAcademic().getId()})}">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-label">From Date:</label>
+                        <div class="input-group">
+                            <input class="form-control" id="fromDate" name="fromDate" placeholder="select dates"
+                                   type="date"/>
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <i class="bx bx-calendar"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">To Date:</label>
+                        <div class="input-group">
+                            <input class="form-control" id="toDate" name="toDate" placeholder="select dates"
+                                   type="date"/>
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <i class="bx bx-calendar"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Reason:</label>
+                        <textarea class="form-control" id="reason" name="reason" rows="5"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="ml-auto">
+                        <button class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+                        <button class="btn btn-success" type="submit">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addtimecard">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add A New Time Card</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form id="gg" method="post"
+                  name="add_full_time_academic"
+                  th:action="@{/university-payroll/dashboard/Academic/{id}/addTimeCard(id=${fullTimeAcademic.getAcademic().getId()})}">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-label">Hours Count:</label>
+                        <div class="input-group">
+                            <input class="form-control" id="hoursCount" name="hoursCount" placeholder="select dates"
+                                   type="number"/>
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <i class="bx bx-calendar"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Date:</label>
+                        <div class="input-group">
+                            <input class="form-control" id="date" name="date" placeholder="select dates"
+                                   type="date"/>
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <i class="bx bx-calendar"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="ml-auto">
+                        <button class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+                        <button class="btn btn-success" type="submit">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- End Apply Leaves Modal  -->
 
 <div th:replace="common :: notifications"></div>
 <footer th:replace="common :: footer"></footer>

@@ -1,90 +1,39 @@
 package com.yousef.payroll.model.users;
 
 import com.yousef.payroll.model.AcademicLeave;
-import com.yousef.payroll.model.Notification;
-import com.yousef.payroll.model.Payment;
-import com.yousef.payroll.model.TimeCard;
-import com.yousef.payroll.model.types.AcademicType;
-import com.yousef.payroll.model.types.Gender;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "academic")
 public class FullTimeAcademic implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Email(message = "Email is not valid")
-    @NotBlank(message = "Email can not be empty")
-    @Column(unique = true)
-    private String email;
-
-    @NotBlank(message = "Password can not be empty")
-    private String password;
-
-    @NotBlank(message = "First Name can not be empty")
-    private String firstName;
-
-    @NotBlank(message = "Last Name can not be empty")
-    private String lastName;
-
-    @NotBlank(message = "Department can not be empty")
-    private String department;
-
-    @NotBlank(message = "Phone Number can not be empty")
-    private String phoneNumber;
-
-    @NotBlank(message = "Address can not be empty")
-    private String address;
-
-    @NotNull(message = "Flat Salary can not be empty")
-    @Min(value = 0, message = "Flat Salary can not be less than 0")
-    private double flatSalary;
+    @OneToOne
+    private Academic academic;
 
     @NotNull(message = "Leave Balance can not be empty")
     @Min(value = 0, message = "Leave Balance can not be less than 0")
     private int leaveBalance;
 
-    private String profilePicLink;
-    private String jobTitle;
-    private String paymentDetails;
-    private boolean sendEmailNotification;
-    private boolean isActive;
-    private AcademicType type;
-    private Gender gender;
-    private Date birthDate;
-    private Date joinDate = new Date();
-
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "academic_id")
-    private List<Payment> payments = new ArrayList<>();
-
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "academic_id")
     private List<AcademicLeave> academicLeaves = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "academic_id")
-    private List<Notification> notifications = new ArrayList<>();
-
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "academic_id")
-    private List<TimeCard> timeCards = new ArrayList<>();
-
     public FullTimeAcademic() {
+    }
+
+    public FullTimeAcademic(Academic academic) {
+        this.academic = academic;
     }
 
     public Long getId() {
@@ -95,12 +44,28 @@ public class FullTimeAcademic implements UserDetails {
         this.id = id;
     }
 
-    public String getEmail() {
-        return email;
+    public Academic getAcademic() {
+        return academic;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setAcademic(Academic academic) {
+        this.academic = academic;
+    }
+
+    public int getLeaveBalance() {
+        return leaveBalance;
+    }
+
+    public void setLeaveBalance(int leaveBalance) {
+        this.leaveBalance = leaveBalance;
+    }
+
+    public List<AcademicLeave> getAcademicLeaves() {
+        return academicLeaves;
+    }
+
+    public void setAcademicLeaves(List<AcademicLeave> academicLeaves) {
+        this.academicLeaves = academicLeaves;
     }
 
     @Override
@@ -110,12 +75,12 @@ public class FullTimeAcademic implements UserDetails {
 
     @Override
     public String getPassword() {
-        return password;
+        return academic.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return email;
+        return academic.getEmail();
     }
 
     @Override
@@ -138,211 +103,13 @@ public class FullTimeAcademic implements UserDetails {
         return true;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getFullName() {
-        return firstName + " " + lastName;
-    }
-
-    public AcademicType getType() {
-        return type;
-    }
-
-    public void setType(AcademicType type) {
-        this.type = type;
-    }
-
-    public List<Payment> getPayments() {
-        return payments;
-    }
-
-    public void setPayments(ArrayList<Payment> payments) {
-        this.payments = payments;
-    }
-
-    public List<AcademicLeave> getAcademicLeaves() {
-        return academicLeaves;
-    }
-
-    public void setAcademicLeaves(ArrayList<AcademicLeave> academicLeaves) {
-        this.academicLeaves = academicLeaves;
-    }
-
-    public String getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(String department) {
-        this.department = department;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public double getFlatSalary() {
-        return flatSalary;
-    }
-
-    public void setFlatSalary(double flatSalary) {
-        this.flatSalary = flatSalary;
-    }
-
-    public String getPaymentDetails() {
-        return paymentDetails;
-    }
-
-    public void setPaymentDetails(String paymentDetails) {
-        this.paymentDetails = paymentDetails;
-    }
-
-    public int getLeaveBalance() {
-        return leaveBalance;
-    }
-
-    public void setLeaveBalance(int leaveBalance) {
-        this.leaveBalance = leaveBalance;
-    }
-
-    public Date getJoinDate() {
-        return joinDate;
-    }
-
-    public void setJoinDate(Date joinDate) {
-        this.joinDate = joinDate;
-    }
-
-    public Gender getGender() {
-        return gender;
-    }
-
-    public void setGender(Gender gender) {
-        this.gender = gender;
-    }
-
-    public String getProfilePicLink() {
-        return profilePicLink;
-    }
-
-    public void setProfilePicLink(String profilePicLink) {
-        this.profilePicLink = profilePicLink;
-    }
-
-    public boolean isSendEmailNotification() {
-        return sendEmailNotification;
-    }
-
-    public void setSendEmailNotification(boolean sendEmailNotification) {
-        this.sendEmailNotification = sendEmailNotification;
-    }
-
-    public String getJobTitle() {
-        return jobTitle;
-    }
-
-    public void setJobTitle(String jobTitle) {
-        this.jobTitle = jobTitle;
-    }
-
-    public Date getBirthDate() {
-        return birthDate;
-    }
-
-    public void setBirthDate(Date birthDate) {
-        this.birthDate = birthDate;
-    }
-
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public void setActive(boolean active) {
-        isActive = active;
-    }
-
-    public List<Notification> getNotifications() {
-        return notifications;
-    }
-
-    public void setNotifications(List<Notification> notifications) {
-        this.notifications = notifications;
-    }
-
-    public List<TimeCard> getTimeCards() {
-        return timeCards;
-    }
-
-    public void setTimeCards(List<TimeCard> timeCards) {
-        this.timeCards = timeCards;
-    }
-
     @Override
     public String toString() {
-        return "Academic{" +
+        return "FullTimeAcademic{" +
                 "id=" + id +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", type=" + type +
-                ", department='" + department + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", address='" + address + '\'' +
-                ", paymentDetails='" + paymentDetails + '\'' +
-                ", flatSalary=" + flatSalary +
+                ", academic=" + academic +
                 ", leaveBalance=" + leaveBalance +
-                ", joinDate=" + joinDate +
-                ", gender=" + gender +
-                ", profilePicLink='" + profilePicLink + '\'' +
-                ", sendEmailNotification=" + sendEmailNotification +
-                ", jobTitle='" + jobTitle + '\'' +
-                ", birthDate=" + birthDate +
-                ", isActive=" + isActive +
+                ", academicLeaves=" + academicLeaves +
                 '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        FullTimeAcademic academic = (FullTimeAcademic) o;
-
-        return id != null ? id.equals(academic.id) : academic.id == null;
-    }
-
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
     }
 }
