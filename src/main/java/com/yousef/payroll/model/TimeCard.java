@@ -1,6 +1,6 @@
 package com.yousef.payroll.model;
 
-import com.yousef.payroll.model.users.Academic;
+import com.yousef.payroll.model.users.PartTimeAcademic;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -17,7 +17,7 @@ public class TimeCard {
     private Date createDate = new Date();
 
     @ManyToOne
-    private Academic academic;
+    private PartTimeAcademic academic;
 
     public TimeCard() {
     }
@@ -59,11 +59,11 @@ public class TimeCard {
         this.createDate = createDate;
     }
 
-    public Academic getAcademic() {
+    public PartTimeAcademic getAcademic() {
         return academic;
     }
 
-    public void setAcademic(Academic academic) {
+    public void setAcademic(PartTimeAcademic academic) {
         this.academic = academic;
     }
 

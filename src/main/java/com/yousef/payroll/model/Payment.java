@@ -1,5 +1,6 @@
 package com.yousef.payroll.model;
 
+import com.yousef.payroll.model.types.PaymentMethodType;
 import com.yousef.payroll.model.users.Academic;
 
 import javax.persistence.*;
@@ -16,6 +17,7 @@ public class Payment {
     private double tax;
     private Date date;
     private Date createDate = new Date();
+    private PaymentMethodType paymentMethodType;
 
     @ManyToOne
     private Academic academic;
@@ -23,7 +25,7 @@ public class Payment {
     public Payment() {
     }
 
-    public Payment(double salary,double tax, Date date) {
+    public Payment(double salary, double tax, Date date) {
         this.salary = salary;
         this.tax = tax;
         this.date = date;
@@ -77,6 +79,14 @@ public class Payment {
         this.createDate = createDate;
     }
 
+    public PaymentMethodType getPaymentMethodType() {
+        return paymentMethodType;
+    }
+
+    public void setPaymentMethodType(PaymentMethodType paymentMethodType) {
+        this.paymentMethodType = paymentMethodType;
+    }
+
     @Override
     public String toString() {
         return "Payment{" +
@@ -84,6 +94,7 @@ public class Payment {
                 ", salary=" + salary +
                 ", tax=" + tax +
                 ", date=" + date +
+                ", paymentMethodType=" + paymentMethodType +
                 '}';
     }
 

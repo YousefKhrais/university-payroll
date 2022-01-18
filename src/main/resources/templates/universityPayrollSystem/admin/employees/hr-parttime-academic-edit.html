@@ -38,8 +38,8 @@
                                     </div>
                                     <div class="pro-user mt-3">
                                         <h5 class="pro-user-username text-dark mb-1 fs-16"
-                                            th:text="${academic.getFullName()}"></h5>
-                                        <h6 class="pro-user-desc text-muted fs-12" th:text="${academic.jobTitle}"></h6>
+                                            th:text="${partTimeAcademic.getAcademic().getFullName()}"></h5>
+                                        <h6 class="pro-user-desc text-muted fs-12" th:text="${partTimeAcademic.getAcademic().jobTitle}"></h6>
                                     </div>
                                 </div>
                                 <div class="card-footer p-0">
@@ -81,7 +81,6 @@
                                             Personal Details</a></li>
                                         <li><a data-toggle="tab" href="#tab6">Company Details</a></li>
                                         <li><a data-toggle="tab" href="#tab7">Bank Details</a></li>
-                                        <li><a data-toggle="tab" href="#tab8">leaves</a></li>
                                         <li><a data-toggle="tab" href="#tab9">Payments</a></li>
                                         <li><a data-toggle="tab" href="#tab10">Time Cards</a></li>
                                     </ul>
@@ -102,12 +101,14 @@
                                                             <div class="col-md-6">
                                                                 <input class="form-control mb-md-0 mb-5"
                                                                        placeholder="First Name"
-                                                                       th:value="${academic.firstName}" type="text">
+                                                                       th:value="${partTimeAcademic.getAcademic().getFirstName()}"
+                                                                       type="text">
                                                                 <span class="text-muted"></span>
                                                             </div>
                                                             <div class="col-md-6">
                                                                 <input class="form-control" placeholder="Last Name"
-                                                                       th:value="${academic.lastName}" type="text">
+                                                                       th:value="${partTimeAcademic.getAcademic().getLastName()}"
+                                                                       type="text">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -122,7 +123,7 @@
                                                     </div>
                                                     <div class="col-md-9">
                                                         <input class="form-control" placeholder="Phone Number"
-                                                               th:value="${academic.phoneNumber}"
+                                                               th:value="${partTimeAcademic.getAcademic().getPhoneNumber()}"
                                                                type="text">
                                                     </div>
                                                 </div>
@@ -135,7 +136,8 @@
                                                     <div class="col-md-9">
                                                         <input class="form-control fc-datepicker"
                                                                placeholder="DD-MM-YYY"
-                                                               th:value="${academic.birthDate}" type="text">
+                                                               th:value="${partTimeAcademic.getAcademic().getBirthDate()}"
+                                                               type="text">
                                                     </div>
                                                 </div>
                                             </div>
@@ -169,7 +171,7 @@
                                                     </div>
                                                     <div class="col-md-9">
                                                         <input class="form-control" placeholder="email"
-                                                               th:value="${academic.email}"
+                                                               th:value="${partTimeAcademic.getAcademic().getEmail()}"
                                                                type="text">
                                                     </div>
                                                 </div>
@@ -181,7 +183,7 @@
                                                     </div>
                                                     <div class="col-md-9">
                                                         <textarea class="form-control" placeholder="Address2" rows="3"
-                                                                  th:value="${academic.address}"></textarea>
+                                                                  th:value="${partTimeAcademic.getAcademic().getAddress()}"></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -200,7 +202,7 @@
 																		Browse <input class="file-browserinput"
                                                                                       multiple
                                                                                       style="display: none;"
-                                                                                      th:value="${academic.profilePicLink}"
+                                                                                      th:value="${partTimeAcademic.getAcademic().getProfilePicLink()}"
                                                                                       type="file">
 																	</span>
                                                             </label>
@@ -216,7 +218,7 @@
                                                     </div>
                                                     <div class="col-md-9">
                                                         <input class="form-control" placeholder="Academic email"
-                                                               th:value="${academic.email}"
+                                                               th:value="${partTimeAcademic.getAcademic().getEmail()}"
                                                                type="text">
                                                     </div>
                                                 </div>
@@ -228,7 +230,7 @@
                                                     </div>
                                                     <div class="col-md-9">
                                                         <input class="form-control" placeholder="password"
-                                                               th:value="${academic.password}"
+                                                               th:value="${partTimeAcademic.getAcademic().getPassword()}"
                                                                type="password">
                                                     </div>
                                                 </div>
@@ -260,7 +262,7 @@
                                                     </div>
                                                     <div class="col-md-9">
                                                         <input class="form-control" placeholder="Department"
-                                                               th:value="${academic.department}"
+                                                               th:value="${partTimeAcademic.getAcademic().getDepartment()}"
                                                                type="text">
                                                     </div>
                                                 </div>
@@ -273,7 +275,8 @@
                                                     <div class="col-md-9">
                                                         <input class="form-control fc-datepicker"
                                                                placeholder="DD-MM-YYYY"
-                                                               th:value="${academic.joinDate}" type="text">
+                                                               th:value="${partTimeAcademic.getAcademic().getJoinDate()}"
+                                                               type="text">
                                                     </div>
                                                 </div>
                                             </div>
@@ -288,7 +291,7 @@
                                                     </div>
                                                     <div class="col-md-9">
                                                         <input class="form-control" placeholder="0"
-                                                               th:value="${academic.leaveBalance+' Days'}"
+                                                               th:value="${partTimeAcademic.getLeaveBalance()+' Days'}"
                                                                type="text">
                                                     </div>
                                                 </div>
@@ -314,7 +317,7 @@
                                                     </div>
                                                     <div class="col-md-9">
                                                         <input class="form-control" placeholder="$Salary"
-                                                               th:value="${'$'+academic.flatSalary}"
+                                                               th:value="${'$'+partTimeAcademic.getAcademic().getFlatSalary()}"
                                                                type="text">
                                                     </div>
                                                 </div>
@@ -413,52 +416,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="tab-pane" id="tab8">
-                                        <div class="row">
-                                            <div class="col-xl-12 col-md-12 col-lg-12">
-                                                <div class="card">
-                                                    <div class="card-header  border-0">
-                                                        <h4 class="card-title">Leaves Summary</h4>
-                                                        <div class="btn-list" style="margin-left: 24px">
-                                                            <a class="btn btn-primary mr-3" data-target="#applyleaves"
-                                                               data-toggle="modal"
-                                                               href="#">Add Leaves</a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <div class="table-responsive">
-                                                            <table class="table  table-vcenter text-nowrap table-bordered border-bottom"
-                                                                   id="emp-attendance">
-                                                                <thead>
-                                                                <tr>
-                                                                    <th class="border-bottom-0 text-center">#ID</th>
-                                                                    <th class="border-bottom-0">From</th>
-                                                                    <th class="border-bottom-0">TO</th>
-                                                                    <th class="border-bottom-0">Days</th>
-                                                                    <th class="border-bottom-0">Reason</th>
-                                                                    <th class="border-bottom-0">Type</th>
-                                                                    <th class="border-bottom-0">Applied On</th>
-                                                                </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                <tr th:each=" leave : ${academic.getAcademicLeaves()}">
-                                                                    <td class="text-center" th:text="${leave.id}"></td>
-                                                                    <td th:text="${leave.fromDate}"></td>
-                                                                    <td th:text="${leave.toDate}"></td>
-                                                                    <td class="font-weight-semibold"
-                                                                        th:text="${leave.days+' Days'}"></td>
-                                                                    <td th:text="${leave.reason}"></td>
-                                                                    <td th:text="${leave.type}"></td>
-                                                                    <td th:text="${leave.createdDate}"></td>
-                                                                </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                     <div class="tab-pane" id="tab9">
                                         <div class="card-header  border-0">
                                             <h4 class="card-title">My Payslips Summary</h4>
@@ -479,7 +436,7 @@
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                    <tr th:each=" payment : ${academic.getPayments()}">
+                                                    <tr th:each=" payment : ${partTimeAcademic.getAcademic().getPayments()}">
                                                         <td class="text-center" th:text="${payment.id}"></td>
                                                         <td th:text="${payment.date.month}"></td>
                                                         <td th:text="${payment.date.year}"></td>
@@ -531,7 +488,7 @@
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                    <tr th:each=" timeCard : ${academic.getTimeCards()}">
+                                                    <tr th:each=" timeCard : ${partTimeAcademic.getTimeCards()}">
                                                         <td class="text-center" th:text="${timeCard.id}"></td>
                                                         <td th:text="${timeCard.date}"></td>
                                                         <td th:text="${timeCard.hoursCount}"></td>
@@ -571,60 +528,6 @@
     </div>
 </div>
 
-<!--Apply Leaves Modal -->
-<div class="modal fade" id="applyleaves">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Add A New Leave</h5>
-                <button aria-label="Close" class="close" data-dismiss="modal">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <form id="addPartTimeAcademic" method="post"
-                  name="add_full_time_academic"
-                  th:action="@{/university-payroll/dashboard/Academic/{id}/addAcademicLeave(id=${academic.id})}">
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label class="form-label">From Date:</label>
-                        <div class="input-group">
-                            <input class="form-control" id="fromDate" name="fromDate" placeholder="select dates"
-                                   type="date"/>
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <i class="bx bx-calendar"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">To Date:</label>
-                        <div class="input-group">
-                            <input class="form-control" id="toDate" name="toDate" placeholder="select dates"
-                                   type="date"/>
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <i class="bx bx-calendar"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Reason:</label>
-                        <textarea class="form-control" id="reason" name="reason" rows="5"></textarea>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <div class="ml-auto">
-                        <button class="btn btn-outline-primary" data-dismiss="modal">Close</button>
-                        <button class="btn btn-success" type="submit">Submit</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
 <div class="modal fade" id="addtimecard">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -636,7 +539,7 @@
             </div>
             <form id="gg" method="post"
                   name="add_full_time_academic"
-                  th:action="@{/university-payroll/dashboard/Academic/{id}/addTimeCard(id=${academic.id})}">
+                  th:action="@{/university-payroll/dashboard/Academic/{id}/addTimeCard(id=${partTimeAcademic.getAcademic().id})}">
                 <div class="modal-body">
                     <div class="form-group">
                         <label class="form-label">Hours Count:</label>

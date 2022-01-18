@@ -3,6 +3,8 @@ package com.yousef.payroll.model.users;
 import com.yousef.payroll.model.Payment;
 import com.yousef.payroll.model.types.AcademicType;
 import com.yousef.payroll.model.types.Gender;
+import com.yousef.payroll.model.types.PaymentMethodType;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -44,17 +46,15 @@ public class Academic {
     @NotBlank(message = "Address can not be empty")
     private String address;
 
-    private Date joinDate = new Date();
-
-    private AcademicType type;
-
-    private Gender gender;
-    private String profilePicLink;
-    private String jobTitle;
-    private String paymentDetails;
-    private boolean isActive;
+    @NotNull(message = "Date Of Birth can not be empty")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthDate;
-    private boolean sendEmailNotification;
+
+    @NotNull(message = "Gender can not be empty")
+    private Gender gender;
+
+    @NotBlank(message = "Job Title can not be empty")
+    private String jobTitle;
 
     @NotNull(message = "Flat Salary can not be empty")
     @Min(value = 0, message = "Flat Salary can not be less than 0")
@@ -63,6 +63,15 @@ public class Academic {
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "academic_id")
     private List<Payment> payments = new ArrayList<>();
+
+    private AcademicType type;
+    private Date joinDate = new Date();
+    private boolean isActive = true;
+
+    private String profilePicLink;
+    private String paymentDetails;
+    private PaymentMethodType paymentMethodType;
+    private boolean sendEmailNotification;
 
     public Academic() {
     }
@@ -219,6 +228,14 @@ public class Academic {
         this.flatSalary = flatSalary;
     }
 
+    public PaymentMethodType getPaymentMethodType() {
+        return paymentMethodType;
+    }
+
+    public void setPaymentMethodType(PaymentMethodType paymentMethodType) {
+        this.paymentMethodType = paymentMethodType;
+    }
+
     public String getFullName() {
         return firstName + " " + lastName;
     }
@@ -240,6 +257,7 @@ public class Academic {
                 ", profilePicLink='" + profilePicLink + '\'' +
                 ", jobTitle='" + jobTitle + '\'' +
                 ", paymentDetails='" + paymentDetails + '\'' +
+                ", paymentMethodType='" + paymentMethodType + '\'' +
                 ", isActive=" + isActive +
                 ", birthDate=" + birthDate +
                 ", sendEmailNotification=" + sendEmailNotification +

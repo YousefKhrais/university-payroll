@@ -138,7 +138,7 @@
                                             </thead>
                                             <tbody>
                                             <tr th:each="fullTimeAcademic : ${fullTimeAcademicsList}">
-                                                <td th:text="${fullTimeAcademic.getAcademic().getId()}"></td>
+                                                <td th:text="'#'+${fullTimeAcademic.getAcademic().getId()}"></td>
                                                 <td>
                                                     <div class="d-flex">
                                                         <img alt="user-img" class="avatar avatar-md brround mr-3"
@@ -151,11 +151,11 @@
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td th:text="${fullTimeAcademic.getAcademic().getDepartment()}+' Department'"></td>
+                                                <td th:text="${fullTimeAcademic.getAcademic().getDepartment()}"></td>
                                                 <td>Full Time Academic</td>
                                                 <td th:text="${fullTimeAcademic.getAcademic().getPhoneNumber()}"></td>
                                                 <td th:text="${fullTimeAcademic.getAcademic().getFlatSalary()}+' $'"></td>
-                                                <td th:text="${fullTimeAcademic.getLeaveBalance()}+' Days'"></td>
+                                                <td th:text="${fullTimeAcademic.getRemainingLeaveBalance()}+'/'+${fullTimeAcademic.getLeaveBalance()}+' Days'"></td>
                                                 <td th:text="${fullTimeAcademic.getAcademic().getJoinDate()}"></td>
                                                 <td><span class="badge badge-success">Active</span></td>
                                                 <td>
@@ -172,7 +172,7 @@
                                                 </td>
                                             </tr>
                                             <tr th:each="partTimeAcademic : ${partTimeAcademicsList}">
-                                                <td th:text="${partTimeAcademic.getAcademic().getId()}"></td>
+                                                <td th:text="'#'+${partTimeAcademic.getAcademic().getId()}"></td>
                                                 <td>
                                                     <div class="d-flex">
                                                         <img alt="user-img" class="avatar avatar-md brround mr-3"
@@ -185,11 +185,11 @@
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td th:text="${partTimeAcademic.getAcademic().getDepartment()}+' Department'"></td>
+                                                <td th:text="${partTimeAcademic.getAcademic().getDepartment()}"></td>
                                                 <td>Part Time Academic</td>
                                                 <td th:text="${partTimeAcademic.getAcademic().getPhoneNumber()}"></td>
-                                                <td th:text="${partTimeAcademic.getAcademic().getFlatSalary()}+' $'"></td>
-                                                <td>0 Days</td>
+                                                <td th:text="${partTimeAcademic.getAcademic().getFlatSalary()}+' $ Per Hour'"></td>
+                                                <td>0/0 Days</td>
                                                 <td th:text="${partTimeAcademic.getAcademic().getJoinDate()}"></td>
                                                 <td><span class="badge badge-success">Active</span></td>
                                                 <td>
@@ -241,6 +241,22 @@
                                                 <label class="form-label">Academic Last Name</label>
                                                 <input class="form-control" placeholder="Enter Last Name"
                                                        th:field="*{lastName}" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Date of Birth</label>
+                                                <input class="form-control" placeholder="Enter Date of Birth"
+                                                       th:field="*{birthDate}" type="date">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Job Title</label>
+                                                <input class="form-control" placeholder="Enter Job Title"
+                                                       th:field="*{jobTitle}" type="text">
                                             </div>
                                         </div>
                                     </div>
@@ -312,17 +328,14 @@
                                         </div>
                                     </div>
                                     <div class="custom-controls-stacked d-md-flex">
-                                        <label class="form-label mt-1 mr-5">Status :</label>
-                                        <label class="custom-control custom-radio success mr-4">
-                                            <input class="custom-control-input" name="example-radios1" type="radio"
-                                                   value="option1">
-                                            <span class="custom-control-label">Active</span>
-                                        </label>
-                                        <label class="custom-control custom-radio success mr-4">
-                                            <input class="custom-control-input" name="example-radios1" type="radio"
-                                                   value="option2">
-                                            <span class="custom-control-label">Inactive</span>
-                                        </label>
+                                        <label class="form-label mt-1 mr-5">Gender :</label>
+                                        <div th:each="model : ${T(com.yousef.payroll.model.types.Gender).values()}">
+                                            <label class="custom-control custom-radio success mr-4">
+                                                <input class="custom-control-input" name="example-radios1"
+                                                       th:field="*{gender}" th:value="${model}" type="radio">
+                                                <span class="custom-control-label" th:text="${model}"></span>
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="modal-footer">

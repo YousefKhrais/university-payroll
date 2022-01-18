@@ -158,7 +158,6 @@ public class UniversityPayrollController {
         return "redirect:/university-payroll/dashboard";
     }
 
-    /////////////
     @GetMapping("/dashboard/academic/delete/{id}")
     public String deleteAcademic(RedirectAttributes redirectAttributes, @PathVariable long id) {
         Academic academic = academicRepository.findById(id).orElse(null);
@@ -186,7 +185,6 @@ public class UniversityPayrollController {
             return "redirect:/university-payroll/dashboard";
         }
     }
-    /////////////
 
     @GetMapping("/dashboard/academic/edit/{id}")
     public String editAcademicView(RedirectAttributes redirectAttributes, Model model, @PathVariable long id) {
@@ -211,6 +209,76 @@ public class UniversityPayrollController {
             return "error/error500";
         }
     }
+
+    @PostMapping("/dashboard/academic/fullTime/{id}/edit")
+    public String editFullTimeAcademic(RedirectAttributes redirectAttributes, FullTimeAcademic fullTimeAcademic, @PathVariable long id) {
+        FullTimeAcademic temp = fullTimeAcademicRepository.findById(id).orElse(null);
+
+        if (temp == null) {
+            redirectAttributes.addFlashAttribute("error", "Academic doesn't exist");
+            return "redirect:/university-payroll/dashboard";
+        }
+
+        if (!temp.getId().equals(fullTimeAcademic.getId())) {
+            redirectAttributes.addFlashAttribute("error", "Academic id doesn't match");
+            return "redirect:/university-payroll/dashboard";
+        }
+
+        Academic academic = fullTimeAcademic.getAcademic();
+        temp.getAcademic().setEmail(academic.getEmail());
+        temp.getAcademic().setFirstName(academic.getFirstName());
+        temp.getAcademic().setLastName(academic.getLastName());
+        temp.getAcademic().setDepartment(academic.getDepartment());
+        temp.getAcademic().setPhoneNumber(academic.getPhoneNumber());
+        temp.getAcademic().setAddress(academic.getAddress());
+        temp.getAcademic().setGender(academic.getGender());
+        temp.getAcademic().setJobTitle(academic.getJobTitle());
+        temp.getAcademic().setPaymentMethodType(academic.getPaymentMethodType());
+        temp.getAcademic().setBirthDate(academic.getBirthDate());
+        temp.getAcademic().setFlatSalary(academic.getFlatSalary());
+        temp.setLeaveBalance(fullTimeAcademic.getLeaveBalance());
+
+        fullTimeAcademicRepository.save(temp);
+
+        redirectAttributes.addFlashAttribute("message", "Academic has been updated.");
+        return "redirect:/university-payroll/dashboard";
+    }
+
+    @PostMapping("/dashboard/academic/partTime/{id}/edit")
+    public String editPartTimeAcademic(RedirectAttributes redirectAttributes, PartTimeAcademic partTimeAcademic, @PathVariable long id) {
+        PartTimeAcademic temp = partTimeAcademicRepository.findById(id).orElse(null);
+
+        if (temp == null) {
+            redirectAttributes.addFlashAttribute("error", "Academic doesn't exist");
+            return "redirect:/university-payroll/dashboard";
+        }
+
+        if (!temp.getId().equals(partTimeAcademic.getId())) {
+            redirectAttributes.addFlashAttribute("error", "Academic id doesn't match");
+            return "redirect:/university-payroll/dashboard";
+        }
+
+        Academic academic = partTimeAcademic.getAcademic();
+        temp.getAcademic().setEmail(academic.getEmail());
+        temp.getAcademic().setFirstName(academic.getFirstName());
+        temp.getAcademic().setLastName(academic.getLastName());
+        temp.getAcademic().setDepartment(academic.getDepartment());
+        temp.getAcademic().setPhoneNumber(academic.getPhoneNumber());
+        temp.getAcademic().setAddress(academic.getAddress());
+        temp.getAcademic().setGender(academic.getGender());
+        temp.getAcademic().setJobTitle(academic.getJobTitle());
+        temp.getAcademic().setPaymentMethodType(academic.getPaymentMethodType());
+        temp.getAcademic().setBirthDate(academic.getBirthDate());
+        temp.getAcademic().setFlatSalary(academic.getFlatSalary());
+
+        partTimeAcademicRepository.save(temp);
+
+        redirectAttributes.addFlashAttribute("message", "Academic has been updated.");
+        return "redirect:/university-payroll/dashboard";
+    }
+
+
+
 
 
     @PostMapping("/dashboard/Academic/{id}/addAcademicLeave")
@@ -301,7 +369,7 @@ public class UniversityPayrollController {
             TimeCard timeCard = new TimeCard();
             timeCard.setHoursCount(hoursCount);
             timeCard.setDate(date);
-            timeCard.setAcademic(academic);
+            timeCard.setAcademic(null);
 
             System.out.println(timeCard);
             timeCardRepository.save(timeCard);

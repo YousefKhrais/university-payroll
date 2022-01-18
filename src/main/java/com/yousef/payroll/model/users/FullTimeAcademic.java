@@ -25,6 +25,8 @@ public class FullTimeAcademic implements UserDetails {
     @Min(value = 0, message = "Leave Balance can not be less than 0")
     private int leaveBalance;
 
+    private int remainingLeaveBalance=0;
+
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "academic_id")
     private List<AcademicLeave> academicLeaves = new ArrayList<>();
@@ -101,6 +103,14 @@ public class FullTimeAcademic implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public int getRemainingLeaveBalance() {
+        return remainingLeaveBalance;
+    }
+
+    public void setRemainingLeaveBalance(int remainingLeaveBalance) {
+        this.remainingLeaveBalance = remainingLeaveBalance;
     }
 
     @Override
