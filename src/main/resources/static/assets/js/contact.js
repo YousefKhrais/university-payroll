@@ -1,1 +1,0 @@
-$((function(){new PerfectScrollbar("#mainContactList",{useBothWheelAxes:!1,suppressScrollX:!1})}));
