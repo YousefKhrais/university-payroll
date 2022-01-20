@@ -54,7 +54,6 @@ public class UniversityPayrollController {
         this.timeCardRepository = timeCardRepository;
     }
 
-    /////////////
     @GetMapping("/dashboard")
     public String listAcademicsView(Model model) {
         List<FullTimeAcademic> fullTimeAcademicsList = fullTimeAcademicRepository.findAll();
@@ -67,7 +66,6 @@ public class UniversityPayrollController {
         attributes.put("fullTimeAcademicsCount", fullTimeAcademicsList.size());
         attributes.put("partTimeAcademicsCount", partTimeAcademicsList.size());
 
-        //temp
         Academic tempAcademic = new Academic();
         FullTimeAcademic tempFullTimeAcademic = new FullTimeAcademic();
         tempFullTimeAcademic.setAcademic(tempAcademic);
@@ -85,7 +83,6 @@ public class UniversityPayrollController {
         return "redirect:/university-payroll/dashboard";
     }
 
-    /////////////
     @PostMapping("/dashboard/academic/fullTime")
     public String addFullTimeAcademic(@Valid FullTimeAcademic fullTimeAcademic, Academic academic, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
@@ -276,10 +273,6 @@ public class UniversityPayrollController {
         redirectAttributes.addFlashAttribute("message", "Academic has been updated.");
         return "redirect:/university-payroll/dashboard";
     }
-
-
-
-
 
     @PostMapping("/dashboard/Academic/{id}/addAcademicLeave")
     public String addAcademicLeave(RedirectAttributes redirectAttributes, @PathVariable long id, @RequestParam("reason") String reason,

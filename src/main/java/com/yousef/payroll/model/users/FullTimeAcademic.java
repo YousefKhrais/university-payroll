@@ -2,6 +2,7 @@ package com.yousef.payroll.model.users;
 
 import com.yousef.payroll.model.AcademicLeave;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 @Entity
@@ -25,7 +27,7 @@ public class FullTimeAcademic implements UserDetails {
     @Min(value = 0, message = "Leave Balance can not be less than 0")
     private int leaveBalance;
 
-    private int remainingLeaveBalance=0;
+    private int remainingLeaveBalance = 0;
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "academic_id")
@@ -72,7 +74,9 @@ public class FullTimeAcademic implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        HashSet<GrantedAuthority> authorities = new HashSet<>();
+        authorities.add(new SimpleGrantedAuthority("ACADEMIC"));
+        return authorities;
     }
 
     @Override
@@ -119,7 +123,6 @@ public class FullTimeAcademic implements UserDetails {
                 "id=" + id +
                 ", academic=" + academic +
                 ", leaveBalance=" + leaveBalance +
-                ", academicLeaves=" + academicLeaves +
                 '}';
     }
 }

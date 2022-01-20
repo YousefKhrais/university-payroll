@@ -15,8 +15,6 @@ public class ErrorsController implements ErrorController {
         Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
         String viewToReturn = "error/error500";
 
-        System.out.println("Req: " + request.toString());
-
         if (status != null) {
             switch (Integer.parseInt(status.toString())) {
                 case 400:

@@ -30,8 +30,8 @@ public class PaymentsService {
         this.partTimeAcademicRepository = partTimeAcademicRepository;
     }
 
+    //    @Scheduled(fixedDelay = 100000)
     @Async
-    @Scheduled(fixedDelay = 100000)
     @Scheduled(cron = "@monthly")
     public void payFullTimeAcademicsSalaries() throws InterruptedException {
         List<FullTimeAcademic> fullTimeAcademics = fullTimeAcademicRepository.findAll();
@@ -47,20 +47,14 @@ public class PaymentsService {
         }
     }
 
+    //    @Scheduled(fixedDelay = 100000)
     @Async
-    @Scheduled(fixedDelay = 100000)
     @Scheduled(cron = "@monthly")
     public void payPartTimeAcademicsSalaries() throws InterruptedException {
         List<PartTimeAcademic> partTimeAcademics = partTimeAcademicRepository.findAll();
 
         for (PartTimeAcademic partTimeAcademic : partTimeAcademics) {
             int totalWorkedHours = 0;
-
-//            TimeCard timeCardsx = new TimeCard();
-//            timeCardsx.setHoursCount(new Random().nextInt(40));
-//            timeCardsx.setAcademic(partTimeAcademic);
-//            timeCardsx.setDate(new Date());
-//            timeCardRepository.save(timeCardsx);
 
             List<TimeCard> timeCards = timeCardRepository.findByPartTimeAcademicId(partTimeAcademic.getId());
             for (TimeCard timeCard : timeCards) {

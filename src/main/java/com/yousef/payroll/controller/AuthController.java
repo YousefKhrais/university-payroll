@@ -1,7 +1,6 @@
 package com.yousef.payroll.controller;
 
 import com.yousef.payroll.model.users.PersonnelEmployee;
-import com.yousef.payroll.repositories.AcademicRepository;
 import com.yousef.payroll.repositories.PersonnelEmployeeRepository;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -15,37 +14,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class AuthController {
 
-    private final AcademicRepository academicRepository;
     private final PersonnelEmployeeRepository personnelEmployeeRepository;
 
-    public AuthController(AcademicRepository academicRepository, PersonnelEmployeeRepository personnelEmployeeRepository) {
-        this.academicRepository = academicRepository;
+    public AuthController(PersonnelEmployeeRepository personnelEmployeeRepository) {
         this.personnelEmployeeRepository = personnelEmployeeRepository;
     }
 
-    //*********************************************************************************
-    //*********************************************************************************
-    //*********************************************************************************
-
     @GetMapping("/academic-kiosk/login")
     public String academicKioskLoginView() {
-        System.out.println("academicKioskLoginView");
-        if (isAuthenticated()) {
-            System.out.println("isAuthenticated");
-            return "redirect:dashboard";
-        }
-        System.out.println("return");
+        if (isAuthenticated())
+            return "redirect:academic-kiosk/dashboard";
         return "academic-kiosk/auth/login";
     }
-    //*********************************************************************************
-    //*********************************************************************************
-    //*********************************************************************************
 
     @GetMapping("/university-payroll/login")
     public String universityPayrollLoginView() {
-        if (isAuthenticated()) {
+        if (isAuthenticated())
             return "redirect:dashboard/employees-list";
-        }
         return "universityPayrollSystem/auth/login";
     }
 
@@ -57,29 +42,16 @@ public class AuthController {
 
     @PostMapping("/university-payroll/process_register")
     public String processRegister(PersonnelEmployee user) {
-        System.out.println(user.toString());
-
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String encodedPassword = passwordEncoder.encode(user.getPassword());
-        user.setPassword(encodedPassword);
-
+        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         personnelEmployeeRepository.save(user);
 
         return "universityPayrollSystem/auth/register-success";
     }
 
-    //*********************************************************************************
-    //*********************************************************************************
-    //*********************************************************************************
-
     private boolean isAuthenticated() {
-        System.out.println("REEEEEEEEEE");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || AnonymousAuthenticationToken.class.isAssignableFrom(authentication.getClass())) {
-            System.out.println("authentication.isAuthenticated(): false");
+        if (authentication == null || AnonymousAuthenticationToken.class.isAssignableFrom(authentication.getClass()))
             return false;
-        }
-        System.out.println("authentication.isAuthenticated(): " + authentication.isAuthenticated());
         return authentication.isAuthenticated();
     }
 }

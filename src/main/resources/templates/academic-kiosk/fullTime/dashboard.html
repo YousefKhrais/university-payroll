@@ -1,16 +1,16 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="common :: header"></head>
+<head th:replace="academic_common :: header"></head>
 <body class="app sidebar-mini" id="index1">
 
 <div class="page">
     <div class="page-main">
-        <aside th:replace="common :: sidebar"></aside>
+        <aside th:replace="academic_common :: sidebar"></aside>
 
         <div class="app-content main-content">
             <div class="side-app">
-                <div th:replace="common :: app-header"></div>
+                <div th:replace="academic_common :: app-header"></div>
 
                 <section id="current-page-content">
                     <div class="alert alert-success" role="alert" style="margin-top: 15px" th:if="${message!=null}"
@@ -79,7 +79,7 @@
 
                         <div class="col-xl-9 col-md-12 col-lg-12">
                             <form method="post"
-                                  th:action="@{/university-payroll/dashboard/academic/fullTime/{id}/edit(id=${fullTimeAcademic.getId()})}"
+                                  th:action="@{/academic-kiosk/fullTime/{id}/edit(id=${fullTimeAcademic.getId()})}"
                                   th:object="${fullTimeAcademic}">
                                 <div class="tab-menu-heading hremp-tabs p-0 ">
                                     <div class="tabs-menu1">
@@ -573,7 +573,7 @@
             </div>
             <form id="addPartTimeAcademic" method="post"
                   name="add_full_time_academic"
-                  th:action="@{/university-payroll/dashboard/Academic/{id}/addAcademicLeave(id=${fullTimeAcademic.getAcademic().getId()})}">
+                  th:action="@{/academic-kiosk/fullTime/{id}/addAcademicLeave(id=${fullTimeAcademic.getAcademic().getId()})}">
                 <div class="modal-body">
                     <div class="form-group">
                         <label class="form-label">From Date:</label>
@@ -615,7 +615,7 @@
     </div>
 </div>
 
-<div th:replace="common :: notifications"></div>
-<footer th:replace="common :: footer"></footer>
+<div th:replace="academic_common :: notifications"></div>
+<footer th:replace="academic_common :: footer"></footer>
 </body>
 </html>

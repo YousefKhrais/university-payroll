@@ -2,11 +2,13 @@ package com.yousef.payroll.model.users;
 
 import com.yousef.payroll.model.TimeCard;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 @Entity
@@ -56,7 +58,9 @@ public class PartTimeAcademic implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        HashSet<GrantedAuthority> authorities = new HashSet<>();
+        authorities.add(new SimpleGrantedAuthority("ACADEMIC"));
+        return authorities;
     }
 
     @Override

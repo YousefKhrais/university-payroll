@@ -27,7 +27,6 @@
                             <h4 class="page-title">Academic Profile</h4>
                         </div>
                     </div>
-
                     <div class="row">
                         <div class="col-xl-3 col-md-12 col-lg-12">
                             <div class="card box-widget widget-user">
@@ -39,487 +38,514 @@
                                     <div class="pro-user mt-3">
                                         <h5 class="pro-user-username text-dark mb-1 fs-16"
                                             th:text="${partTimeAcademic.getAcademic().getFullName()}"></h5>
-                                        <h6 class="pro-user-desc text-muted fs-12" th:text="${partTimeAcademic.getAcademic().jobTitle}"></h6>
+                                        <h6 class="pro-user-desc text-muted fs-12"
+                                            th:text="${partTimeAcademic.getAcademic().getJobTitle()}"></h6>
                                     </div>
                                 </div>
                                 <div class="card-footer p-0">
                                     <div class="row">
                                         <div class="col-4 text-center py-5 border-right">
-                                            <h5 class="fs-12 font-weight-semibold mb-3">January</h5>
                                             <h5 class="mb-2">
-                                                <span class="fs-18 text-success">22</span>
-                                                <span class="my-auto fs-9 font-weight-normal  ml-1 mr-1">/</span>
-                                                <span class="fs-18 font-weight-semibold text-dark">31</span>
+                                                <span class="fs-18 font-weight-semibold text-dark"
+                                                      th:text="${partTimeAcademic.getAcademic().getId()}">
+                                                </span>
                                             </h5>
-                                            <h5 class="fs-12 mb-0">Attendance</h5>
+                                            <h5 class="fs-12 mb-0">ID</h5>
                                         </div>
                                         <div class="col-4  py-5 text-center border-right">
-                                            <h5 class="fs-12 font-weight-semibold mb-3">Year-2021</h5>
                                             <h5 class="mb-2">
-                                                <span class="fs-18 text-orange">0</span>
-                                                <span class="my-auto fs-9 font-weight-normal  ml-1 mr-1">/</span>
-                                                <span class="fs-18 font-weight-semibold text-dark">41</span>
+                                                <span class="my-auto fs-9 font-weight-normal  ml-1 mr-1">0/0</span>
                                             </h5>
                                             <h5 class="fs-12 mb-0">Leaves</h5>
                                         </div>
                                         <div class="col-4 text-center py-5">
-                                            <h5 class="fs-12 font-weight-semibold mb-3">Year-2021</h5>
                                             <h5 class="mb-2">
-                                                <span class="fs-18 text-primary">0</span>
+                                                <span class="fs-18 text-primary"
+                                                      th:text="${partTimeAcademic.getAcademic().getPayments().size()}"></span>
                                             </h5>
-                                            <h5 class="fs-12 mb-0">Awards</h5>
+                                            <h5 class="fs-12 mb-0">Payments</h5>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-xl-9 col-md-12 col-lg-12">
-                            <div class="tab-menu-heading hremp-tabs p-0 ">
-                                <div class="tabs-menu1">
-                                    <ul class="nav panel-tabs">
-                                        <li class="ml-4"><a class="active" data-toggle="tab" href="#tab5">
-                                            Personal Details</a></li>
-                                        <li><a data-toggle="tab" href="#tab6">Company Details</a></li>
-                                        <li><a data-toggle="tab" href="#tab7">Bank Details</a></li>
-                                        <li><a data-toggle="tab" href="#tab9">Payments</a></li>
-                                        <li><a data-toggle="tab" href="#tab10">Time Cards</a></li>
-                                    </ul>
+                            <form method="post"
+                                  th:action="@{/university-payroll/dashboard/academic/partTime/{id}/edit(id=${partTimeAcademic.getId()})}"
+                                  th:object="${partTimeAcademic}">
+                                <div class="tab-menu-heading hremp-tabs p-0 ">
+                                    <div class="tabs-menu1">
+                                        <ul class="nav panel-tabs">
+                                            <li class="ml-4"><a class="active" data-toggle="tab" href="#tab5">Personal
+                                                Details</a></li>
+                                            <li><a data-toggle="tab" href="#tab6">Company Details</a></li>
+                                            <li><a data-toggle="tab" href="#tab7">Bank Details</a></li>
+                                            <li><a data-toggle="tab" href="#tab9">Payments</a></li>
+                                            <li><a data-toggle="tab" href="#tab10">Time Cards</a></li>
+                                        </ul>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="panel-body tabs-menu-body hremp-tabs1 p-0">
-                                <div class="tab-content">
-                                    <div class="tab-pane active" id="tab5">
-                                        <div class="card-body">
-                                            <h4 class="mb-4 font-weight-bold">Basic</h4>
-                                            <div class="form-group ">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <label class="form-label mb-0 mt-2">User Name</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <div class="row">
-                                                            <div class="col-md-6">
-                                                                <input class="form-control mb-md-0 mb-5"
-                                                                       placeholder="First Name"
-                                                                       th:value="${partTimeAcademic.getAcademic().getFirstName()}"
-                                                                       type="text">
-                                                                <span class="text-muted"></span>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <input class="form-control" placeholder="Last Name"
-                                                                       th:value="${partTimeAcademic.getAcademic().getLastName()}"
-                                                                       type="text">
+                                <div class="panel-body tabs-menu-body hremp-tabs1 p-0">
+                                    <div class="tab-content">
+                                        <div class="tab-pane active" id="tab5">
+                                            <div class="card-body">
+                                                <h4 class="mb-4 font-weight-bold">Basic</h4>
+                                                <div class="form-group ">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <label class="form-label mb-0 mt-2">Academic Name</label>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <input class="form-control mb-md-0 mb-5"
+                                                                           placeholder="First Name"
+                                                                           th:field="${partTimeAcademic.academic.firstName}"
+                                                                           th:value="${partTimeAcademic.getAcademic().getFirstName()}"
+                                                                           type="text">
+                                                                    <span class="text-muted"></span>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <input class="form-control" placeholder="Last Name"
+                                                                           th:field="${partTimeAcademic.academic.lastName}"
+                                                                           th:value="${partTimeAcademic.getAcademic().getLastName()}"
+                                                                           type="text">
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-group ">
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <label class="form-label mb-0 mt-2">Contact Number</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <input class="form-control" placeholder="Phone Number"
-                                                               th:value="${partTimeAcademic.getAcademic().getPhoneNumber()}"
-                                                               type="text">
-                                                    </div>
+                                                <div class="form-group ">
                                                 </div>
-                                            </div>
-                                            <div class="form-group ">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <label class="form-label mb-0 mt-2">Date Of Birth</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <input class="form-control fc-datepicker"
-                                                               placeholder="DD-MM-YYY"
-                                                               th:value="${partTimeAcademic.getAcademic().getBirthDate()}"
-                                                               type="text">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group ">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <label class="form-label">Gender</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <div class="custom-controls-stacked d-md-flex">
-                                                            <label class="custom-control custom-radio mr-4">
-                                                                <input class="custom-control-input"
-                                                                       name="example-radios4"
-                                                                       type="radio" value="option1">
-                                                                <span class="custom-control-label">Male</span>
-                                                            </label>
-                                                            <label class="custom-control custom-radio">
-                                                                <input checked class="custom-control-input"
-                                                                       name="example-radios4"
-                                                                       type="radio" value="option2">
-                                                                <span class="custom-control-label">Female</span>
-                                                            </label>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <label class="form-label mb-0 mt-2">Contact Number</label>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            <input class="form-control" placeholder="Phone Number"
+                                                                   th:field="${partTimeAcademic.academic.phoneNumber}"
+                                                                   th:value="${partTimeAcademic.getAcademic().getPhoneNumber()}"
+                                                                   type="text">
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-group ">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <label class="form-label mb-0 mt-2">Email</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <input class="form-control" placeholder="email"
-                                                               th:value="${partTimeAcademic.getAcademic().getEmail()}"
-                                                               type="text">
+                                                <div class="form-group ">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <label class="form-label mb-0 mt-2">Date Of Birth</label>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            <input class="form-control fc-datepicker"
+                                                                   placeholder="DD-MM-YYY"
+                                                                   th:field="${partTimeAcademic.academic.birthDate}"
+                                                                   th:value="${partTimeAcademic.getAcademic().getBirthDate()}"
+                                                                   type="text">
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <label class="form-label mb-0 mt-2">Permanent Address</label>
+                                                <div class="form-group ">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <label class="form-label">Gender</label>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            <div class="custom-controls-stacked d-md-flex">
+                                                                <div th:each="genderType : ${T(com.yousef.payroll.model.types.Gender).values()}">
+                                                                    <label class="custom-control custom-radio success mr-4">
+                                                                        <input class="custom-control-input"
+                                                                               name="example-radios1"
+                                                                               th:checked="${genderType} == ${partTimeAcademic.getAcademic().getGender()}"
+                                                                               th:field="${partTimeAcademic.academic.gender}"
+                                                                               th:value="${genderType}" type="radio">
+                                                                        <span class="custom-control-label"
+                                                                              th:text="${genderType}"></span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div class="col-md-9">
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <label class="form-label mb-0 mt-2">Full Address</label>
+                                                        </div>
+                                                        <div class="col-md-9">
                                                         <textarea class="form-control" placeholder="Address2" rows="3"
-                                                                  th:value="${partTimeAcademic.getAcademic().getAddress()}"></textarea>
+                                                                  th:field="${partTimeAcademic.academic.address}"
+                                                                  th:text="${partTimeAcademic.getAcademic().getAddress()}"></textarea>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <div class="form-label mb-0 mt-2">Upload Photo</div>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <div class="input-group file-browser">
-                                                            <input class="form-control border-right-0 browse-file"
-                                                                   placeholder="choose"
-                                                                   readonly type="text">
-                                                            <label class="input-group-append mb-0">
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <div class="form-label mb-0 mt-2">Upload Photo</div>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            <div class="input-group file-browser">
+                                                                <input class="form-control border-right-0 browse-file"
+                                                                       placeholder="choose"
+                                                                       readonly
+                                                                       th:text="${partTimeAcademic.getAcademic().getProfilePicLink()}"
+                                                                       type="text">
+                                                                <label class="input-group-append mb-0">
 																	<span class="btn ripple btn-primary">
 																		Browse <input class="file-browserinput"
                                                                                       multiple
                                                                                       style="display: none;"
-                                                                                      th:value="${partTimeAcademic.getAcademic().getProfilePicLink()}"
                                                                                       type="file">
 																	</span>
-                                                            </label>
+                                                                </label>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <h4 class="mb-5 mt-7 font-weight-bold">Account Login</h4>
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <label class="form-label mb-0 mt-2">Academic Email</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <input class="form-control" placeholder="Academic email"
-                                                               th:value="${partTimeAcademic.getAcademic().getEmail()}"
-                                                               type="text">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <label class="form-label mb-0 mt-2">Password</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <input class="form-control" placeholder="password"
-                                                               th:value="${partTimeAcademic.getAcademic().getPassword()}"
-                                                               type="password">
+                                        </div>
+                                        <div class="tab-pane" id="tab6">
+                                            <div class="card-body">
+                                                <h4 class="mb-4 font-weight-bold">Basic</h4>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <label class="form-label mb-0 mt-2">Department</label>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            <input class="form-control" placeholder="Department"
+                                                                   th:field="${partTimeAcademic.academic.department}"
+                                                                   th:value="${partTimeAcademic.getAcademic().getDepartment()}"
+                                                                   type="text">
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-group mt-7">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <label class="form-label">Email Notification:</label>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <label class="form-label mb-0 mt-2">Job Title</label>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            <input class="form-control" placeholder="Job Title"
+                                                                   th:field="${partTimeAcademic.academic.jobTitle}"
+                                                                   th:value="${partTimeAcademic.getAcademic().getJobTitle()}"
+                                                                   type="text">
+                                                        </div>
                                                     </div>
-                                                    <div class="col-md-9">
-                                                        <label class="custom-switch">
-                                                            <input class="custom-switch-input"
-                                                                   name="custom-switch-checkbox"
-                                                                   type="checkbox">
-                                                            <span class="custom-switch-indicator"></span>
-                                                            <span class="custom-switch-description">On/Off</span>
-                                                        </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <label class="form-label mb-0 mt-2">Date Of Joining</label>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            <input class="form-control fc-datepicker"
+                                                                   contenteditable="false" disabled
+                                                                   th:value="${partTimeAcademic.getAcademic().getJoinDate()}"
+                                                                   type="text">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <label class="form-label mb-0 mt-2">Leaves Balance
+                                                                <span class="form-help" data-placement="top"
+                                                                      data-toggle="tooltip"
+                                                                      title="Unused leaves for the Academic">?</span>
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            <input class="form-control" contenteditable="false"
+                                                                   disabled placeholder="0" type="number">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <label class="form-label mb-0 mt-2">Type</label>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            <input class="form-control" contenteditable="false"
+                                                                   disabled placeholder="0"
+                                                                   type="text" value="Part-Time Academic">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <label class="form-label mb-0 mt-2">Salary (Per
+                                                                Hour)</label>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            <input class="form-control" placeholder="$Salary"
+                                                                   th:field="${partTimeAcademic.academic.flatSalary}"
+                                                                   th:value="${'$'+partTimeAcademic.getAcademic().getFlatSalary()}"
+                                                                   type="text">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group mt-7">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <label class="form-label">Status:</label>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            <label class="custom-switch">
+                                                                <input checked class="custom-switch-input"
+                                                                       name="custom-switch-checkbox" type="checkbox">
+                                                                <span class="custom-switch-indicator"></span>
+                                                                <span class="custom-switch-description">Active/Inactive</span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <br>
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <label class="form-label">Email Notification:</label>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            <label class="custom-switch">
+                                                                <input class="custom-switch-input"
+                                                                       name="custom-switch-checkbox"
+                                                                       type="checkbox">
+                                                                <span class="custom-switch-indicator"></span>
+                                                                <span class="custom-switch-description">On/Off</span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <h4 class="mb-5 mt-7 font-weight-bold">Account Login</h4>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <label class="form-label mb-0 mt-2">Academic Email</label>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            <input class="form-control" placeholder="Academic email"
+                                                                   th:field="${partTimeAcademic.academic.email}"
+                                                                   th:value="${partTimeAcademic.getAcademic().getEmail()}"
+                                                                   type="text">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <label class="form-label mb-0 mt-2">Academic ID</label>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            <input class="form-control" contenteditable="false" disabled
+                                                                   placeholder="Academic ID"
+                                                                   th:value="${partTimeAcademic.getAcademic().getId()}"
+                                                                   type="text">
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="tab-pane" id="tab6">
-                                        <div class="card-body">
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <label class="form-label mb-0 mt-2">Department</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <input class="form-control" placeholder="Department"
-                                                               th:value="${partTimeAcademic.getAcademic().getDepartment()}"
-                                                               type="text">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <label class="form-label mb-0 mt-2">Date Of Joining</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <input class="form-control fc-datepicker"
-                                                               placeholder="DD-MM-YYYY"
-                                                               th:value="${partTimeAcademic.getAcademic().getJoinDate()}"
-                                                               type="text">
+                                        <div class="tab-pane" id="tab7">
+                                            <div class="card-body">
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <label class="form-label mb-0 mt-2">Payment Method</label>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            <select class="form-control custom-select select2"
+                                                                    th:field="${partTimeAcademic.academic.paymentMethodType}">
+                                                                <option th:each="paymentMethod : ${T(com.yousef.payroll.model.types.PaymentMethodType).values()}"
+                                                                        th:selected="${paymentMethod} == ${partTimeAcademic.getAcademic().paymentMethodType}"
+                                                                        th:text="${paymentMethod}"
+                                                                        th:value="${partTimeAcademic.getAcademic().paymentMethodType}"></option>
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <label class="form-label mb-0 mt-2">Leaves Balance
-                                                            <span class="form-help" data-placement="top"
-                                                                  data-toggle="tooltip"
-                                                                  title="Unused leaves for the Academic">?</span>
-                                                        </label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <input class="form-control" placeholder="0"
-                                                               th:value="${partTimeAcademic.getLeaveBalance()+' Days'}"
-                                                               type="text">
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <label class="form-label mb-0 mt-2">Account Holder</label>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            <input class="form-control" placeholder="Name" type="text"
+                                                                   value="Faith Harris">
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <h4 class="mb-5 mt-7 font-weight-bold">Salary</h4>
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <label class="form-label mb-0 mt-2">Type</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <select class="form-control custom-select select2">
-                                                            <option selected value="0">Full-Time</option>
-                                                            <option value="1">Part-Time</option>
-                                                        </select>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <label class="form-label mb-0 mt-2">Account Number</label>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            <input class="form-control" placeholder="Number" type="text"
+                                                                   value="36985214704">
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <label class="form-label mb-0 mt-2">Salary</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <input class="form-control" placeholder="$Salary"
-                                                               th:value="${'$'+partTimeAcademic.getAcademic().getFlatSalary()}"
-                                                               type="text">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group mt-7">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <label class="form-label">Status:</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <label class="custom-switch">
-                                                            <input checked class="custom-switch-input"
-                                                                   name="custom-switch-checkbox" type="checkbox">
-                                                            <span class="custom-switch-indicator"></span>
-                                                            <span class="custom-switch-description">Active/Inactive</span>
-                                                        </label>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <label class="form-label mb-0 mt-2">Bank Name</label>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            <input class="form-control" placeholder="Name" type="text"
+                                                                   value="ABCD Bank">
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane" id="tab7">
-                                        <div class="card-body">
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <label class="form-label mb-0 mt-2">Account Holder</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <input class="form-control" placeholder="Name" type="text"
-                                                               value="Faith Harris">
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <label class="form-label mb-0 mt-2">Branch Location</label>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            <input class="form-control" placeholder="Location"
+                                                                   type="text"
+                                                                   value="Little Rock Arkansas">
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <label class="form-label mb-0 mt-2">Account Number</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <input class="form-control" placeholder="Number" type="text"
-                                                               value="36985214704">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <label class="form-label mb-0 mt-2">Bank Name</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <input class="form-control" placeholder="Name" type="text"
-                                                               value="ABCD Bank">
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <label class="form-label mb-0 mt-2">Bank Code (IFSC)
+                                                                <span class="form-help" data-placement="top"
+                                                                      data-toggle="tooltip"
+                                                                      title="Bank Identify Number in your Country">?</span>
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            <input class="form-control" placeholder="Code" type="text"
+                                                                   value="ABC0002189">
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <label class="form-label mb-0 mt-2">Branch Location</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <input class="form-control" placeholder="Location" type="text"
-                                                               value="Little Rock Arkansas">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <label class="form-label mb-0 mt-2">Bank Code (IFSC)
-                                                            <span class="form-help" data-placement="top"
-                                                                  data-toggle="tooltip"
-                                                                  title="Bank Identify Number in your Country">?</span>
-                                                        </label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <input class="form-control" placeholder="Code" type="text"
-                                                               value="ABC0002189">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <label class="form-label mb-0 mt-2">Tax Payer ID (PAN)
-                                                            <span class="form-help" data-placement="top"
-                                                                  data-toggle="tooltip"
-                                                                  title="Taxpayer Identification Number Used in your Country">?</span>
-                                                        </label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <input class="form-control" placeholder="ID No" type="text">
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <label class="form-label mb-0 mt-2">Tax Payer ID (PAN)
+                                                                <span class="form-help" data-placement="top"
+                                                                      data-toggle="tooltip"
+                                                                      title="Taxpayer Identification Number Used in your Country">?</span>
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            <input class="form-control" placeholder="ID No" type="text">
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="tab-pane" id="tab9">
-                                        <div class="card-header  border-0">
-                                            <h4 class="card-title">My Payslips Summary</h4>
-                                        </div>
-                                        <div class="card-body">
-                                            <div class="table-responsive">
-                                                <table class="table  table-vcenter text-nowrap table-bordered border-bottom"
-                                                       id="emp-pay">
-                                                    <thead>
-                                                    <tr>
-                                                        <th class="border-bottom-0 text-center">#ID</th>
-                                                        <th class="border-bottom-0">Month</th>
-                                                        <th class="border-bottom-0">Year</th>
-                                                        <th class="border-bottom-0">$ Net Salary</th>
-                                                        <th class="border-bottom-0">Tax</th>
-                                                        <th class="border-bottom-0">Generated Date</th>
-                                                        <th class="border-bottom-0">Action</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    <tr th:each=" payment : ${partTimeAcademic.getAcademic().getPayments()}">
-                                                        <td class="text-center" th:text="${payment.id}"></td>
-                                                        <td th:text="${payment.date.month}"></td>
-                                                        <td th:text="${payment.date.year}"></td>
-                                                        <td class="font-weight-semibold"
-                                                            th:text="${payment.salary - payment.tax}"></td>
-                                                        <td th:text="${payment.tax}"></td>
-                                                        <td th:text="${payment.createDate}"></td>
-                                                        <td>
-                                                            <a class="btn btn-primary btn-icon btn-sm"
-                                                               data-original-title="View" data-toggle="tooltip"><i
-                                                                    class="feather feather-eye"></i></a>
-                                                            <a class="btn btn-success btn-icon btn-sm"
-                                                               data-original-title="Download" data-toggle="tooltip"><i
-                                                                    class="feather feather-download"></i></a>
-                                                            <a class="btn btn-info btn-icon btn-sm"
-                                                               data-original-title="Print" data-toggle="tooltip"
-                                                               onclick="javascript:window.print();"><i
-                                                                    class="feather feather-printer"></i></a>
-                                                            <a class="btn btn-warning btn-icon btn-sm"
-                                                               data-original-title="Share" data-toggle="tooltip"><i
-                                                                    class="feather feather-share-2"></i></a>
-                                                        </td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
+                                        <div class="tab-pane" id="tab9">
+                                            <div class="card-header  border-0">
+                                                <h4 class="card-title">My Payslips Summary</h4>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="table-responsive">
+                                                    <table class="table  table-vcenter text-nowrap table-bordered border-bottom"
+                                                           id="emp-pay">
+                                                        <thead>
+                                                        <tr>
+                                                            <th class="border-bottom-0 text-center">#ID</th>
+                                                            <th class="border-bottom-0">Month</th>
+                                                            <th class="border-bottom-0">Year</th>
+                                                            <th class="border-bottom-0">$ Net Salary</th>
+                                                            <th class="border-bottom-0">Tax</th>
+                                                            <th class="border-bottom-0">Generated Date</th>
+                                                            <th class="border-bottom-0">Action</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr th:each=" payment : ${partTimeAcademic.getAcademic().getPayments()}">
+                                                            <td class="text-center" th:text="${payment.id}"></td>
+                                                            <td th:text="${payment.date.month}"></td>
+                                                            <td th:text="${payment.date.year}"></td>
+                                                            <td class="font-weight-semibold"
+                                                                th:text="${payment.salary - payment.tax}"></td>
+                                                            <td th:text="${payment.tax}"></td>
+                                                            <td th:text="${payment.createDate}"></td>
+                                                            <td>
+                                                                <a class="btn btn-primary btn-icon btn-sm"
+                                                                   data-original-title="View" data-toggle="tooltip"><i
+                                                                        class="feather feather-eye"></i></a>
+                                                                <a class="btn btn-success btn-icon btn-sm"
+                                                                   data-original-title="Download" data-toggle="tooltip"><i
+                                                                        class="feather feather-download"></i></a>
+                                                                <a class="btn btn-info btn-icon btn-sm"
+                                                                   data-original-title="Print" data-toggle="tooltip"
+                                                                   onclick="javascript:window.print();"><i
+                                                                        class="feather feather-printer"></i></a>
+                                                                <a class="btn btn-warning btn-icon btn-sm"
+                                                                   data-original-title="Share" data-toggle="tooltip"><i
+                                                                        class="feather feather-share-2"></i></a>
+                                                            </td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="tab-pane" id="tab10">
-                                        <div class="card-header  border-0">
-                                            <h4 class="card-title">Time Cards</h4>
-                                            <div class="btn-list" style="margin-left: 24px">
-                                                <a class="btn btn-primary mr-3" data-target="#addtimecard"
-                                                   data-toggle="modal"
-                                                   href="#">Add Time Card</a>
+                                        <div class="tab-pane" id="tab10">
+                                            <div class="card-header  border-0">
+                                                <h4 class="card-title">Time Cards</h4>
+                                                <div class="btn-list" style="margin-left: 24px">
+                                                    <a class="btn btn-primary mr-3" data-target="#addtimecard"
+                                                       data-toggle="modal"
+                                                       href="#">Add Time Card</a>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="table-responsive">
+                                                    <table class="table  table-vcenter text-nowrap table-bordered border-bottom"
+                                                           id="emp-pay2">
+                                                        <thead>
+                                                        <tr>
+                                                            <th class="border-bottom-0 text-center">#ID</th>
+                                                            <th class="border-bottom-0">Date</th>
+                                                            <th class="border-bottom-0">Total Hours</th>
+                                                            <th class="border-bottom-0">Generated Date</th>
+                                                            <th class="border-bottom-0">Action</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr th:each=" timeCard : ${partTimeAcademic.getTimeCards()}">
+                                                            <td class="text-center" th:text="${timeCard.id}"></td>
+                                                            <td th:text="${timeCard.date}"></td>
+                                                            <td th:text="${timeCard.hoursCount}"></td>
+                                                            <td th:text="${timeCard.createDate}"></td>
+                                                            <td>
+                                                                <a class="btn btn-primary btn-icon btn-sm"
+                                                                   data-original-title="View" data-toggle="tooltip"><i
+                                                                        class="feather feather-eye"></i></a>
+                                                                <a class="btn btn-success btn-icon btn-sm"
+                                                                   data-original-title="Download" data-toggle="tooltip"><i
+                                                                        class="feather feather-download"></i></a>
+                                                                <a class="btn btn-info btn-icon btn-sm"
+                                                                   data-original-title="Print" data-toggle="tooltip"
+                                                                   onclick="javascript:window.print();"><i
+                                                                        class="feather feather-printer"></i></a>
+                                                                <a class="btn btn-warning btn-icon btn-sm"
+                                                                   data-original-title="Share" data-toggle="tooltip"><i
+                                                                        class="feather feather-share-2"></i></a>
+                                                            </td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="card-body">
-                                            <div class="table-responsive">
-                                                <table class="table  table-vcenter text-nowrap table-bordered border-bottom"
-                                                       id="emp-pay2">
-                                                    <thead>
-                                                    <tr>
-                                                        <th class="border-bottom-0 text-center">#ID</th>
-                                                        <th class="border-bottom-0">Date</th>
-                                                        <th class="border-bottom-0">Total Hours</th>
-                                                        <th class="border-bottom-0">Generated Date</th>
-                                                        <th class="border-bottom-0">Action</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    <tr th:each=" timeCard : ${partTimeAcademic.getTimeCards()}">
-                                                        <td class="text-center" th:text="${timeCard.id}"></td>
-                                                        <td th:text="${timeCard.date}"></td>
-                                                        <td th:text="${timeCard.hoursCount}"></td>
-                                                        <td th:text="${timeCard.createDate}"></td>
-                                                        <td>
-                                                            <a class="btn btn-primary btn-icon btn-sm"
-                                                               data-original-title="View" data-toggle="tooltip"><i
-                                                                    class="feather feather-eye"></i></a>
-                                                            <a class="btn btn-success btn-icon btn-sm"
-                                                               data-original-title="Download" data-toggle="tooltip"><i
-                                                                    class="feather feather-download"></i></a>
-                                                            <a class="btn btn-info btn-icon btn-sm"
-                                                               data-original-title="Print" data-toggle="tooltip"
-                                                               onclick="javascript:window.print();"><i
-                                                                    class="feather feather-printer"></i></a>
-                                                            <a class="btn btn-warning btn-icon btn-sm"
-                                                               data-original-title="Share" data-toggle="tooltip"><i
-                                                                    class="feather feather-share-2"></i></a>
-                                                        </td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
+                                        <div class="card-footer text-right">
+                                            <button class="btn btn-primary" type="submit">Updated</button>
+                                            <a class="btn btn-danger" href="#">Cancle</a>
                                         </div>
-                                    </div>
-                                    <div class="card-footer text-right">
-                                        <a class="btn btn-primary" href="#">Updated</a>
-                                        <a class="btn btn-danger" href="#">Cancle</a>
                                     </div>
                                 </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </section>
@@ -576,7 +602,6 @@
         </div>
     </div>
 </div>
-<!-- End Apply Leaves Modal  -->
 
 <div th:replace="common :: notifications"></div>
 <footer th:replace="common :: footer"></footer>

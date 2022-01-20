@@ -27,21 +27,16 @@ public class AcademicDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.println("username: " + username);
         Academic academic = academicRepository.findByEmail(username);
 
         if (academic == null) {
             throw new UsernameNotFoundException("User not found");
         }
 
-        System.out.println("Academic: " + academic);
-
         if (academic.getType() == AcademicType.FULL_TIME_ACADEMIC) {
-            FullTimeAcademic fullTimeAcademic = fullTimeAcademicRepository.findByAcademicId(academic.getId());
-            return fullTimeAcademic;
+            return fullTimeAcademicRepository.findByAcademicId(academic.getId());
         } else if (academic.getType() == AcademicType.PART_TIME_ACADEMIC) {
-            PartTimeAcademic partTimeAcademic = partTimeAcademicRepository.findByAcademicId(academic.getId());
-            return partTimeAcademic;
+            return partTimeAcademicRepository.findByAcademicId(academic.getId());
         } else {
             throw new RuntimeException("User type is not valid");
         }
