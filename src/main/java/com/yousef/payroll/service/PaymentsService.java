@@ -1,5 +1,6 @@
 package com.yousef.payroll.service;
 
+import com.yousef.payroll.model.Mail;
 import com.yousef.payroll.model.Payment;
 import com.yousef.payroll.model.TimeCard;
 import com.yousef.payroll.model.users.FullTimeAcademic;
@@ -21,16 +22,18 @@ public class PaymentsService {
     private final PartTimeAcademicRepository partTimeAcademicRepository;
     private final PaymentRepository paymentRepository;
     private final TimeCardRepository timeCardRepository;
+    private final EmailService emailService;
 
-    public PaymentsService(PaymentRepository paymentRepository, AcademicRepository academicRepository, TimeCardRepository timeCardRepository, FullTimeAcademicRepository fullTimeAcademicRepository, PartTimeAcademicRepository partTimeAcademicRepository) {
+    public PaymentsService(PaymentRepository paymentRepository, AcademicRepository academicRepository, TimeCardRepository timeCardRepository, FullTimeAcademicRepository fullTimeAcademicRepository, PartTimeAcademicRepository partTimeAcademicRepository, EmailService emailService) {
         this.paymentRepository = paymentRepository;
         this.academicRepository = academicRepository;
         this.timeCardRepository = timeCardRepository;
         this.fullTimeAcademicRepository = fullTimeAcademicRepository;
         this.partTimeAcademicRepository = partTimeAcademicRepository;
+        this.emailService = emailService;
     }
 
-    //    @Scheduled(fixedDelay = 100000)
+    @Scheduled(fixedDelay = 100000)
     @Async
     @Scheduled(cron = "@monthly")
     public void payFullTimeAcademicsSalaries() throws InterruptedException {
@@ -44,10 +47,14 @@ public class PaymentsService {
             payment.setDate(new Date());
 
             paymentRepository.save(payment);
+
+            if (fullTimeAcademic.getAcademic().isSendEmailNotification()) {
+                emailService.sendMail(new Mail(fullTimeAcademic.getAcademic().getEmail(), "New Payment", "You got a new payment"));
+            }
         }
     }
 
-    //    @Scheduled(fixedDelay = 100000)
+    @Scheduled(fixedDelay = 100000)
     @Async
     @Scheduled(cron = "@monthly")
     public void payPartTimeAcademicsSalaries() throws InterruptedException {
@@ -75,10 +82,14 @@ public class PaymentsService {
             payment.setDate(new Date());
 
             paymentRepository.save(payment);
+
+            if (partTimeAcademic.getAcademic().isSendEmailNotification()) {
+                emailService.sendMail(new Mail(partTimeAcademic.getAcademic().getEmail(), "New Payment", "You got a new payment"));
+            }
         }
     }
 
-    private boolean isCurrentMonth(Date date) {
+    public static boolean isCurrentMonth(Date date) {
         DateTime dateTime = new DateTime(date);
         DateTime now = DateTime.now();
         return (dateTime.getYear() == now.getYear()) && (dateTime.getMonthOfYear() == now.getMonthOfYear());

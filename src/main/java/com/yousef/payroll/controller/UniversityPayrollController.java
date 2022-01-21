@@ -1,16 +1,15 @@
 package com.yousef.payroll.controller;
 
 import com.yousef.payroll.model.AcademicLeave;
-import com.yousef.payroll.model.Payment;
 import com.yousef.payroll.model.TimeCard;
 import com.yousef.payroll.model.types.AcademicType;
-import com.yousef.payroll.model.types.Gender;
 import com.yousef.payroll.model.types.LeaveType;
 import com.yousef.payroll.model.types.PaymentMethodType;
 import com.yousef.payroll.model.users.Academic;
 import com.yousef.payroll.model.users.FullTimeAcademic;
 import com.yousef.payroll.model.users.PartTimeAcademic;
 import com.yousef.payroll.repositories.*;
+import com.yousef.payroll.service.PaymentsService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -70,9 +69,12 @@ public class UniversityPayrollController {
         FullTimeAcademic tempFullTimeAcademic = new FullTimeAcademic();
         tempFullTimeAcademic.setAcademic(tempAcademic);
 
+        PartTimeAcademic tempPartTimeAcademic = new PartTimeAcademic();
+        tempPartTimeAcademic.setAcademic(tempAcademic);
+
         attributes.put("academic", tempAcademic);
         attributes.put("fullTimeAcademic", tempFullTimeAcademic);
-        attributes.put("partTimeAcademic", new Academic());
+        attributes.put("partTimeAcademic", tempPartTimeAcademic);
 
         model.addAllAttributes(attributes);
         return "universityPayrollSystem/admin/employees/hr-academic-list";
@@ -98,12 +100,10 @@ public class UniversityPayrollController {
             academic.setPaymentDetails(PaymentMethodType.BANK_DEPOSIT.toString());
             academic.setPassword(new BCryptPasswordEncoder().encode(academic.getPassword()));
 
-            System.out.println(academic);
-            System.out.println(fullTimeAcademic);
-
             academicRepository.save(academic);
 
             fullTimeAcademic.setAcademic(academic);
+            fullTimeAcademic.setRemainingLeaveBalance(fullTimeAcademic.getLeaveBalance());
             fullTimeAcademicRepository.save(fullTimeAcademic);
 
             redirectAttributes.addFlashAttribute("message", "Successfully added a new academic");
@@ -131,17 +131,7 @@ public class UniversityPayrollController {
             academic.setPaymentDetails(PaymentMethodType.BANK_DEPOSIT.toString());
             academic.setPassword(new BCryptPasswordEncoder().encode(academic.getPassword()));
 
-            academic.setProfilePicLink("big no no yes");//todo:edit
-            academic.setJobTitle("yoooooooo");//todo:edit
-            academic.setSendEmailNotification(true);
-            academic.setActive(true);
-            academic.setGender(Gender.FEMALE);//todo:edit
-            academic.setBirthDate(new Date());//todo:edit
-
             partTimeAcademic.setAcademic(academic);
-
-            System.out.println(academic);
-            System.out.println(partTimeAcademic);
 
             academicRepository.save(academic);
             partTimeAcademicRepository.save(partTimeAcademic);
@@ -275,10 +265,8 @@ public class UniversityPayrollController {
     }
 
     @PostMapping("/dashboard/Academic/{id}/addAcademicLeave")
-    public String addAcademicLeave(RedirectAttributes redirectAttributes, @PathVariable long id, @RequestParam("reason") String reason,
-                                   @RequestParam("fromDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fromDate,
-                                   @RequestParam("toDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date toDate) {
-        FullTimeAcademic academic = fullTimeAcademicRepository.findById(id).orElse(null);
+    public String addAcademicLeave(RedirectAttributes redirectAttributes, @PathVariable long id, @RequestParam("reason") String reason, @RequestParam("fromDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fromDate, @RequestParam("toDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date toDate) {
+        FullTimeAcademic academic = fullTimeAcademicRepository.findByAcademicId(id);
 
         if (academic == null) {
             redirectAttributes.addFlashAttribute("error", "Academic doesn't exist");
@@ -289,12 +277,12 @@ public class UniversityPayrollController {
 
         if (totalDays <= 0) {
             redirectAttributes.addFlashAttribute("error", "Error: 'To Date' can't be less than 'From Date'");
-            return "redirect:/university-payroll/dashboard/employees/edit/" + id;
+            return "redirect:/university-payroll/dashboard/academic/edit/" + id;
         }
 
-        if (academic.getLeaveBalance() < totalDays) {
+        if (academic.getRemainingLeaveBalance() < totalDays) {
             redirectAttributes.addFlashAttribute("error", "Academic leave balance is insufficient");
-            return "redirect:/university-payroll/dashboard/employees/edit/" + id;
+            return "redirect:/university-payroll/dashboard/academic/edit/" + id;
         }
 
         try {
@@ -309,7 +297,7 @@ public class UniversityPayrollController {
             System.out.println(academicLeave);
             leavesRepository.save(academicLeave);
 
-            academic.setLeaveBalance(academic.getLeaveBalance() - totalDays);
+            academic.setRemainingLeaveBalance(academic.getRemainingLeaveBalance() - totalDays);
             fullTimeAcademicRepository.save(academic);
 
             redirectAttributes.addFlashAttribute("message", "Successfully added a new academic leave");
@@ -317,52 +305,47 @@ public class UniversityPayrollController {
             redirectAttributes.addFlashAttribute("error", "ERROR: " + e.getMessage());
         }
 
-        return "redirect:/university-payroll/dashboard/employees/edit/" + id;
-    }
-
-    @PostMapping("/dashboard/Academic/{id}/addPayment")
-    public String addPayment(RedirectAttributes redirectAttributes, @PathVariable long id, @RequestParam("salary") double salary,
-                             @RequestParam("tax") double tax, @RequestParam("paymentDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date paymentDate) {
-        Academic academic = academicRepository.findById(id).orElse(null);
-
-        if (academic == null) {
-            redirectAttributes.addFlashAttribute("error", "Academic doesn't exist");
-            return "redirect:/university-payroll/dashboard";
-        }
-
-        try {
-            Payment payment = new Payment();
-            payment.setSalary(salary);
-            payment.setTax(tax);
-            payment.setAcademic(academic);
-            payment.setDate(paymentDate);
-
-            System.out.println(payment);
-            paymentRepository.save(payment);
-
-            redirectAttributes.addFlashAttribute("message", "Successfully added a new payment");
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "ERROR: " + e.getMessage());
-        }
-
-        return "redirect:/university-payroll/dashboard/employees/edit/" + id;
+        return "redirect:/university-payroll/dashboard/academic/edit/" + id;
     }
 
     @PostMapping("/dashboard/Academic/{id}/addTimeCard")
-    public String addTimeCard(RedirectAttributes redirectAttributes, @PathVariable long id, @RequestParam("hoursCount") Integer hoursCount,
-                              @RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
-        Academic academic = academicRepository.findById(id).orElse(null);
+    public String addTimeCard(RedirectAttributes redirectAttributes, @PathVariable long id, @RequestParam("hoursCount") Integer hoursCount, @RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+        PartTimeAcademic academic = partTimeAcademicRepository.findByAcademicId(id);
 
         if (academic == null) {
             redirectAttributes.addFlashAttribute("error", "Academic doesn't exist");
             return "redirect:/university-payroll/dashboard";
+        }
+
+        int currentMonthCount = 0;
+        int totalWorkedHours = 0;
+        List<TimeCard> timeCards = timeCardRepository.findByPartTimeAcademicId(academic.getId());
+        for (TimeCard timeCard : timeCards) {
+            if (PaymentsService.isCurrentMonth(timeCard.getDate())) {
+                totalWorkedHours += timeCard.getHoursCount();
+                currentMonthCount++;
+            }
+        }
+
+        if (currentMonthCount == 4) {
+            redirectAttributes.addFlashAttribute("error", "Monthly Time Cards limit has been reached (4 Per Month)");
+            return "redirect:/university-payroll/dashboard/academic/edit/" + id;
+        }
+
+        if (totalWorkedHours + hoursCount > academic.getContractHours()) {
+            hoursCount = academic.getContractHours() - totalWorkedHours;
+            if (hoursCount == 0) {
+                redirectAttributes.addFlashAttribute("error", "Max worked hours was reached - Time Card was not added");
+                return "redirect:/university-payroll/dashboard/academic/edit/" + id;
+            }
+            redirectAttributes.addFlashAttribute("error", "Time Card hours > Contract Hours - Your hours will be capped at " + academic.getContractHours());
         }
 
         try {
             TimeCard timeCard = new TimeCard();
             timeCard.setHoursCount(hoursCount);
             timeCard.setDate(date);
-            timeCard.setAcademic(null);
+            timeCard.setAcademic(academic);
 
             System.out.println(timeCard);
             timeCardRepository.save(timeCard);
@@ -372,7 +355,7 @@ public class UniversityPayrollController {
             redirectAttributes.addFlashAttribute("error", "ERROR: " + e.getMessage());
         }
 
-        return "redirect:/university-payroll/dashboard/employees/edit/" + id;
+        return "redirect:/university-payroll/dashboard/academic/edit/" + id;
     }
 
     @ExceptionHandler(Exception.class)

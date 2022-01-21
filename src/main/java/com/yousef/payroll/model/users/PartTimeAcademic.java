@@ -6,6 +6,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -17,6 +19,10 @@ public class PartTimeAcademic implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotNull(message = "Contract Hours can not be empty")
+    @Min(value = 0, message = "Contract Hours can not be less than 0")
+    public int contractHours;
 
     @OneToOne
     private Academic academic;
@@ -63,6 +69,14 @@ public class PartTimeAcademic implements UserDetails {
         return authorities;
     }
 
+    public int getContractHours() {
+        return contractHours;
+    }
+
+    public void setContractHours(int contractHours) {
+        this.contractHours = contractHours;
+    }
+
     @Override
     public String getPassword() {
         return academic.getPassword();
@@ -97,7 +111,9 @@ public class PartTimeAcademic implements UserDetails {
     public String toString() {
         return "PartTimeAcademic{" +
                 "id=" + id +
+                ", contractHours=" + contractHours +
                 ", academic=" + academic +
+                ", timeCards=" + timeCards +
                 '}';
     }
 }

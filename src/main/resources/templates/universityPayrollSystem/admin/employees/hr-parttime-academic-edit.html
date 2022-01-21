@@ -24,7 +24,7 @@
 
                     <div class="page-header d-xl-flex d-block">
                         <div class="page-leftheader">
-                            <h4 class="page-title">Academic Profile</h4>
+                            <h4 class="page-title">Academic Profile (Part-Time)</h4>
                         </div>
                     </div>
                     <div class="row">
@@ -288,6 +288,19 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <label class="form-label mb-0 mt-2">Contract Hours</label>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            <input class="form-control" placeholder="Contract Hours"
+                                                                   th:field="${partTimeAcademic.contractHours}"
+                                                                   th:value="${partTimeAcademic.contractHours}"
+                                                                   type="number">
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <div class="form-group mt-7">
                                                     <div class="row">
                                                         <div class="col-md-3">
@@ -540,8 +553,9 @@
                                             </div>
                                         </div>
                                         <div class="card-footer text-right">
-                                            <button class="btn btn-primary" type="submit">Updated</button>
-                                            <a class="btn btn-danger" href="#">Cancle</a>
+                                            <button class="btn btn-primary" type="submit">Update</button>
+                                            <a class="btn btn-danger"
+                                               th:href="@{/university-payroll/dashboard/academics}">Cancel</a>
                                         </div>
                                     </div>
                                 </div>

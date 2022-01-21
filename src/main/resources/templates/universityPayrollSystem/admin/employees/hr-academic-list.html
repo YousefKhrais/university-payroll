@@ -356,8 +356,8 @@
                                     <span aria-hidden="true">×</span>
                                 </button>
                             </div>
-                            <form id="addPartTimeAcademic" method="post"
-                                  name="add_full_time_academic"
+                            <form id="addPartTimeEmployee" method="post"
+                                  name="add_part_time_academic"
                                   th:action="@{/university-payroll/dashboard/academic/partTime}"
                                   th:object="${partTimeAcademic}">
                                 <div class="modal-body" th:object="${academic}">
@@ -374,6 +374,22 @@
                                                 <label class="form-label">Academic Last Name</label>
                                                 <input class="form-control" placeholder="Enter Last Name"
                                                        th:field="*{lastName}" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Date of Birth</label>
+                                                <input class="form-control" placeholder="Enter Date of Birth"
+                                                       th:field="*{birthDate}" type="date">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Job Title</label>
+                                                <input class="form-control" placeholder="Enter Job Title"
+                                                       th:field="*{jobTitle}" type="text">
                                             </div>
                                         </div>
                                     </div>
@@ -398,7 +414,23 @@
                                             <div class="form-group">
                                                 <label class="form-label">Phone Number</label>
                                                 <input class="form-control" placeholder="Enter Phone Number"
-                                                       th:field="*{phoneNumber}" type="text">
+                                                       th:field="*{phoneNumber}" type="number">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Contract Hours</label>
+                                                <input class="form-control" placeholder="Enter Leave Balance"
+                                                       th:field="${partTimeAcademic.contractHours}" type="number">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Hourly Salary</label>
+                                                <input class="form-control" placeholder="Enter Flat Salary"
+                                                       th:field="*{flatSalary}" type="number">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -406,23 +438,6 @@
                                                 <label class="form-label">Department</label>
                                                 <input class="form-control" placeholder="Enter Department"
                                                        th:field="*{department}" type="text">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="form-label">Salary</label>
-                                                <input class="form-control" placeholder="Enter Contract Salary"
-                                                       th:field="*{flatSalary}" type="number">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="form-label">Contract Hours</label>
-                                                <input class="form-control" name="contractHours"
-                                                       placeholder="Enter Contract Hours"
-                                                       type="number">
                                             </div>
                                         </div>
                                     </div>
@@ -446,17 +461,14 @@
                                         </div>
                                     </div>
                                     <div class="custom-controls-stacked d-md-flex">
-                                        <label class="form-label mt-1 mr-5">Status :</label>
-                                        <label class="custom-control custom-radio success mr-4">
-                                            <input class="custom-control-input" name="example-radios1" type="radio"
-                                                   value="option1">
-                                            <span class="custom-control-label">Active</span>
-                                        </label>
-                                        <label class="custom-control custom-radio success mr-4">
-                                            <input class="custom-control-input" name="example-radios1" type="radio"
-                                                   value="option2">
-                                            <span class="custom-control-label">Inactive</span>
-                                        </label>
+                                        <label class="form-label mt-1 mr-5">Gender :</label>
+                                        <div th:each="model : ${T(com.yousef.payroll.model.types.Gender).values()}">
+                                            <label class="custom-control custom-radio success mr-4">
+                                                <input class="custom-control-input" name="example-radios1"
+                                                       th:field="*{gender}" th:value="${model}" type="radio">
+                                                <span class="custom-control-label" th:text="${model}"></span>
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
