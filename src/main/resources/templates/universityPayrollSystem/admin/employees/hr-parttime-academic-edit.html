@@ -373,9 +373,9 @@
                                                             <select class="form-control custom-select select2"
                                                                     th:field="${partTimeAcademic.academic.paymentMethodType}">
                                                                 <option th:each="paymentMethod : ${T(com.yousef.payroll.model.types.PaymentMethodType).values()}"
-                                                                        th:selected="${paymentMethod} == ${partTimeAcademic.getAcademic().paymentMethodType}"
+                                                                        th:selected="${paymentMethod} == ${partTimeAcademic.getAcademic().getPaymentMethodType()}"
                                                                         th:text="${paymentMethod}"
-                                                                        th:value="${partTimeAcademic.getAcademic().paymentMethodType}"></option>
+                                                                        th:value="${paymentMethod}"></option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -508,11 +508,6 @@
                                         <div class="tab-pane" id="tab4">
                                             <div class="card-header  border-0">
                                                 <h4 class="card-title">Time Cards</h4>
-                                                <div class="btn-list" style="margin-left: 24px">
-                                                    <a class="btn btn-primary mr-3" data-target="#addtimecard"
-                                                       data-toggle="modal"
-                                                       href="#">Add Time Card</a>
-                                                </div>
                                             </div>
                                             <div class="card-body">
                                                 <div class="table-responsive">
@@ -524,7 +519,6 @@
                                                             <th class="border-bottom-0">Date</th>
                                                             <th class="border-bottom-0">Total Hours</th>
                                                             <th class="border-bottom-0">Generated Date</th>
-                                                            <th class="border-bottom-0">Action</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
@@ -533,21 +527,6 @@
                                                             <td th:text="${timeCard.date}"></td>
                                                             <td th:text="${timeCard.hoursCount}"></td>
                                                             <td th:text="${timeCard.createDate}"></td>
-                                                            <td>
-                                                                <a class="btn btn-primary btn-icon btn-sm"
-                                                                   data-original-title="View" data-toggle="tooltip"><i
-                                                                        class="feather feather-eye"></i></a>
-                                                                <a class="btn btn-success btn-icon btn-sm"
-                                                                   data-original-title="Download" data-toggle="tooltip"><i
-                                                                        class="feather feather-download"></i></a>
-                                                                <a class="btn btn-info btn-icon btn-sm"
-                                                                   data-original-title="Print" data-toggle="tooltip"
-                                                                   onclick="javascript:window.print();"><i
-                                                                        class="feather feather-printer"></i></a>
-                                                                <a class="btn btn-warning btn-icon btn-sm"
-                                                                   data-original-title="Share" data-toggle="tooltip"><i
-                                                                        class="feather feather-share-2"></i></a>
-                                                            </td>
                                                         </tr>
                                                         </tbody>
                                                     </table>

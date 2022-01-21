@@ -46,6 +46,7 @@ public class PaymentsService {
             payment.setSalary(fullTimeAcademic.getAcademic().getFlatSalary());
             payment.setTax(fullTimeAcademic.getAcademic().getFlatSalary() * 0.15);
             payment.setDate(new Date());
+            payment.setPaymentMethodType(fullTimeAcademic.getAcademic().getPaymentMethodType());
 
             paymentRepository.save(payment);
 
@@ -77,6 +78,7 @@ public class PaymentsService {
             payment.setPaymentMethodType(partTimeAcademic.getAcademic().getPaymentMethodType());
             payment.setSalary(partTimeAcademic.getAcademic().getFlatSalary() * totalWorkedHours);
             payment.setDate(new Date());
+            payment.setPaymentMethodType(partTimeAcademic.getAcademic().getPaymentMethodType());
 
             paymentRepository.save(payment);
 
