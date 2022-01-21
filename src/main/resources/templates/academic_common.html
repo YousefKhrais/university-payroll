@@ -33,7 +33,7 @@
 
 <aside class="app-sidebar" th:fragment="sidebar">
     <div class="app-sidebar__logo">
-        <a class="header-brand" href="index-2.html">
+        <a class="header-brand" th:href="@{/academic-kiosk/dashboard}">
             <img alt="Dayonelogo" class="header-brand-img desktop-lgo"
                  th:src="@{/assets/images/brand/logo.png}">
             <img alt="Dayonelogo" class="header-brand-img dark-logo"
@@ -46,292 +46,49 @@
     </div>
     <div class="app-sidebar3">
         <ul class="side-menu">
-            <li class="side-item side-item-category mt-4">Dashboards</li>
+            <li class="side-item side-item-category mt-4">Dashboard</li>
             <li class="slide">
-                <a class="side-menu__item" data-toggle="slide" href="#">
+                <a class="side-menu__item" th:href="@{/academic-kiosk/dashboard}">
                     <i class="feather feather-home sidemenu_icon"></i>
-                    <span class="side-menu__label">HR Dashboard</span><i
-                        class="angle fa fa-angle-right"></i>
+                    <span class="side-menu__label">Main Dashboard</span>
                 </a>
-                <ul class="slide-menu">
-                    <li><a class="slide-item" href="index-2.html">Dashboard</a></li>
-                    <li><a class="slide-item" href="hr-department.html">Department</a></li>
-                    <li class="sub-slide">
-                        <a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span
-                                class="sub-side-menu__label">Employees</span><i
-                                class="sub-angle fa fa-angle-right"></i></a>
-                        <ul class="sub-slide-menu">
-                            <li><a class="sub-slide-item" href="hr-emplist.html">Employees List</a></li>
-                            <li><a class="sub-slide-item" href="hr-empview.html">View Employee</a></li>
-                            <li><a class="sub-slide-item" href="hr-addemployee.html">Add Employee</a></li>
-                        </ul>
-                    </li>
-                    <li class="sub-slide">
-                        <a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span
-                                class="sub-side-menu__label">Attendance</span><i
-                                class="sub-angle fa fa-angle-right"></i></a>
-                        <ul class="sub-slide-menu">
-                            <li><a class="sub-slide-item" href="hr-attlist.html">Attendance List</a></li>
-                            <li><a class="sub-slide-item" href="hr-attuser.html">Attendance By User</a></li>
-                            <li><a class="sub-slide-item" href="hr-attview.html">Attendance View</a></li>
-                            <li><a class="sub-slide-item" href="hr-overviewcldr.html">Overview Calender</a>
-                            </li>
-                            <li><a class="sub-slide-item" href="hr-attmark.html">Attendance Mark </a></li>
-                            <li><a class="sub-slide-item" href="hr-leaves.html">Leave Settings</a></li>
-                            <li><a class="sub-slide-item" href="hr-leavesapplication.html">Leave
-                                Applications</a></li>
-                            <li><a class="sub-slide-item" href="hr-recentleaves.html">Recent Leaves </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li><a class="slide-item" href="hr-award.html">Awards</a></li>
-                    <li><a class="slide-item" href="hr-holiday.html">Holidays</a></li>
-                    <li><a class="slide-item" href="hr-notice.html">Notice Board</a></li>
-                    <li><a class="slide-item" href="hr-expenses.html">Expenses</a></li>
-                    <li class="sub-slide">
-                        <a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span
-                                class="sub-side-menu__label">Payroll</span><i
-                                class="sub-angle fa fa-angle-right"></i></a>
-                        <ul class="sub-slide-menu">
-                            <li><a class="sub-slide-item" href="hr-empsalary.html">Employee Salary</a></li>
-                            <li><a class="sub-slide-item" href="hr-addpayroll.html">Add Payroll</a></li>
-                            <li><a class="sub-slide-item" href="hr-editpayroll.html">Edit Payroll</a></li>
-                        </ul>
-                    </li>
-                    <li><a class="slide-item" href="hr-events.html">Events</a></li>
-                    <li><a class="slide-item" href="hr-settings.html">Settings</a></li>
-                </ul>
             </li>
+            <li class="side-item side-item-category">Academic</li>
             <li class="slide">
-                <a class="side-menu__item" data-toggle="slide" href="#">
+                <a class="side-menu__item" href="#">
                     <i class="feather  feather-users sidemenu_icon"></i>
-                    <span class="side-menu__label">Employee Dashboard</span><i
-                        class="angle fa fa-angle-right"></i>
+                    <span class="side-menu__label">Personal Details</span>
                 </a>
-                <ul class="slide-menu">
-                    <li><a class="slide-item" href="index2.html">Dashboard</a></li>
-                    <li><a class="slide-item" href="employee-attendance.html">Attendance</a></li>
-                    <li><a class="slide-item" href="employee-leaves.html">Apply Leaves </a></li>
-                    <li><a class="slide-item" href="employee-myleaves.html">My Leaves </a></li>
-                    <li><a class="slide-item" href="employee-payslips.html">Payslips </a></li>
-                    <li><a class="slide-item" href="employee-expenses.html">Expenses</a></li>
-                </ul>
             </li>
             <li class="slide">
-                <a class="side-menu__item" data-toggle="slide" href="#">
+                <a class="side-menu__item" href="#">
                     <i class="feather feather-user sidemenu_icon"></i>
-                    <span class="side-menu__label">Client Dashboard</span><i
-                        class="angle fa fa-angle-right"></i>
+                    <span class="side-menu__label">Company Details</span>
                 </a>
-                <ul class="slide-menu">
-                    <li><a class="slide-item" href="index5.html">Dashboard</a></li>
-                    <li><a class="slide-item" href="client-list.html">Client List</a></li>
-                    <li><a class="slide-item" href="client-view.html">View Client</a></li>
-                    <li><a class="slide-item" href="client-new.html">New Client</a></li>
-                    <li><a class="slide-item" href="client-profile.html">User Profile</a></li>
-                </ul>
             </li>
             <li class="slide">
-                <a class="side-menu__item" data-toggle="slide" href="#">
+                <a class="side-menu__item" href="#">
                     <i class="feather feather-headphones sidemenu_icon"></i>
-                    <span class="side-menu__label">Support System</span><i
-                        class="angle fa fa-angle-right"></i>
+                    <span class="side-menu__label">Bank Details</span>
                 </a>
-                <ul class="slide-menu">
-                    <li class="sub-slide">
-                        <a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span
-                                class="sub-side-menu__label">Landing Pages</span><i
-                                class="sub-angle fa fa-angle-right"></i></a>
-                        <ul class="sub-slide-menu">
-                            <li><a class="sub-slide-item" href="support-landing.html">Landing Page</a></li>
-                            <li><a class="sub-slide-item" href="support-knowledge.html">Knowledge Page</a>
-                            </li>
-                            <li><a class="sub-slide-item" href="support-knowledgeview.html">Knowledge
-                                View</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="sub-slide">
-                        <a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span
-                                class="sub-side-menu__label">User Pages</span><i
-                                class="sub-angle fa fa-angle-right"></i></a>
-                        <ul class="sub-slide-menu">
-                            <li><a class="sub-slide-item" href="support-userdash.html">Dashboard</a></li>
-                            <li><a class="sub-slide-item" href="support-editprofile.html">Profile</a></li>
-                            <li class="sub-slide2">
-                                <a class="sub-side-menu__item2" data-toggle="sub-slide2" href="#"><span
-                                        class="sub-side-menu__label2">Tickets</span><i
-                                        class="sub-angle2 fa fa-angle-right"></i></a>
-                                <ul class="sub-slide-menu2">
-                                    <li><a class="sub-slide-item2" href="support-ticketlist.html">Ticket
-                                        List</a></li>
-                                    <li><a class="sub-slide-item2" href="support-ticketactive.html">Active
-                                        Tickets</a></li>
-                                    <li><a class="sub-slide-item2" href="support-ticketclosed.html">Closed
-                                        Tickets</a></li>
-                                    <li><a class="sub-slide-item2" href="support-ticketcreate.html">Create
-                                        Ticket</a></li>
-                                    <li><a class="sub-slide-item2" href="support-ticketview.html">View
-                                        Ticket</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="sub-slide">
-                        <a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span
-                                class="sub-side-menu__label">Admin</span><i
-                                class="sub-angle fa fa-angle-right"></i></a>
-                        <ul class="sub-slide-menu">
-                            <li><a class="sub-slide-item" href="support-admindash.html">Dashboard</a></li>
-                            <li><a class="sub-slide-item" href="support-admineditprofile.html">Edit
-                                Profile</a>
-                            </li>
-                            <li class="sub-slide2">
-                                <a class="sub-side-menu__item2" data-toggle="sub-slide2" href="#"><span
-                                        class="sub-side-menu__label2">Tickets</span><i
-                                        class="sub-angle2 fa fa-angle-right"></i></a>
-                                <ul class="sub-slide-menu2">
-                                    <li><a class="sub-slide-item2" href="support-adminticketlist.html">Ticket
-                                        List</a></li>
-                                    <li><a class="sub-slide-item2" href="support-adminticketactive.html">Active
-                                        Tickets</a></li>
-                                    <li><a class="sub-slide-item2" href="support-adminticketclosed.html">Closed
-                                        Tickets</a></li>
-                                    <li><a class="sub-slide-item2" href="support-adminticketnew.html">New
-                                        Ticket</a></li>
-                                    <li><a class="sub-slide-item2" href="support-adminticketview.html">View
-                                        Ticket</a></li>
-                                </ul>
-                            </li>
-                            <li><a class="sub-slide-item" href="support-admincustomer.html">Customers</a>
-                            </li>
-                            <li><a class="sub-slide-item" href="support-admincategories.html">Categories</a>
-                            </li>
-                            <li><a class="sub-slide-item" href="support-adminarticles.html">Articles</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="sub-slide">
-                        <a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span
-                                class="sub-side-menu__label">Agent</span><i
-                                class="sub-angle fa fa-angle-right"></i></a>
-                        <ul class="sub-slide-menu">
-                            <li><a class="sub-slide-item" href="support-agentdash.html">Dashboard</a></li>
-                            <li class="sub-slide2">
-                                <a class="sub-side-menu__item2" data-toggle="sub-slide2" href="#"><span
-                                        class="sub-side-menu__label2">Tickets</span><i
-                                        class="sub-angle2 fa fa-angle-right"></i></a>
-                                <ul class="sub-slide-menu2">
-                                    <li><a class="sub-slide-item2" href="support-agentticketlist.html">Ticket
-                                        List</a></li>
-                                    <li><a class="sub-slide-item2" href="support-agentticketactive.html">Active
-                                        Tickets</a></li>
-                                    <li><a class="sub-slide-item2" href="support-agentticketclosed.html">Closed
-                                        Tickets</a></li>
-                                    <li><a class="sub-slide-item2" href="support-agentticketview.html">View
-                                        Ticket</a></li>
-                                </ul>
-                            </li>
-                            <li><a class="sub-slide-item" href="support-agentassign.html">Assigned
-                                Categories</a></li>
-                        </ul>
-                    </li>
-                </ul>
             </li>
             <li class="slide">
-                <a class="side-menu__item" data-toggle="slide" href="#">
+                <a class="side-menu__item" href="#">
                     <i class="feather feather-airplay sidemenu_icon"></i>
-                    <span class="side-menu__label">Admin</span><i class="angle fa fa-angle-right"></i>
+                    <span class="side-menu__label">Payments</span>
                 </a>
-                <ul class="slide-menu">
-                    <li><a class="slide-item" href="admin-general.html">General Settings</a></li>
-                    <li><a class="slide-item" href="admin-api.html">API Settings</a></li>
-                    <li><a class="slide-item" href="admin-role.html">Role Access</a></li>
-                </ul>
             </li>
             <li class="slide">
-                <a class="side-menu__item" data-toggle="slide" href="#">
-                    <i class="feather feather-slack sidemenu_icon"></i>
-                    <span class="side-menu__label">Super Admin</span><i class="angle fa fa-angle-right"></i>
+                <a class="side-menu__item" href="#">
+                    <i class="feather feather-airplay sidemenu_icon"></i>
+                    <span class="side-menu__label">Academic Leaves</span>
                 </a>
-                <ul class="slide-menu">
-                    <li><a class="slide-item" href="index7.html">Dashboard</a></li>
-                    <li><a class="slide-item" href="superadmin-company.html">Companies</a></li>
-                    <li><a class="slide-item" href="superadmin-subscription.html">Subscription Plans</a>
-                    </li>
-                    <li><a class="slide-item" href="superadmin-invoices.html">Invoices</a></li>
-                    <li><a class="slide-item" href="superadmin-admins.html">Super Admins</a></li>
-                    <li><a class="slide-item" href="superadmin-settings.html">Settings</a></li>
-                    <li><a class="slide-item" href="superadmin-role.html">Role Access</a></li>
-                </ul>
             </li>
-            <li class="side-item side-item-category">Pages</li>
             <li class="slide">
-                <a class="side-menu__item" data-toggle="slide" href="#">
-                    <i class="feather feather-copy sidemenu_icon"></i>
-                    <span class="side-menu__label">Pages</span><i class="angle fa fa-angle-right"></i></a>
-                <ul class="slide-menu">
-                    <li class="sub-slide">
-                        <a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span
-                                class="sub-side-menu__label">Profile</span><i
-                                class="sub-angle fa fa-angle-right"></i></a>
-                        <ul class="sub-slide-menu">
-                            <li><a class="sub-slide-item" href="profile1.html">Profile 01</a></li>
-                            <li><a class="sub-slide-item" href="profile2.html">Profile 02</a></li>
-                            <li><a class="sub-slide-item" href="profile3.html">Profile 03</a></li>
-                        </ul>
-                    </li>
-                    <li><a class="slide-item" href="editprofile.html"> Edit Profile</a></li>
-                    <li class="sub-slide">
-                        <a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span
-                                class="sub-side-menu__label">Email</span><i
-                                class="sub-angle fa fa-angle-right"></i></a>
-                        <ul class="sub-slide-menu">
-                            <li><a class="sub-slide-item" href="email-compose.html">Email Compose</a></li>
-                            <li><a class="sub-slide-item" href="email-inbox.html">Email Inbox</a></li>
-                            <li><a class="sub-slide-item" href="email-read.html">Email Read</a></li>
-                        </ul>
-                    </li>
-                    <li class="sub-slide">
-                        <a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span
-                                class="sub-side-menu__label">Pricing</span><i
-                                class="sub-angle fa fa-angle-right"></i></a>
-                        <ul class="sub-slide-menu">
-                            <li><a class="sub-slide-item" href="pricing.html">Pricing 01</a></li>
-                            <li><a class="sub-slide-item" href="pricing2.html">Pricing 02</a></li>
-                            <li><a class="sub-slide-item" href="pricing3.html">Pricing 03</a></li>
-                        </ul>
-                    </li>
-                    <li class="sub-slide">
-                        <a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span
-                                class="sub-side-menu__label">Invoice</span><i
-                                class="sub-angle fa fa-angle-right"></i></a>
-                        <ul class="sub-slide-menu">
-                            <li><a class="sub-slide-item" href="invoice-list.html">Invoice list</a></li>
-                            <li><a class="sub-slide-item" href="invoice1.html">Invoice 01</a></li>
-                            <li><a class="sub-slide-item" href="invoice2.html">Invoice 02</a></li>
-                            <li><a class="sub-slide-item" href="invoice3.html">Invoice 03</a></li>
-                            <li><a class="sub-slide-item" href="invoice-add.html">Add Invoice</a></li>
-                            <li><a class="sub-slide-item" href="invoice-edit.html">Edit Invoice</a></li>
-                        </ul>
-                    </li>
-                    <li class="sub-slide">
-                        <a class="sub-side-menu__item" data-toggle="sub-slide" href="#"><span
-                                class="sub-side-menu__label">Blog</span><i
-                                class="sub-angle fa fa-angle-right"></i></a>
-                        <ul class="sub-slide-menu">
-                            <li><a class="sub-slide-item" href="blog.html">Blog 01</a></li>
-                            <li><a class="sub-slide-item" href="blog2.html">Blog 02</a></li>
-                            <li><a class="sub-slide-item" href="blog3.html">Blog 03</a></li>
-                            <li><a class="sub-slide-item" href="blog-styles.html">Blog Styles</a></li>
-                        </ul>
-                    </li>
-                    <li><a class="slide-item" href="gallery.html"> Gallery</a></li>
-                    <li><a class="slide-item" href="faq.html"> FAQS</a></li>
-                    <li><a class="slide-item" href="terms.html"> Terms</a></li>
-                    <li><a class="slide-item" href="emptypage.html"> Empty Page</a></li>
-                    <li><a class="slide-item" href="search.html"> Search</a></li>
-                </ul>
+                <a class="side-menu__item" href="#">
+                    <i class="feather feather-airplay sidemenu_icon"></i>
+                    <span class="side-menu__label">Time Cards</span>
+                </a>
             </li>
         </ul>
     </div>

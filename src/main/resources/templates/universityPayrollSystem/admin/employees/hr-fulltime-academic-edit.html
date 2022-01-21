@@ -84,18 +84,17 @@
                                 <div class="tab-menu-heading hremp-tabs p-0 ">
                                     <div class="tabs-menu1">
                                         <ul class="nav panel-tabs">
-                                            <li class="ml-4"><a class="active" data-toggle="tab" href="#tab5">Personal
-                                                Details</a></li>
-                                            <li><a data-toggle="tab" href="#tab6">Company Details</a></li>
-                                            <li><a data-toggle="tab" href="#tab7">Bank Details</a></li>
-                                            <li><a data-toggle="tab" href="#tab8">leaves</a></li>
-                                            <li><a data-toggle="tab" href="#tab9">Payments</a></li>
+                                            <li class="ml-4"><a class="active" data-toggle="tab" href="#tab0">Personal Details</a></li>
+                                            <li><a data-toggle="tab" href="#tab1">Company Details</a></li>
+                                            <li><a data-toggle="tab" href="#tab2">Bank Details</a></li>
+                                            <li><a data-toggle="tab" href="#tab3">Payments</a></li>
+                                            <li><a data-toggle="tab" href="#tab4">leaves</a></li>
                                         </ul>
                                     </div>
                                 </div>
                                 <div class="panel-body tabs-menu-body hremp-tabs1 p-0">
                                     <div class="tab-content">
-                                        <div class="tab-pane active" id="tab5">
+                                        <div class="tab-pane active" id="tab0">
                                             <div class="card-body">
                                                 <h4 class="mb-4 font-weight-bold">Basic</h4>
                                                 <div class="form-group ">
@@ -212,7 +211,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="tab-pane" id="tab6">
+                                        <div class="tab-pane" id="tab1">
                                             <div class="card-body">
                                                 <h4 class="mb-4 font-weight-bold">Basic</h4>
                                                 <div class="form-group">
@@ -355,7 +354,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="tab-pane" id="tab7">
+                                        <div class="tab-pane" id="tab2">
                                             <div class="card-body">
                                                 <div class="form-group">
                                                     <div class="row">
@@ -449,55 +448,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="tab-pane" id="tab8">
-                                            <div class="row">
-                                                <div class="col-xl-12 col-md-12 col-lg-12">
-                                                    <div class="card">
-                                                        <div class="card-header  border-0">
-                                                            <h4 class="card-title">Leaves Summary</h4>
-                                                            <div class="btn-list" style="margin-left: 24px">
-                                                                <a class="btn btn-primary mr-3"
-                                                                   data-target="#applyleaves"
-                                                                   data-toggle="modal"
-                                                                   href="#">Add Leaves</a>
-                                                            </div>
-                                                        </div>
-                                                        <div class="card-body">
-                                                            <div class="table-responsive">
-                                                                <table class="table  table-vcenter text-nowrap table-bordered border-bottom"
-                                                                       id="emp-attendance">
-                                                                    <thead>
-                                                                    <tr>
-                                                                        <th class="border-bottom-0 text-center">#ID</th>
-                                                                        <th class="border-bottom-0">From</th>
-                                                                        <th class="border-bottom-0">TO</th>
-                                                                        <th class="border-bottom-0">Days</th>
-                                                                        <th class="border-bottom-0">Reason</th>
-                                                                        <th class="border-bottom-0">Type</th>
-                                                                        <th class="border-bottom-0">Applied On</th>
-                                                                    </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                    <tr th:each=" leave : ${fullTimeAcademic.getAcademicLeaves()}">
-                                                                        <td class="text-center"
-                                                                            th:text="${leave.id}"></td>
-                                                                        <td th:text="${leave.fromDate}"></td>
-                                                                        <td th:text="${leave.toDate}"></td>
-                                                                        <td class="font-weight-semibold"
-                                                                            th:text="${leave.days+' Days'}"></td>
-                                                                        <td th:text="${leave.reason}"></td>
-                                                                        <td th:text="${leave.type}"></td>
-                                                                        <td th:text="${leave.createdDate}"></td>
-                                                                    </tr>
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="tab-pane" id="tab9">
+                                        <div class="tab-pane" id="tab3">
                                             <div class="card-header  border-0">
                                                 <h4 class="card-title">My Payslips Summary</h4>
                                             </div>
@@ -543,6 +494,54 @@
                                                         </tr>
                                                         </tbody>
                                                     </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane" id="tab4">
+                                            <div class="row">
+                                                <div class="col-xl-12 col-md-12 col-lg-12">
+                                                    <div class="card">
+                                                        <div class="card-header  border-0">
+                                                            <h4 class="card-title">Leaves Summary</h4>
+                                                            <div class="btn-list" style="margin-left: 24px">
+                                                                <a class="btn btn-primary mr-3"
+                                                                   data-target="#applyleaves"
+                                                                   data-toggle="modal"
+                                                                   href="#">Add Leaves</a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <div class="table-responsive">
+                                                                <table class="table  table-vcenter text-nowrap table-bordered border-bottom"
+                                                                       id="emp-attendance">
+                                                                    <thead>
+                                                                    <tr>
+                                                                        <th class="border-bottom-0 text-center">#ID</th>
+                                                                        <th class="border-bottom-0">From</th>
+                                                                        <th class="border-bottom-0">TO</th>
+                                                                        <th class="border-bottom-0">Days</th>
+                                                                        <th class="border-bottom-0">Reason</th>
+                                                                        <th class="border-bottom-0">Type</th>
+                                                                        <th class="border-bottom-0">Applied On</th>
+                                                                    </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                    <tr th:each=" leave : ${fullTimeAcademic.getAcademicLeaves()}">
+                                                                        <td class="text-center"
+                                                                            th:text="${leave.id}"></td>
+                                                                        <td th:text="${leave.fromDate}"></td>
+                                                                        <td th:text="${leave.toDate}"></td>
+                                                                        <td class="font-weight-semibold"
+                                                                            th:text="${leave.days+' Days'}"></td>
+                                                                        <td th:text="${leave.reason}"></td>
+                                                                        <td th:text="${leave.type}"></td>
+                                                                        <td th:text="${leave.createdDate}"></td>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

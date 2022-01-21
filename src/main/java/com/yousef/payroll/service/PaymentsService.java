@@ -5,7 +5,10 @@ import com.yousef.payroll.model.Payment;
 import com.yousef.payroll.model.TimeCard;
 import com.yousef.payroll.model.users.FullTimeAcademic;
 import com.yousef.payroll.model.users.PartTimeAcademic;
-import com.yousef.payroll.repositories.*;
+import com.yousef.payroll.repositories.FullTimeAcademicRepository;
+import com.yousef.payroll.repositories.PartTimeAcademicRepository;
+import com.yousef.payroll.repositories.PaymentRepository;
+import com.yousef.payroll.repositories.TimeCardRepository;
 import org.joda.time.DateTime;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -17,24 +20,22 @@ import java.util.List;
 @Service
 public class PaymentsService {
 
-    private final AcademicRepository academicRepository;
     private final FullTimeAcademicRepository fullTimeAcademicRepository;
     private final PartTimeAcademicRepository partTimeAcademicRepository;
     private final PaymentRepository paymentRepository;
     private final TimeCardRepository timeCardRepository;
     private final EmailService emailService;
 
-    public PaymentsService(PaymentRepository paymentRepository, AcademicRepository academicRepository, TimeCardRepository timeCardRepository, FullTimeAcademicRepository fullTimeAcademicRepository, PartTimeAcademicRepository partTimeAcademicRepository, EmailService emailService) {
+    public PaymentsService(PaymentRepository paymentRepository, TimeCardRepository timeCardRepository, FullTimeAcademicRepository fullTimeAcademicRepository, PartTimeAcademicRepository partTimeAcademicRepository, EmailService emailService) {
         this.paymentRepository = paymentRepository;
-        this.academicRepository = academicRepository;
         this.timeCardRepository = timeCardRepository;
         this.fullTimeAcademicRepository = fullTimeAcademicRepository;
         this.partTimeAcademicRepository = partTimeAcademicRepository;
         this.emailService = emailService;
     }
 
-    @Scheduled(fixedDelay = 100000)
     @Async
+    @Scheduled(fixedDelay = 100000)
     @Scheduled(cron = "@monthly")
     public void payFullTimeAcademicsSalaries() throws InterruptedException {
         List<FullTimeAcademic> fullTimeAcademics = fullTimeAcademicRepository.findAll();
@@ -54,8 +55,8 @@ public class PaymentsService {
         }
     }
 
-    @Scheduled(fixedDelay = 100000)
     @Async
+    @Scheduled(fixedDelay = 100000)
     @Scheduled(cron = "@monthly")
     public void payPartTimeAcademicsSalaries() throws InterruptedException {
         List<PartTimeAcademic> partTimeAcademics = partTimeAcademicRepository.findAll();
@@ -68,10 +69,6 @@ public class PaymentsService {
                 if (isCurrentMonth(timeCard.getDate())) {
                     totalWorkedHours += timeCard.getHoursCount();
                 }
-            }
-
-            if (totalWorkedHours > 40) {
-                totalWorkedHours = 40;
             }
 
             Payment payment = new Payment();
